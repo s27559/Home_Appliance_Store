@@ -84,12 +84,13 @@ classDiagram
     class Category {
         -categories : Category [0..*]$
         -name : string
-        /subcategory : Category [0..1]
+        /parentCategory : Category [0..1]
         /suncategories : Category [0..*]
         /properties : PropertyType [0..*]
     }
 
-    Category "0..1" <-- "0..*" Category : subcategory
+    Category "0..1" <-- "0..*" Category : parent category
+    Category "0..*" <-- "0..*" Category : suncategories
     Category "0..*" o-- "0..*" PropertyType : of
 
     class PropertyType {
