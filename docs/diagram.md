@@ -33,11 +33,15 @@ classDiagram
         /street : Street
         /fullAdress : string
         /fullPhoneNumber : string
-    }
+    } 
+
+    Account <|-- CompanyAccount
 
     class CompanyAccount {
     }
-
+    
+    Account <|-- PersonAccount
+    
     class PersonAccount {
         <<Abstract>>
 
@@ -52,9 +56,6 @@ classDiagram
 
     class EmployeeAccount {
     }    
-
-    Account <|-- CompanyAccount
-    Account <|-- PersonAccount
 
     PersonAccount <|-- CostumerAccount
     PersonAccount <|-- EmployeeAccount
