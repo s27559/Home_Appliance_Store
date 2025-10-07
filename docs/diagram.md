@@ -1,3 +1,13 @@
+# You can import this code into draw.io for final visual editing
+aka when this is finished import into draw.io to fix things with visuals
+also its missing some proper fomratting for uml so those need it to be fixed
+
+Still missing:
+- labled inharetance types
+- reletion class
+- qualititive relation
+
+# -------
 ``` mermaid
 ---
 Title: Home Applience Store
@@ -22,6 +32,33 @@ classDiagram
     }
     Street "1" *-- "0..*" Account : at
 
+    Cart "1" <-- "1" CostumerAccount : has
+
+    class Cart {
+    
+    }
+
+    Cart "1" <-- "1" SellTransacation : made from contents
+
+    class Transaction {
+        <<Abstract>>
+    }
+    Transaction <|-- SellTransacation
+    Transaction <|-- BuyTransaction
+    Transaction <|-- MoveTransaction
+
+    class SellTransacation {
+    
+    }
+
+    SellTransacation "1" --> "0..*" Delivery : makes\n{if not pickup type}\n{XOR}
+    BuyTransaction "1" --> "1..*" Delivery : makes\n{XOR}
+    MoveTransaction "1" --> "1..*" Delivery : makes\n{XOR}
+
+    class Delivery {
+    
+    }
+
     class Account {
         <<Abstract>>
         -accounts : Account [0..*]$ 
@@ -33,11 +70,23 @@ classDiagram
         /street : Street
         /fullAdress : string
         /fullPhoneNumber : string
-    }
+    } 
+
+    Account <|-- CompanyAccount
 
     class CompanyAccount {
+        <<Singleton (only one instance)>>
     }
 
+    Company <|-- CompanyAccount
+
+    class Company {
+    }
+
+    Product "0..*" --> "1..*" Company : brand
+    
+    Account <|-- PersonAccount
+    
     class PersonAccount {
         <<Abstract>>
 
@@ -46,18 +95,70 @@ classDiagram
         /fullName : string
         /age : int
     }
-
+    
+    PersonAccount <|-- CostumerAccount
+     
     class CostumerAccount {
     }
 
+    class MoveTransaction {
+    
+    }
+
+    BuyTransaction "0..*" --> "1..*" Company : supplier
+
+    class BuyTransaction {
+    
+    }
+
+    BuyTransaction "1..0" <-- "1" Request : creates\n{if approved}\n{XOR}
+    MoveTransaction "1..0" <-- "1" Request : creates\n{if approved}\n{XOR}
+
+    Request "0..*" --> "1" CompanyAccount : approved by
+
+    class Request {
+    
+    }
+
+    EmployeeAccount "1" <-- "0..*" Request : made by\n{if manager}
+
     class EmployeeAccount {
-    }    
+        -bonus : float
+        -paidVacationDaysMax : int
+        -unpaidVacationDaysMax : int
+    }
 
-    Account <|-- CompanyAccount
-    Account <|-- PersonAccount
-
-    PersonAccount <|-- CostumerAccount
+    Role "1" *-- "0..*" EmployeeAccount : has
     PersonAccount <|-- EmployeeAccount
+
+    class Role {
+        -name : string
+        -sallary : float
+    }
+
+    EmployeeAccount "1" o-- "0..*" Leave : for\n
+
+    EmployeeAccount "1" o-- "0..*" CompanyBuilding : works at
+
+    EmployeeAccount "1" <..> "1" Contract : for\n{history}
+    CompanyBuilding "1" <..> "1" Contract : for\n{history}
+
+    class Contract {
+        -endDate : date
+        -startDate : date
+        /durationDays : int
+        /employee : EmployeeAccount
+        /store : Store
+    }
+
+    class Leave {
+        -leaves : Leave [0..*]$
+        -isSick : bool
+        -isPaid : bool
+        -startDate : date
+        -endDate: date
+        /durationDays : int
+    }
 
     class Product {
         -products : Product [0..*]$
@@ -105,5 +206,41 @@ classDiagram
         -value : float
     }
 
+    class Store {
+    
+    }
+    
+    StoragePlace <|-- Store
 
-    ```
+    class Wherehouse {
+    
+    }
+
+    StoragePlace <|-- Wherehouse
+
+    class ProductStored {
+        
+    }
+    
+    ProductStored "1" <..> "1" StoragePlace : ammount\n{bag}
+    ProductStored "1" <..> "1" Product : ammount\n{bag}
+    
+
+    class StoragePlace {
+    
+    }
+
+    CompanyBuilding <|-- StoragePlace
+
+    class Office {
+    
+    }
+    CompanyBuilding <|-- Office
+
+    class CompanyBuilding {
+    
+    }
+
+    Product "0..*" <-- "0..1" StoragePlace : stored at
+    Street "1" *-- "0..*" CompanyBuilding : at
+```
