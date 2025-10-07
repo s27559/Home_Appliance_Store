@@ -1,3 +1,6 @@
+# You can import this code into draw.io for final visual editing
+## aka when this is finished import into draw.io to fix things with visuals
+
 ``` mermaid
 ---
 Title: Home Applience Store
