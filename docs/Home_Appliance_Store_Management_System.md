@@ -1,6 +1,6 @@
-Retail Store Management System — Software Requirements & Implementation Specifications
+# Retail Store Management System — Software Requirements & Implementation Specifications
 
-User Requirements
+## User Requirements
 The store wants a system that lets customers place product orders and lets employees manage orders, product availability, user accounts, and their own work shifts. The system keeps a clean separation between people (as Persons) and their roles in the store (Customer, Employee), while allowing the same person to act in multiple roles.
 
 Customers can browse the list of Products available in the store. Each product shows its name, model number, price, weight, and whether it is in stock. When creating an order, customers can add one or more products with a desired quantity.
