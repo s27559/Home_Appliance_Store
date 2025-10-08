@@ -1,21 +1,26 @@
-# Retail Store Management System — Software Requirements & Implementation Specifications
+---
+title: Home Appliances Store - Software Requirements & Implementation Specifications
+author: 
+    - s27559 Kacper Tkacz
+    - s26816 David Condratiuc
+    - s31766 Maksymilian Kozub
+    - s30165 Mert Altinbas
+date: 08/10/2025
+---
 
-## User Requirements
-The store wants a system that lets customers place product orders and lets employees manage orders, product availability, user accounts, and their own work shifts. The system keeps a clean separation between people (as Persons) and their roles in the store (Customer, Employee), while allowing the same person to act in multiple roles.
+# User Requirements
+The company seeks to implement an integrated information system that manages products, employees, customers, transactions, logistics, and company infrastructure. The system must serve both internal employees and external customers to ensure smooth product distribution, accurate tracking of financial operations, and clear monitoring of warehouse and delivery processes.
 
-Customers can browse the list of Products available in the store. Each product shows its name, model number, price, weight, and whether it is in stock. When creating an order, customers can add one or more products with a desired quantity.
-Items in an order are represented as Order line items (the ProductQuantity association) that link a single product with the chosen quantity. If a requested quantity exceeds availability (product not in stock), the system informs the user and asks to lower the quantity. Customers can review their existing Orders in their history, including the date the order was created and its status (e.g., Created, Processing, Ready, Completed, Cancelled).
+The system connects company buildings, warehouses, offices, and stores, allowing employees to perform their duties efficiently while ensuring customers can make purchases and receive deliveries on time. All entities such as products, categories, properties, and accounts are maintained within a centralized database, ensuring data consistency and traceability across operations.
 
-The system shows the current status on the order page. Employees can update an order’s status as it moves through fulfillment (e.g., from Created - Processing - Ready for pickup - Completed). Cancellation is allowed if the order cannot be fulfilled. The store does not ship items. Orders are picked up in-store. When the customer has picked up the order, the status changes to Completed.
+Every person in the system (employee or customer) includes personal details such as name, surname, email, birth date, address, phone number. Each person is associated with a street wich belong to a city in a country, ensuring accurate geographical classification. Employees have defined roles (e.g., Manager, Clerk, Delivery Staff), a salary and an employment date. Each employee is linked to one or more company buildings (office, warehouse, or store) where they work. Employees can access and manage orders, deliveries, and repairs, depending on their assigned role. Their login credentials and work information are stored in their employee accounts. Customers can browse products, create transactions, and request deliveries. A customer owns one or more accounts used to perform online or in-store purchases. Customers’ details, transaction history, and delivery addresses are maintained within their account profile. 
 
-A Person has common identifying data: name, optional middle name, surname, date of birth, age, and nationality. A person may act as: a Customer (places orders), an Employee (works shifts, manages orders), and can be both (overlapping roles). For example, when an employee shops while off duty, they also act as a customer. Employees hold one or more Roles (e.g., Cashier, Order Clerk, Manager). Roles include a name and specialization and control what parts of the system the employee can access.
+Each product has a unique ID, name, price, weight, model number, stock quantity and belongs to one or more categories. Products also have associated property values, defining characteristics such as color, size, or material. A product’s stock level is updated automatically when items are sold, returned or restocked. Products can be linked with other products (e.g., accessories or similar models) through self-association. Products are organized hierarchically through categories (e.g., electronics - smartphones - accessories). Each category can contain subcategories and be part of a larger parent category. Categories define the allowed property types for their products. A property type holds the attribute’s name, and each product instance stores a property value.
 
-Contact and identification for organizations and people are stored as Accounts: id, name, phone number, email, account number.
+All transaction types (sell, buy, move) contain detailed information such as the date, total amount, payment method, and the accounts involved in the operation. Once the transaction is finalized, the system automatically updates the product stock to reflect the transaction and records the corresponding financial data in the company’s account, ensuring that revenue and inventory remain synchronized. 
 
-There are three account types: Company account – represents the store’s corporate account and general contact identity. Employee account – owned by an Employee (one employee can own one or more employee accounts if needed). Customer account – owned by a Customer (one customer can own one or more customer accounts, e.g. personal and family). The system displays account contact data when needed (order confirmations, customer lookups, staff directory).
+The company owns multiple buildings, which may serve as offices, stores or warehouses. Each building stores address, city, country, type (warehouse, office, or store), list of employees working there. Warehouses store the stock of products and manage inventory movement. Offices handle administration and financial operations. Stores serve customers directly for purchases or returns. Delivery of the product handles the logistics of transferring products from warehouses to stores or customers. Each delivery record includes delivery date, responsible employee, associated transaction or customer order, status (in preparation, in transit, delivered). The system ensures that deliveries are only created for completed and paid transactions. .....
 
-The system records each employee’s shift start and shift end timestamps for attendance and scheduling. Managers can list active and past shifts and export reports for payroll/scheduling.
-
-## Diagram
+# Diagram
 
 ![Diagram](./diagram.drawio.png)
