@@ -15,3 +15,7 @@ Contact and identification for organizations and people are stored as Accounts: 
 There are three account types: Company account – represents the store’s corporate account and general contact identity. Employee account – owned by an Employee (one employee can own one or more employee accounts if needed). Customer account – owned by a Customer (one customer can own one or more customer accounts, e.g. personal and family). The system displays account contact data when needed (order confirmations, customer lookups, staff directory).
 
 The system records each employee’s shift start and shift end timestamps for attendance and scheduling. Managers can list active and past shifts and export reports for payroll/scheduling.
+
+## Diagram
+
+![Diagram](./diagram.drawio.png)
