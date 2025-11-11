@@ -6,4 +6,16 @@ public class Category {
 
         private String name;
         private ArrayList<Property> properties;
+        public String getName() {
+                return name;
+        }
+        public void setName(String name) {
+                this.name = name;
+        }
+        public ArrayList<Property> getProperties() {
+                return properties;
+        }
+        public void setProperties(ArrayList<Property> properties) {
+                this.properties = properties;
+        }
 }

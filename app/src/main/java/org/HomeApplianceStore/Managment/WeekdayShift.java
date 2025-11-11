@@ -4,5 +4,13 @@ import java.time.DayOfWeek;
 
 public class WeekdayShift {
 
-        private DayOfWeek weekdat;
+        private DayOfWeek weekday;
+
+        public DayOfWeek getWeekday() {
+                return weekday;
+        }
+
+        public void setWeekday(DayOfWeek weekday) {
+                this.weekday = weekday;
+        }
 }
