@@ -2,6 +2,7 @@ package org.HomeApplianceStore.Ordering;
 
 import org.HomeApplianceStore.Extent;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,13 @@ public class Order implements Extent {
         private LocalDate date;
         private boolean paidFor;
         private boolean readyForPickUp;
-        // cost
+        public Order(LocalDate date, boolean paidFor, boolean readyForPickUp) {
+                this.setDate(date);
+                this.setPaidFor(paidFor);
+                this.setReadyForPickUp(readyForPickUp);
+                orders.add(this);
+        }
+        public BigDecimal getCost(){return new BigDecimal(0);}
         public LocalDate getDate() {
                 return date;
         }
