@@ -1,6 +1,9 @@
 package org.HomeApplianceStore.Products;
 
+import org.HomeApplianceStore.Extent;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Property {
 
@@ -13,7 +16,11 @@ public class Property {
             this.typeName = typeName;
             this.value = value;
 
-            properties.add(this);
+            addProperty(this);
+        }
+
+        private static void addProperty(Property property) {
+            properties.add(property);
         }
 
         public String getTypeName() {
@@ -27,5 +34,17 @@ public class Property {
         }
         public void setValue(String value) {
                 this.value = value;
+        }
+
+        public static void LoadProperties() {
+            properties = Extent.loadClassList("./org/HomeApplianceStore/Products/Property.ser");
+        }
+
+        public static void saveProperties() {
+            Extent.saveClassList("./org/HomeApplianceStore/Products/Property.ser", properties);
+        }
+
+        public static List<Property> getProperties() {
+            return Extent.getImmutableClassList(properties);
         }
 }
