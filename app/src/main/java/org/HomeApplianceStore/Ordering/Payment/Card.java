@@ -12,8 +12,8 @@ public class Card extends PaymentMethod implements Extent {
         private String cvv;
         private String ownerName;
 
-        public Card(String cardNum, String cvv, String ownerName) {
-                super(cardNum);
+        public Card(String name, String cvv, String ownerName) {
+                super(name);
                 this.setCardNum(cardNum);
                 this.setCvv(cvv);
                 this.setOwnerName(ownerName);
