@@ -19,8 +19,17 @@ public class Contract implements Extent {
         private Employee employee;
         private Store store;
 
-        private Contract(){
+        private Contract(LocalDate startDate, LocalDate endDate, BigDecimal pay, Employee employee, Store store) {
+                this.startDate = startDate;
+                this.endDate = endDate;
+                this.pay = pay;
+                this.employee = employee;
+                this.store = store;
                 addContract(this);
+        }
+
+        public long getPeriodDays() {
+                return startDate.until(endDate).getDays();
         }
 
         private static void addContract(Contract contract) {

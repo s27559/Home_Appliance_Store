@@ -4,6 +4,7 @@ import org.HomeApplianceStore.Extent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClosedFor implements Extent {
@@ -15,8 +16,16 @@ public class ClosedFor implements Extent {
         // periodDays;
         private ArrayList<Store> stores;
 
-        public ClosedFor(){
+        public ClosedFor(LocalDate startDate, LocalDate endDate, String reason, ArrayList<Store> stores){
+                this.startDate = startDate;
+                this.endDate = endDate;
+                this.reason = reason;
+                this.stores = stores;
                 addClosedForEvent(this);
+        }
+
+        public long getPeriodDays() {
+                return startDate.until(endDate).getDays();
         }
 
         private static void addClosedForEvent(ClosedFor event) {

@@ -15,8 +15,16 @@ public class Leave implements Extent {
         private LocalDate startDate;
         private LocalDate endDate;
 
-        public Leave() {
+        public Leave(boolean isSick, boolean isPaid, LocalDate startDate, LocalDate endDate) {
+                this.startDate = startDate;
+                this.endDate = endDate;
+                this.isPaid = isPaid;
+                this.isSick = isSick;
                 addLeave(this);
+        }
+
+        public long getPeriodDays() {
+                return startDate.until(endDate).getDays();
         }
 
         private static void addLeave(Leave leave) {
