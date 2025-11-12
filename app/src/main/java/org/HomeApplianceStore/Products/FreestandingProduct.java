@@ -9,6 +9,12 @@ public class FreestandingProduct {
 
         private BigDecimal moveCost;
 
+        public FreestandingProduct(BigDecimal moveCost) {
+            this.moveCost = moveCost;
+
+            freestandingProducts.add(this);
+        }
+
         public BigDecimal getMoveCost() {
                 return moveCost;
         }
