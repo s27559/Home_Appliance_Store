@@ -11,6 +11,7 @@ public class PaymentMethod implements Extent {
         private String name;
         public PaymentMethod() {
                 this.setName(name);
+                addMethod(this);
         }
 
         private static void addMethod(PaymentMethod method){

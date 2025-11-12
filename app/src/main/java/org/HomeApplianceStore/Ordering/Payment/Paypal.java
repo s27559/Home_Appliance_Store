@@ -14,6 +14,7 @@ public class Paypal extends PaymentMethod implements Extent {
         public Paypal(String paypalAccountId) {
                 super();
                 this.setPaypalAccountId(paypalAccountId);
+                addPaypal(this);
 
         }
         public static void addPaypal(Paypal paypal){

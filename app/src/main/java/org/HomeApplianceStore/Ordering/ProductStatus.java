@@ -28,6 +28,7 @@ public class ProductStatus implements Extent {
                 this.setToBeMoved(toBeMoved);
                 this.setToBeIntegrated(toBeIntegrated);
                 this.setDifferenceInPrice(differenceInPrice);
+                loadStatuses();
 
         }
         public static void ProductStatus(ProductStatus status) {

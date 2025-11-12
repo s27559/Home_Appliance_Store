@@ -17,6 +17,7 @@ public class Order implements Extent {
                 this.setDate(date);
                 this.setPaidFor(paidFor);
                 this.setReadyForPickUp(readyForPickUp);
+                addOrder(this);
         }
         public BigDecimal getCost(){return new BigDecimal(0);}
         public static void addOrder(Order order){

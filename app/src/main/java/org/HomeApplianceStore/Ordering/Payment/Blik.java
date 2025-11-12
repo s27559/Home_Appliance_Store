@@ -14,6 +14,7 @@ public class Blik extends PaymentMethod implements Extent {
         public Blik(String transactionId) {
                 super();
                 this.setTransactionId(transactionId);
+                addBlik(this);
         }
 
         private static void addBlik(Blik blik){
