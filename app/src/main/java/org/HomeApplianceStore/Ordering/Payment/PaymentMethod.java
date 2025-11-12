@@ -13,8 +13,8 @@ public class PaymentMethod implements Extent {
                 this.setName(name);
         }
 
-        private void addMethod(){
-                methods.add(this);
+        private static void addMethod(PaymentMethod method){
+                methods.add(method);
         }
 
         public String getName() {

@@ -27,14 +27,12 @@ public class Delivery implements Extent {
                 this.setCost(cost);
                 this.setRecived(recived);
                 this.setTrackingNumber(trackingNumber);
-
-                addDelivery(this);
         }
 
         public LocalDate getSendDate() {
                 return sendDate;
         }
-        private static void addDelivery(Delivery delivery){
+        public static void addDelivery(Delivery delivery){
                 deliveries.add(delivery);
         }
         public void setSendDate(LocalDate sendDate) {

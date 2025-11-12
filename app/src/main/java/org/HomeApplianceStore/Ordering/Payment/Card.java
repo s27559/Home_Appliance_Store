@@ -18,8 +18,8 @@ public class Card extends PaymentMethod implements Extent {
                 this.setOwnerName(ownerName);
         }
 
-        private void addCard(){
-                cards.add(this);
+        private static void addCard(Card card){
+                cards.add(card);
         }
         public String getCardNum() {
                 return cardNum;

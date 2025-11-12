@@ -12,11 +12,12 @@ public class Paypal extends PaymentMethod implements Extent {
         private String paypalAccountId;
 
         public Paypal(String paypalAccountId) {
+                super();
                 this.setPaypalAccountId(paypalAccountId);
 
         }
-        private void addPaypal(){
-                paypals.add(this);
+        public static void addPaypal(Paypal paypal){
+                paypals.add(paypal);
         }
 
         public String getPaypalAccountId() {

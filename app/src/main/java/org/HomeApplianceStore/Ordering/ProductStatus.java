@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Ordering;
 
+import jdk.jshell.Snippet;
 import org.HomeApplianceStore.Extent;
 
 import java.math.BigDecimal;
@@ -29,8 +30,8 @@ public class ProductStatus implements Extent {
                 this.setDifferenceInPrice(differenceInPrice);
 
         }
-        private void ProductStatus() {
-                statuses.add(this);
+        public static void ProductStatus(ProductStatus status) {
+                statuses.add(status);
         }
         public long getAmmountNew() {
                 return ammountNew;
