@@ -1,12 +1,15 @@
 package org.HomeApplianceStore.Products;
 
+import org.HomeApplianceStore.Extent;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Sale {
 
-        private static ArrayList<Sale> saleList = new ArrayList<Sale>();
+        private static ArrayList<Sale> sales = new ArrayList<Sale>();
 
         private String name;
         private LocalDate startDate;
@@ -20,7 +23,11 @@ public class Sale {
             this.endDate = endDate;
             this.ammount = ammount;
 
-            saleList.add(this);
+            addSale(this);
+        }
+
+        private static void addSale(Sale sale) {
+            sales.add(sale);
         }
 
         public String getName() {
@@ -52,5 +59,15 @@ public class Sale {
                 return startDate.until(endDate).getDays();
         }
 
+        public static void LoadSales() {
+            sales = Extent.loadClassList("./org/HomeApplianceStore/Products/Sale.ser");
+        }
 
+        public static void SaveSales() {
+            Extent.saveClassList("./org/HomeApplianceStore/Products/Sale.ser", sales);
+        }
+
+        public static List<Sale> getSales() {
+            return Extent.getImmutableClassList(sales);
+        }
 }
