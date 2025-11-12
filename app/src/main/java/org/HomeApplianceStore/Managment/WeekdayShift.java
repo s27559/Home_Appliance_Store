@@ -2,7 +2,7 @@ package org.HomeApplianceStore.Managment;
 
 import java.time.DayOfWeek;
 
-public class WeekdayShift {
+public class WeekdayShift extends Shift{
 
         private DayOfWeek weekday;
 

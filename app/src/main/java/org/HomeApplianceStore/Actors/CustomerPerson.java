@@ -1,6 +1,6 @@
 package org.HomeApplianceStore.Actors;
 
-public class CustomerPerson {
+public class CustomerPerson extends Customer{
 
         private long points;
 

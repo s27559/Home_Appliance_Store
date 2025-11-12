@@ -1,6 +1,6 @@
 package org.HomeApplianceStore.Ordering.Payment;
 
-public class Card {
+public class Card extends PaymentMethod{
 
         private String cardNum;
         private String cvv;

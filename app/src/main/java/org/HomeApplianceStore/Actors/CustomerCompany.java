@@ -2,7 +2,7 @@ package org.HomeApplianceStore.Actors;
 
 import java.math.BigDecimal;
 
-public class CustomerCompany {
+public class CustomerCompany extends Customer {
 
         private static BigDecimal bulkOrderDiscount;
 

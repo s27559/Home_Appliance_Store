@@ -1,6 +1,6 @@
 package org.HomeApplianceStore.Ordering.Payment;
 
-public class Paypal {
+public class Paypal extends PaymentMethod{
 
         private String paypalAccountId;
 

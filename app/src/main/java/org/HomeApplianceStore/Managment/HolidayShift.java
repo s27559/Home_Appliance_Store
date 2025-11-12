@@ -2,7 +2,7 @@ package org.HomeApplianceStore.Managment;
 
 import java.time.LocalDate;
 
-public class HolidayShift {
+public class HolidayShift extends Shift {
 
         private LocalDate startDate;
         private LocalDate endDate;

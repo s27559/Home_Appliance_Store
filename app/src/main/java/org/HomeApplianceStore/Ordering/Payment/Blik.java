@@ -1,6 +1,6 @@
 package org.HomeApplianceStore.Ordering.Payment;
 
-public class Blik {
+public class Blik extends PaymentMethod{
 
         private String transactionId;
 
