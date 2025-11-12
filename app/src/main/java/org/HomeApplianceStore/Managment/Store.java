@@ -11,7 +11,8 @@ public class Store implements Extent {
 
         private static ArrayList<Store> stores = new ArrayList<Store>();
 
-        public Store(){
+        public Store(Address locationAddress){
+                this.locationAddress = locationAddress;
                 addStore(this);
         }
 
