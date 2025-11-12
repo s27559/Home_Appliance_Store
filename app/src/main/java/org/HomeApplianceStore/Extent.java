@@ -1,10 +1,11 @@
 package org.HomeApplianceStore;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public interface Extent {
+public interface Extent extends Serializable{
 
         private static <T> ArrayList<T> loadClassList(String location){
                 return new ArrayList<>();
