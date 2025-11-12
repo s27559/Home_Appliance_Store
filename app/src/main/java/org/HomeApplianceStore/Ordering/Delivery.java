@@ -16,6 +16,21 @@ public class Delivery implements Extent {
         private boolean recived;
         private String trackingNumber;
 
+        public Delivery(LocalDate sendDate,
+                        LocalDate reciveDate,
+                        BigDecimal cost,
+                        boolean recived,
+                        String trackingNumber) {
+
+                this.setSendDate(sendDate);
+                this.setReciveDate(reciveDate);
+                this.setCost(cost);
+                this.setRecived(recived);
+                this.setTrackingNumber(trackingNumber);
+
+                deliveries.add(this);
+        }
+
         public LocalDate getSendDate() {
                 return sendDate;
         }
