@@ -2,14 +2,27 @@ package org.HomeApplianceStore.Products;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Sale {
+
+        private static ArrayList<Sale> saleList = new ArrayList<Sale>();
 
         private String name;
         private LocalDate startDate;
         private LocalDate endDate;
         private BigDecimal ammount;
         // periodDays
+
+        public Sale(String name, LocalDate startDate, LocalDate endDate, BigDecimal ammount) {
+            this.name = name;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.ammount = ammount;
+
+            saleList.add(this);
+        }
+
         public String getName() {
                 return name;
         }
