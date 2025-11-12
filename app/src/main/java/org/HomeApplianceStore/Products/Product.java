@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Product {
 
+        private static ArrayList<Product> products = new ArrayList<Product>();
+
         private static BigDecimal minPrice;
         private String name;
         private String desc;
@@ -15,6 +17,21 @@ public class Product {
         private long worrantyDays;
         private String brand;
         private ArrayList<Property> properties;
+
+        public Product(String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, long worrantyDays, String brand, ArrayList<Property> properties) {
+            this.name = name;
+            this.desc = desc;
+            this.modelNumber = modelNumber;
+            this.newPrice = newPrice;
+            this.usedPrice = usedPrice;
+            this.weight = weight;
+            this.worrantyDays = worrantyDays;
+            this.brand = brand;
+            this.properties = properties;
+
+            products.add(this);
+        }
+
         public static BigDecimal getMinPrice() {
                 return minPrice;
         }
