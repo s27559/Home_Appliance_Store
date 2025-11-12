@@ -1,7 +1,10 @@
 package org.HomeApplianceStore.Products;
 
+import org.HomeApplianceStore.Extent;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Product {
 
@@ -29,7 +32,11 @@ public class Product {
             this.brand = brand;
             this.properties = properties;
 
-            products.add(this);
+            addProduct(this);
+        }
+
+        private static void addProduct(Product product) {
+            products.add(product);
         }
 
         public static BigDecimal getMinPrice() {
@@ -93,5 +100,15 @@ public class Product {
                 this.properties = properties;
         }
 
+        public static void LoadProducts() {
+            products = Extent.loadClassList("./org/HomeApplianceStore/Products/Product.ser");
+        }
 
+        public static void saveProducts() {
+            Extent.saveClassList("./org/HomeApplianceStore/Products/Product.ser", products);
+        }
+
+        public static List<Product> getProducts() {
+            return Extent.getImmutableClassList(products);
+        }
 }
