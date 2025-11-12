@@ -3,13 +3,29 @@ package org.HomeApplianceStore.Managment;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.HomeApplianceStore.Actors.Employee;
+
 public class Contract {
 
         private LocalDate startDate;
         private LocalDate endDate;
         private BigDecimal pay;
         // periodDays
+        private Employee employee;
+        private Store store;
 
+        public Employee getEmployee() {
+                return employee;
+        }
+        public void setEmployee(Employee employee) {
+                this.employee = employee;
+        }
+        public Store getStore() {
+                return store;
+        }
+        public void setStore(Store store) {
+                this.store = store;
+        }
         public LocalDate getStartDate() {
                 return startDate;
         }

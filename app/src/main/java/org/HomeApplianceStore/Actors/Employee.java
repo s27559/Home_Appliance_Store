@@ -10,7 +10,14 @@ public class Employee {
         private long unpaidLeaveDays;
         // leaveDays
         // fullPay
+        private Person person;
 
+        public Person getPerson() {
+                return person;
+        }
+        public void setPerson(Person person) {
+                this.person = person;
+        }
         public BigDecimal getBonusPay() {
                 return bonusPay;
         }

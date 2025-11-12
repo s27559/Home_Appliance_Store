@@ -1,6 +1,7 @@
 package org.HomeApplianceStore.Managment;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ClosedFor {
 
@@ -8,7 +9,14 @@ public class ClosedFor {
         private LocalDate endDate;
         private String reason;
         // periodDays;
+        private ArrayList<Store> stores;
 
+        public ArrayList<Store> getStores() {
+                return stores;
+        }
+        public void setStores(ArrayList<Store> stores) {
+                this.stores = stores;
+        }
         public LocalDate getStartDate() {
                 return startDate;
         }

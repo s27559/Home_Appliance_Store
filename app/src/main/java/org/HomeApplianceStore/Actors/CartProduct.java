@@ -1,11 +1,20 @@
 
 package org.HomeApplianceStore.Actors;
 
+import org.HomeApplianceStore.Products.Product;
+
 public class CartProduct {
 
         private long ammountNew;
         private long ammountUsed;
+        private Product product;
 
+        public Product getProduct() {
+                return product;
+        }
+        public void setProduct(Product product) {
+                this.product = product;
+        }
         public long getAmmountNew() {
                 return ammountNew;
         }
