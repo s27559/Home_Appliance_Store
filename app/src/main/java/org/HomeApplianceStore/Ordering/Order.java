@@ -1,8 +1,13 @@
 package org.HomeApplianceStore.Ordering;
 
-import java.time.LocalDate;
+import org.HomeApplianceStore.Extent;
 
-public class Order {
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Order implements Extent {
+        private static ArrayList<Order> orders= new ArrayList<Order>();
 
         private LocalDate date;
         private boolean paidFor;
@@ -26,5 +31,15 @@ public class Order {
         public void setReadyForPickUp(boolean readyForPickUp) {
                 this.readyForPickUp = readyForPickUp;
         }
-        
+        public static void loadDeliveries(){
+                orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");
+        }
+
+        public static void saveDeliveries(){
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Order.ser", orders);
+        }
+
+        public static List<Order> getCategories() {
+                return Extent.getImmutableClassList(orders);
+        }
 }
