@@ -47,11 +47,11 @@ public class Delivery implements Extent {
                 this.trackingNumber = trackingNumber;
         }
         public static void loadDeliveries(){
-                deliveries = Extent.loadClassList("./org/HomeApplianceStore/Products/Category.ser");
+                deliveries = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Delivery.ser");
         }
 
         public static void saveDeliveries(){
-                Extent.saveClassList("./org/HomeApplianceStore/Products/Category.ser", deliveries);
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Delivery.ser", deliveries);
         }
 
         public static List<Delivery> getCategories() {
