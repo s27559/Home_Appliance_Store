@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface Extent extends Serializable{
 
-        private static <T> ArrayList<T> loadClassList(String location){
+        static <T> ArrayList<T> loadClassList(String location){
                 return new ArrayList<>();
         }
 
-        private static <T> void saveClassList(String location, ArrayList<T> list){
+        static <T> void saveClassList(String location, ArrayList<T> list){
                 return;
         }
         
-        private static <T> List<T> getImmutableClassList(ArrayList<T> list){
+        static <T> List<T> getImmutableClassList(ArrayList<T> list){
                 return Collections.unmodifiableList(list);
         }
 }
