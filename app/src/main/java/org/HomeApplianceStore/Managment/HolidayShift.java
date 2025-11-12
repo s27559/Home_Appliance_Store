@@ -2,7 +2,10 @@ package org.HomeApplianceStore.Managment;
 
 import org.HomeApplianceStore.Extent;
 
+import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +16,15 @@ public class HolidayShift extends Shift implements Extent {
         private LocalDate startDate;
         private LocalDate endDate;
 
-        public HolidayShift() {
-                super();
+        public HolidayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, LocalDate startDate, LocalDate endDate) {
+                super(bonusPay, openTime, closeTime);
+                this.startDate = startDate;
+                this.endDate = endDate;
                 addHolidayShift(this);
+        }
+
+        public long getPeriodDays() {
+                return startDate.until(endDate).getDays();
         }
 
         private static void addHolidayShift(HolidayShift shift) {

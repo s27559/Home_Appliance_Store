@@ -2,7 +2,9 @@ package org.HomeApplianceStore.Managment;
 
 import org.HomeApplianceStore.Extent;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,9 @@ public class WeekdayShift extends Shift implements Extent {
 
         private DayOfWeek weekday;
 
-        public WeekdayShift() {
-                super();
+        public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday) {
+                super(bonusPay, openTime, closeTime);
+                this.weekday = weekday;
                 addWeekdayShift(this);
         }
 
