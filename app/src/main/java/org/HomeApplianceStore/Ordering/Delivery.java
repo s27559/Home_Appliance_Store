@@ -1,15 +1,21 @@
 package org.HomeApplianceStore.Ordering;
 
+import org.HomeApplianceStore.Extent;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Delivery {
+public class Delivery implements Extent {
+        private static ArrayList<Delivery> deliveries = new ArrayList<Delivery>();
 
         private LocalDate sendDate;
         private LocalDate reciveDate;
         private BigDecimal cost;
         private boolean recived;
         private String trackingNumber;
+
         public LocalDate getSendDate() {
                 return sendDate;
         }
@@ -39,6 +45,17 @@ public class Delivery {
         }
         public void setTrackingNumber(String trackingNumber) {
                 this.trackingNumber = trackingNumber;
+        }
+        public static void loadDeliveries(){
+                deliveries = Extent.loadClassList("./org/HomeApplianceStore/Products/Category.ser");
+        }
+
+        public static void saveDeliveries(){
+                Extent.saveClassList("./org/HomeApplianceStore/Products/Category.ser", deliveries);
+        }
+
+        public static List<Delivery> getCategories() {
+                return Extent.getImmutableClassList(deliveries);
         }
 
 }
