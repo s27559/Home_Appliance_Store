@@ -8,6 +8,14 @@ public class Category {
 
         private String name;
         private ArrayList<Property> properties;
+
+        public Category(String name, ArrayList<Property> properties) {
+            this.name = name;
+            this.properties = properties;
+
+            categories.add(this);
+        }
+
         public String getName() {
                 return name;
         }
