@@ -57,5 +57,4 @@ public class Delivery implements Extent {
         public static List<Delivery> getCategories() {
                 return Extent.getImmutableClassList(deliveries);
         }
-
 }
