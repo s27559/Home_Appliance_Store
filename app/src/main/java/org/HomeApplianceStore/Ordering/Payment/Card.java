@@ -1,13 +1,30 @@
 package org.HomeApplianceStore.Ordering.Payment;
 
-public class Card extends PaymentMethod{
+import org.HomeApplianceStore.Extent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Card extends PaymentMethod implements Extent {
+        private static ArrayList<Card> cards = new ArrayList<Card>();
 
         private String cardNum;
         private String cvv;
         private String ownerName;
+
+        public Card(String cardNum, String cvv, String ownerName) {
+                this.setCardNum(cardNum);
+                this.setCvv(cvv);
+                this.setOwnerName(ownerName);
+        }
+
+        private void addCard(){
+                cards.add(this);
+        }
         public String getCardNum() {
                 return cardNum;
         }
+
         public void setCardNum(String cardNum) {
                 this.cardNum = cardNum;
         }
@@ -22,5 +39,16 @@ public class Card extends PaymentMethod{
         }
         public void setOwnerName(String ownerName) {
                 this.ownerName = ownerName;
+        }
+        public static void loadCards(){
+                cards = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Card.ser");
+        }
+
+        public static void saveCards(){
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Payment/Card.ser", cards);
+        }
+
+        public static List<Card> getCards() {
+                return Extent.getImmutableClassList(cards);
         }
 }

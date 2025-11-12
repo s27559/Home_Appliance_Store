@@ -29,7 +29,7 @@ public class ProductStatus implements Extent {
                 this.setDifferenceInPrice(differenceInPrice);
 
         }
-        public void ProductStatus() {
+        private void ProductStatus() {
                 statuses.add(this);
         }
         public long getAmmountNew() {
