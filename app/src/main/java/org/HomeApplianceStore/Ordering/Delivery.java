@@ -28,11 +28,13 @@ public class Delivery implements Extent {
                 this.setRecived(recived);
                 this.setTrackingNumber(trackingNumber);
 
-                deliveries.add(this);
         }
 
         public LocalDate getSendDate() {
                 return sendDate;
+        }
+        private void addDelivery(){
+                deliveries.add(this);
         }
         public void setSendDate(LocalDate sendDate) {
                 this.sendDate = sendDate;
@@ -69,7 +71,7 @@ public class Delivery implements Extent {
                 Extent.saveClassList("./org/HomeApplianceStore/Ordering/Delivery.ser", deliveries);
         }
 
-        public static List<Delivery> getCategories() {
+        public static List<Delivery> getDeliveries() {
                 return Extent.getImmutableClassList(deliveries);
         }
 }
