@@ -1,8 +1,11 @@
 package org.HomeApplianceStore.Products;
 
-import java.util.ArrayList;
+import org.HomeApplianceStore.Extent;
 
-public class Category {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Category implements Extent {
 
         private static ArrayList<Category> categories = new ArrayList<Category>();
 
@@ -13,7 +16,11 @@ public class Category {
             this.name = name;
             this.properties = properties;
 
-            categories.add(this);
+            addCategory(this);
+        }
+
+        private static void addCategory(Category category) {
+            categories.add(category);
         }
 
         public String getName() {
@@ -27,5 +34,17 @@ public class Category {
         }
         public void setProperties(ArrayList<Property> properties) {
                 this.properties = properties;
+        }
+
+        public static void loadCategories(){
+            categories = Extent.loadClassList("./org/HomeApplianceStore/Products/Category.ser");
+        }
+
+        public static void saveCategories(){
+            Extent.saveClassList("./org/HomeApplianceStore/Products/Category.ser", categories);
+        }
+
+        public static List<Category> getCategories() {
+            return Extent.getImmutableClassList(categories);
         }
 }

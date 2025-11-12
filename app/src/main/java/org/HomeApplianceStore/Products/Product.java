@@ -1,9 +1,14 @@
 package org.HomeApplianceStore.Products;
 
+import org.HomeApplianceStore.Extent;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Product {
+
+        private static ArrayList<Product> products = new ArrayList<Product>();
 
         private static BigDecimal minPrice;
         private String name;
@@ -15,6 +20,25 @@ public class Product {
         private long worrantyDays;
         private String brand;
         private ArrayList<Property> properties;
+
+        public Product(String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, long worrantyDays, String brand, ArrayList<Property> properties) {
+            this.name = name;
+            this.desc = desc;
+            this.modelNumber = modelNumber;
+            this.newPrice = newPrice;
+            this.usedPrice = usedPrice;
+            this.weight = weight;
+            this.worrantyDays = worrantyDays;
+            this.brand = brand;
+            this.properties = properties;
+
+            addProduct(this);
+        }
+
+        private static void addProduct(Product product) {
+            products.add(product);
+        }
+
         public static BigDecimal getMinPrice() {
                 return minPrice;
         }
@@ -76,5 +100,15 @@ public class Product {
                 this.properties = properties;
         }
 
+        public static void LoadProducts() {
+            products = Extent.loadClassList("./org/HomeApplianceStore/Products/Product.ser");
+        }
 
+        public static void saveProducts() {
+            Extent.saveClassList("./org/HomeApplianceStore/Products/Product.ser", products);
+        }
+
+        public static List<Product> getProducts() {
+            return Extent.getImmutableClassList(products);
+        }
 }
