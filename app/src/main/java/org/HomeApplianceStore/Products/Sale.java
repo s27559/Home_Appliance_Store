@@ -48,5 +48,9 @@ public class Sale {
                 this.ammount = ammount;
         }
 
+        public long getPeriodDays() {
+                return startDate.until(endDate).getDays();
+        }
+
 
 }
