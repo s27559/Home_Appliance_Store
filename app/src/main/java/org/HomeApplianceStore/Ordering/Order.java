@@ -19,8 +19,8 @@ public class Order implements Extent {
                 this.setReadyForPickUp(readyForPickUp);
         }
         public BigDecimal getCost(){return new BigDecimal(0);}
-        private void addOrder(){
-                orders.add(this);
+        private static void addOrder(Order order){
+                orders.add(order);
         }
         public LocalDate getDate() {
                 return date;
