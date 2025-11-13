@@ -2,6 +2,7 @@ package org.HomeApplianceStore.Ordering.Payment;
 
 import org.HomeApplianceStore.Extent;
 
+import javax.naming.NamingEnumeration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +12,14 @@ public class Paypal extends PaymentMethod implements Extent {
 
         private String paypalAccountId;
 
-        public Paypal(String paypalAccountId) {
+        public Paypal(String name) {
+                super (name);
                 this.setPaypalAccountId(paypalAccountId);
+                addPaypal(this);
 
         }
-        private void addPaypal(){
-                paypals.add(this);
+        public static void addPaypal(Paypal paypal){
+                paypals.add(paypal);
         }
 
         public String getPaypalAccountId() {

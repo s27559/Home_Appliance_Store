@@ -12,14 +12,16 @@ public class Card extends PaymentMethod implements Extent {
         private String cvv;
         private String ownerName;
 
-        public Card(String cardNum, String cvv, String ownerName) {
+        public Card(String name, String cvv, String ownerName) {
+                super(name);
                 this.setCardNum(cardNum);
                 this.setCvv(cvv);
                 this.setOwnerName(ownerName);
+                addCard(this);
         }
 
-        private void addCard(){
-                cards.add(this);
+        private static void addCard(Card card){
+                cards.add(card);
         }
         public String getCardNum() {
                 return cardNum;

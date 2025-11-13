@@ -9,12 +9,13 @@ public class PaymentMethod implements Extent {
         private static ArrayList<PaymentMethod> methods = new ArrayList<PaymentMethod>();
 
         private String name;
-        public PaymentMethod() {
+        public PaymentMethod(String name) {
                 this.setName(name);
+                addMethod(this);
         }
 
-        private void addMethod(){
-                methods.add(this);
+        private static void addMethod(PaymentMethod method){
+                methods.add(method);
         }
 
         public String getName() {
