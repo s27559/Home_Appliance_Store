@@ -17,9 +17,11 @@ public class Order implements Extent {
                 this.setDate(date);
                 this.setPaidFor(paidFor);
                 this.setReadyForPickUp(readyForPickUp);
-                orders.add(this);
         }
         public BigDecimal getCost(){return new BigDecimal(0);}
+        private void addDelivery(){
+                orders.add(this);;
+        }
         public LocalDate getDate() {
                 return date;
         }
@@ -38,15 +40,15 @@ public class Order implements Extent {
         public void setReadyForPickUp(boolean readyForPickUp) {
                 this.readyForPickUp = readyForPickUp;
         }
-        public static void loadDeliveries(){
+        public static void loadOrders(){
                 orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");
         }
 
-        public static void saveDeliveries(){
+        public static void saveOrders(){
                 Extent.saveClassList("./org/HomeApplianceStore/Ordering/Order.ser", orders);
         }
 
-        public static List<Order> getCategories() {
+        public static List<Order> getOrders() {
                 return Extent.getImmutableClassList(orders);
         }
 }
