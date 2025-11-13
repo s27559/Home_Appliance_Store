@@ -17,10 +17,11 @@ public class Order implements Extent {
                 this.setDate(date);
                 this.setPaidFor(paidFor);
                 this.setReadyForPickUp(readyForPickUp);
+                addOrder(this);
         }
         public BigDecimal getCost(){return new BigDecimal(0);}
-        private void addDelivery(){
-                orders.add(this);;
+        private static void addOrder(Order order){
+                orders.add(order);
         }
         public LocalDate getDate() {
                 return date;
