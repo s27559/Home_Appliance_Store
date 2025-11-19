@@ -13,16 +13,18 @@ public class Employee implements Extent{
         private long sickDays;
         private long paidLeaveDays;
         private long unpaidLeaveDays;
+        private EmpRole role;
         // leaveDays
         // fullPay
-        
+
         private Person person;
 
-        public Employee(BigDecimal bonusPay, long sickDays, long paidLeaveDays, long unpaidLeaveDays) {
+        public Employee(BigDecimal bonusPay, long sickDays, long paidLeaveDays, long unpaidLeaveDays, EmpRole role) {
                 this.bonusPay = bonusPay;
                 this.sickDays = sickDays;
                 this.paidLeaveDays = paidLeaveDays;
                 this.unpaidLeaveDays = unpaidLeaveDays;
+                this.role = role;
 
                 addEmployee(this);
         }
@@ -72,6 +74,14 @@ public class Employee implements Extent{
         }
         public void setUnpaidLeaveDays(long unpaidLeaveDays) {
                 this.unpaidLeaveDays = unpaidLeaveDays;
+        }
+
+        public EmpRole getRole() {
+                return role;
+        }
+
+        public void setRole(EmpRole role) {
+                this.role = role;
         }
 
         public BigDecimal getFullPay(){
