@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="" />
+    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="finished tests">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CartProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CartProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CustomerCompany.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CustomerCompany.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Ordering/Payment/Blik.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Ordering/Payment/Blik.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +21,16 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -25,10 +42,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="35OZJeZp5Xvt9yfwI9QLFHQc8q9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -36,12 +59,34 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.CategoryTest.constructor_shouldInitializeFields_whenValid.executor": "Run",
+    "Gradle.CategoryTest.constructor_shouldThrowIllegalArgumentException_whenNameIsEmpty.executor": "Run",
+    "Gradle.CategoryTest.constructor_shouldThrowNullPointerException_whenNameIsNull.executor": "Run",
+    "Gradle.CategoryTest.equalsAndHashCode_shouldBeBasedOnName.executor": "Run",
+    "Gradle.CategoryTest.executor": "Run",
+    "Gradle.CompanyTest.executor": "Run",
+    "Gradle.CompanyTest.testCorrectness.executor": "Run",
+    "Gradle.FreestandingProductTest.executor": "Run",
+    "Gradle.IntegratedProductTest.executor": "Run",
+    "Gradle.ProductTest.constructor_throwsIllegalArgumentException_whenWarrantyDaysIsNegative.executor": "Run",
+    "Gradle.ProductTest.constructor_works_andInitializesFields_whenValid.executor": "Run",
+    "Gradle.ProductTest.executor": "Run",
+    "Gradle.ProductTest.setWeight_throwsException_whenZero.executor": "Run",
+    "Gradle.PropertyTest.executor": "Run",
+    "Gradle.PropertyTest.setValue_throwsNullPointerException_whenValueIsNull.executor": "Run",
+    "Gradle.PropertyTest.setValue_works_andUpdatesValue_whenValid.executor": "Run",
+    "Gradle.SaleTest.constructor_works_andInitializesFields_whenValid.executor": "Run",
+    "Gradle.SaleTest.executor": "Run",
+    "Gradle.SaleTest.setAmount_works_andUpdatesValue_whenValid.executor": "Run",
+    "Gradle.SaleTest.setEndDate_throwsIllegalArgumentException_whenBeforeStartDate.executor": "Run",
+    "Gradle.SaleTest.setEndDate_works_whenValid.executor": "Run",
+    "Gradle.StorageTest.executor": "Run",
     "JUnit.LeaveTest.executor": "Run",
     "JUnit.ShiftTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "#37 on maks",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/lordo/OneDrive/Belgeler/Home_Appliance_Store",
     "node.js.detected.package.eslint": "true",
@@ -52,57 +97,134 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.ClosedForTest">
-    <configuration name="ClosedForTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Home_Appliance_Store.app.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.HomeApplianceStore.Managment.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.HomeApplianceStore.Managment" />
-      <option name="MAIN_CLASS_NAME" value="org.HomeApplianceStore.Managment.ClosedForTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+  <component name="RunManager" selected="Gradle.StorageTest">
+    <configuration name="PropertyTest.setValue_works_andUpdatesValue_whenValid" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;org.HomeApplianceStore.Products.PropertyTest.setValue_works_andUpdatesValue_whenValid&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
     </configuration>
-    <configuration name="LeaveTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Home_Appliance_Store.app.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.HomeApplianceStore.Managment.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.HomeApplianceStore.Managment" />
-      <option name="MAIN_CLASS_NAME" value="org.HomeApplianceStore.Managment.LeaveTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="SaleTest.setAmount_works_andUpdatesValue_whenValid" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;org.HomeApplianceStore.Products.SaleTest.setAmount_works_andUpdatesValue_whenValid&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
     </configuration>
-    <configuration name="ShiftTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Home_Appliance_Store.app.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.HomeApplianceStore.Managment.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.HomeApplianceStore.Managment" />
-      <option name="MAIN_CLASS_NAME" value="org.HomeApplianceStore.Managment.ShiftTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="SaleTest.setEndDate_throwsIllegalArgumentException_whenBeforeStartDate" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;org.HomeApplianceStore.Products.SaleTest.setEndDate_throwsIllegalArgumentException_whenBeforeStartDate&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="SaleTest.setEndDate_works_whenValid" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;org.HomeApplianceStore.Products.SaleTest.setEndDate_works_whenValid&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="StorageTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;org.HomeApplianceStore.Products.StorageTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ClosedForTest" />
-        <item itemvalue="JUnit.LeaveTest" />
-        <item itemvalue="JUnit.ShiftTest" />
+        <item itemvalue="Gradle.StorageTest" />
+        <item itemvalue="Gradle.SaleTest.setEndDate_throwsIllegalArgumentException_whenBeforeStartDate" />
+        <item itemvalue="Gradle.SaleTest.setEndDate_works_whenValid" />
+        <item itemvalue="Gradle.PropertyTest.setValue_works_andUpdatesValue_whenValid" />
+        <item itemvalue="Gradle.SaleTest.setAmount_works_andUpdatesValue_whenValid" />
       </list>
     </recent_temporary>
   </component>
@@ -124,9 +246,93 @@
       <updated>1762983009508</updated>
       <workItem from="1762983010363" duration="10935000" />
     </task>
+    <task id="LOCAL-00001" summary="Merge remote-tracking branch 'origin/main' into maks&#10;&#10;# Conflicts:&#10;#&#9;app/src/main/java/org/HomeApplianceStore/Products/Property.java">
+      <option name="closed" value="true" />
+      <created>1763585946201</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1763585946202</updated>
+    </task>
+    <task id="LOCAL-00002" summary="made Property class generic ig?">
+      <option name="closed" value="true" />
+      <created>1763587159230</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1763587159230</updated>
+    </task>
+    <task id="LOCAL-00003" summary="made Property class generic, T extends Serializable">
+      <option name="closed" value="true" />
+      <created>1763587252666</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1763587252666</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added warrantyDays to constructor">
+      <option name="closed" value="true" />
+      <created>1763587964093</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1763587964093</updated>
+    </task>
+    <task id="LOCAL-00005" summary="created basic tests">
+      <option name="closed" value="true" />
+      <created>1763588189421</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1763588189421</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added validation so the value cannot be null">
+      <option name="closed" value="true" />
+      <created>1763588909966</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1763588909966</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fixed date validation logic">
+      <option name="closed" value="true" />
+      <created>1763589461439</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1763589461439</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fixed constructor">
+      <option name="closed" value="true" />
+      <created>1763590843098</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1763590843098</updated>
+    </task>
+    <task id="LOCAL-00009" summary="finished tests">
+      <option name="closed" value="true" />
+      <created>1763590861892</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1763590861892</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="made Property class generic ig?" />
+    <MESSAGE value="made Property class generic, T extends Serializable" />
+    <MESSAGE value="added warrantyDays to constructor" />
+    <MESSAGE value="created basic tests" />
+    <MESSAGE value="added validation so the value cannot be null" />
+    <MESSAGE value="fixed date validation logic" />
+    <MESSAGE value="fixed constructor" />
+    <MESSAGE value="finished tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished tests" />
   </component>
 </project>
