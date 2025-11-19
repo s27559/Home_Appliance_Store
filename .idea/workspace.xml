@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="" />
+    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Products/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Products/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Products/FreestandingProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Products/FreestandingProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Products/IntegratedProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Products/IntegratedProduct.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,10 +30,13 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="35OZJeZp5Xvt9yfwI9QLFHQc8q9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -41,7 +49,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "maks",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/lordo/OneDrive/Belgeler/Home_Appliance_Store",
     "node.js.detected.package.eslint": "true",
@@ -128,5 +136,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge remote-tracking branch 'origin/main' into maks&#10;&#10;# Conflicts:&#10;#&#9;app/src/main/java/org/HomeApplianceStore/Products/Property.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main' into maks&#10;&#10;# Conflicts:&#10;#&#9;app/src/main/java/org/HomeApplianceStore/Products/Property.java" />
   </component>
 </project>
