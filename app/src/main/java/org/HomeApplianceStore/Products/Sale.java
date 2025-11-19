@@ -81,7 +81,7 @@ public class Sale implements Extent {
         }
         public void setEndDate(LocalDate endDate) {
                 Objects.requireNonNull(endDate, "End date cannot be null.");
-                if(this.endDate != null && this.endDate.isBefore(endDate)) {
+                if(this.startDate != null && endDate.isBefore(this.startDate)) {
                     throw new IllegalArgumentException("End date cannot be before end date.");
                 }
                 this.endDate = endDate;
