@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Property<T> implements Extent{
+public class Property<T extends Serializable> implements Extent{
 
         private static ArrayList<Property> properties = new ArrayList<Property>();
 
