@@ -7,17 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Paypal extends PaymentMethod implements Extent {
-        private static ArrayList<Paypal> paypals = new ArrayList<Paypal>();
 
+        private static ArrayList<Paypal> paypals = new ArrayList<>();
 
         private String paypalAccountId;
 
-        public Paypal(String name) {
-                super (name);
+        public Paypal(String name, String paypalAccountId) {
+                super(name);
                 this.setPaypalAccountId(paypalAccountId);
                 addPaypal(this);
-
         }
+
         public static void addPaypal(Paypal paypal){
                 if (paypal == null) {
                         throw new IllegalArgumentException("Paypal cannot be null");
@@ -36,7 +36,7 @@ public class Paypal extends PaymentMethod implements Extent {
                 if (!paypalAccountId.contains("@")) {
                         throw new IllegalArgumentException("PayPal account ID should look like an email address");
                 }
-                this.paypalAccountId = paypalAccountId;
+                this.paypalAccountId = paypalAccountId.trim();
         }
         public static void loadPaypals(){
                 paypals = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Paypal.ser");
