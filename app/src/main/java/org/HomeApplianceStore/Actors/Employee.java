@@ -1,17 +1,50 @@
 package org.HomeApplianceStore.Actors;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Employee {
+import org.HomeApplianceStore.Extent;
+
+public class Employee implements Extent{
+        private static ArrayList<Employee> employees = new ArrayList<>();
 
         private BigDecimal bonusPay;
         private long sickDays;
         private long paidLeaveDays;
         private long unpaidLeaveDays;
+        private EmpRole role;
         // leaveDays
         // fullPay
+
         private Person person;
 
+        public Employee(BigDecimal bonusPay, long sickDays, long paidLeaveDays, long unpaidLeaveDays, EmpRole role) {
+                this.bonusPay = bonusPay;
+                this.sickDays = sickDays;
+                this.paidLeaveDays = paidLeaveDays;
+                this.unpaidLeaveDays = unpaidLeaveDays;
+                this.role = role;
+
+                addEmployee(this);
+        }
+
+        public static List<Employee> getEmployees() {
+                return Extent.getImmutableClassList(employees);
+        }
+
+        public static void loadEmployees(){
+                employees = Extent.loadClassList("./org/HomeApplianceStore/Actors/Employee.ser");
+        }
+
+        public static void saveEmployees(){
+                Extent.saveClassList("./org/HomeApplianceStore/Actors/Employee.ser", employees);
+        }
+
+        private static void addEmployee(Employee employee) {
+                employees.add(employee);
+        }
+        
         public Person getPerson() {
                 return person;
         }
@@ -41,5 +74,21 @@ public class Employee {
         }
         public void setUnpaidLeaveDays(long unpaidLeaveDays) {
                 this.unpaidLeaveDays = unpaidLeaveDays;
+        }
+
+        public EmpRole getRole() {
+                return role;
+        }
+
+        public void setRole(EmpRole role) {
+                this.role = role;
+        }
+
+        public BigDecimal getFullPay(){
+                return new BigDecimal(0);
+        }
+
+        public long getLeaveDays(){
+                return paidLeaveDays + unpaidLeaveDays;
         }
 }

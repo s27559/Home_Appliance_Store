@@ -330,3 +330,7 @@ TSWLatexianTemp*
 
 # Ignore Gradle build output directory
 build
+
+# mein
+.idea/
+.idea/workspace.xml

@@ -1,13 +1,28 @@
 package org.HomeApplianceStore.Ordering;
 
-import java.time.LocalDate;
+import org.HomeApplianceStore.Extent;
 
-public class Order {
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Order implements Extent {
+        private static ArrayList<Order> orders= new ArrayList<Order>();
 
         private LocalDate date;
         private boolean paidFor;
         private boolean readyForPickUp;
-        // cost
+        public Order(LocalDate date, boolean paidFor, boolean readyForPickUp) {
+                this.setDate(date);
+                this.setPaidFor(paidFor);
+                this.setReadyForPickUp(readyForPickUp);
+                addOrder(this);
+        }
+        public BigDecimal getCost(){return new BigDecimal(0);}
+        public static void addOrder(Order order){
+                orders.add(order);
+        }
         public LocalDate getDate() {
                 return date;
         }
@@ -26,5 +41,15 @@ public class Order {
         public void setReadyForPickUp(boolean readyForPickUp) {
                 this.readyForPickUp = readyForPickUp;
         }
-        
+        public static void loadOrders(){
+                orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");
+        }
+
+        public static void saveOrders(){
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Order.ser", orders);
+        }
+
+        public static List<Order> getOrders() {
+                return Extent.getImmutableClassList(orders);
+        }
 }
