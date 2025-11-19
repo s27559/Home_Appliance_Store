@@ -22,7 +22,7 @@ public class Product implements Extent{
         private String brand;
         private List<Property> properties;
 
-        public Product(String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, long a, String brand, ArrayList<Property> properties, long warrantyDays) {
+        public Product(String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, ArrayList<Property> properties, long warrantyDays) {
             Objects.requireNonNull(name, "Product name cannot null");
             if(name.trim().isEmpty()) {
                 throw new IllegalArgumentException("Product name cannot empty");
