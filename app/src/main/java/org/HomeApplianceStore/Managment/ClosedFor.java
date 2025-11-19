@@ -15,20 +15,14 @@ public class ClosedFor implements Extent {
         private ArrayList<Store> stores;
 
     public ClosedFor(LocalDate startDate, LocalDate endDate, String reason, ArrayList<Store> stores){
-            validateDates(startDate, endDate);
+            Validation.validateDates(startDate, endDate);
+            Validation.validateString(reason, "Reason");
             this.startDate = startDate;
             this.endDate = endDate;
             this.reason = reason;
             this.stores = stores;
             addClosedForEvent(this);
             saveClosedForEvents();
-        }
-
-        private static void validateDates(LocalDate startDate, LocalDate endDate){
-            Objects.requireNonNull(startDate, "Start date cannot be null");
-            Objects.requireNonNull(endDate, "End date cannot be null");
-            if (endDate.isBefore(startDate))
-                throw new IllegalArgumentException("End date cannot be before start date");
         }
 
         public long getPeriodDays() {
@@ -41,6 +35,7 @@ public class ClosedFor implements Extent {
         private static void addClosedForEvent(ClosedFor event) {
             if(!closedForEvents.contains(event))
                     closedForEvents.add(event);
+            saveClosedForEvents();
         }
 
         public ArrayList<Store> getStores() {
@@ -64,7 +59,7 @@ public class ClosedFor implements Extent {
         }
         public void setEndDate(LocalDate endDate) {
             Objects.requireNonNull(endDate, "End date cannot be null");
-            if (this.startDate != null && endDate.isBefore(this.startDate)) {
+            if (this.startDate != null && endDate.isBefore(startDate)) {
                 throw new IllegalArgumentException("End date cannot be before start date");
             }
             this.endDate = endDate;
@@ -94,6 +89,7 @@ public class ClosedFor implements Extent {
 
         public void delete() {
                 closedForEvents.remove(this);
+                saveClosedForEvents();
         }
 
 
