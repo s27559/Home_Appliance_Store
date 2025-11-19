@@ -32,6 +32,9 @@ public class ProductStatus implements Extent {
 
         }
         public static void addProductStatus(ProductStatus status) {
+                if (status == null) {
+                        throw new IllegalArgumentException("ProductStatus cannot be null");
+                }
                 statuses.add(status);
         }
         public long getAmmountNew() {
@@ -39,12 +42,18 @@ public class ProductStatus implements Extent {
         }
 
         public void setAmmountNew(long ammountNew) {
+                if (ammountNew < 0) {
+                        throw new IllegalArgumentException("ammountNew cannot be negative");
+                }
                 this.ammountNew = ammountNew;
         }
         public long getAmmountUsed() {
                 return ammountUsed;
         }
         public void setAmmountUsed(long ammountUsed) {
+                if (ammountUsed < 0) {
+                        throw new IllegalArgumentException("ammountUsed cannot be negative");
+                }
                 this.ammountUsed = ammountUsed;
         }
         public boolean isToBeMoved() {
@@ -63,6 +72,9 @@ public class ProductStatus implements Extent {
                 return differenceInPrice;
         }
         public void setDifferenceInPrice(BigDecimal differenceInPrice) {
+                if (differenceInPrice == null) {
+                        throw new IllegalArgumentException("differenceInPrice cannot be null");
+                }
                 this.differenceInPrice = differenceInPrice;
         }
         public static void loadStatuses(){

@@ -1,7 +1,6 @@
 package org.HomeApplianceStore.Ordering.Payment;
 
 import org.HomeApplianceStore.Extent;
-import org.HomeApplianceStore.Ordering.Delivery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +8,35 @@ import java.util.List;
 public class Blik extends PaymentMethod implements Extent {
         private static ArrayList<Blik> bliks = new ArrayList<Blik>();
 
+        private String code;
         private String transactionId;
 
-        public Blik(String transactionId) {
-                super();
+        public Blik(String name, String code, String transactionId) {
+                super(name);
+                this.setCode(code);
                 this.setTransactionId(transactionId);
                 addBlik(this);
         }
 
         private static void addBlik(Blik blik){
+                if (blik == null) {
+                        throw new IllegalArgumentException("Blik cannot be null");
+                }
                 bliks.add(blik);
+        }
+
+        public String getCode() {
+                return code;
+        }
+
+        public void setCode(String code) {
+                if (code == null || code.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Blik code cannot be empty");
+                }
+                if (!code.matches("\\d{6}")) {
+                        throw new IllegalArgumentException("Blik code must consist of exactly 6 digits");
+                }
+                this.code = code;
         }
 
         public String getTransactionId() {
@@ -26,8 +44,12 @@ public class Blik extends PaymentMethod implements Extent {
         }
 
         public void setTransactionId(String transactionId) {
-                this.transactionId = transactionId;
+                if (transactionId == null || transactionId.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Transaction ID cannot be empty");
+                }
+                this.transactionId = transactionId.trim();
         }
+
         public static void loadBliks(){
                 bliks = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Blik.ser");
         }

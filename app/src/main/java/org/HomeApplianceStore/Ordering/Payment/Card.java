@@ -21,6 +21,9 @@ public class Card extends PaymentMethod implements Extent {
         }
 
         private static void addCard(Card card){
+                if (card == null) {
+                        throw new IllegalArgumentException("Card cannot be null");
+                }
                 cards.add(card);
         }
         public String getCardNum() {
@@ -28,18 +31,27 @@ public class Card extends PaymentMethod implements Extent {
         }
 
         public void setCardNum(String cardNum) {
+                if (cardNum == null || cardNum.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Card number cannot be empty");
+                }
                 this.cardNum = cardNum;
         }
         public String getCvv() {
                 return cvv;
         }
         public void setCvv(String cvv) {
+                if (cvv == null || cvv.trim().isEmpty()) {
+                        throw new IllegalArgumentException("CVV cannot be empty");
+                }
                 this.cvv = cvv;
         }
         public String getOwnerName() {
                 return ownerName;
         }
         public void setOwnerName(String ownerName) {
+                if (ownerName == null || ownerName.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Owner name cannot be empty");
+                }
                 this.ownerName = ownerName;
         }
         public static void loadCards(){

@@ -19,14 +19,25 @@ public class Order implements Extent {
                 this.setReadyForPickUp(readyForPickUp);
                 addOrder(this);
         }
-        public BigDecimal getCost(){return new BigDecimal(0);}
+        public BigDecimal getCost(){
+                return new BigDecimal(0);
+        }
         public static void addOrder(Order order){
+                if (order == null) {
+                        throw new IllegalArgumentException("Order cannot be null");
+                }
                 orders.add(order);
         }
         public LocalDate getDate() {
                 return date;
         }
         public void setDate(LocalDate date) {
+                if (date == null) {
+                        throw new IllegalArgumentException("date cannot be null");
+                }
+                if (date.isAfter(LocalDate.now())) {
+                        throw new IllegalArgumentException("Order date cannot be in the future");
+                }
                 this.date = date;
         }
         public boolean isPaidFor() {

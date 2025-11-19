@@ -19,6 +19,9 @@ public class Paypal extends PaymentMethod implements Extent {
 
         }
         public static void addPaypal(Paypal paypal){
+                if (paypal == null) {
+                        throw new IllegalArgumentException("Paypal cannot be null");
+                }
                 paypals.add(paypal);
         }
 
@@ -27,6 +30,12 @@ public class Paypal extends PaymentMethod implements Extent {
         }
 
         public void setPaypalAccountId(String paypalAccountId) {
+                if (paypalAccountId == null || paypalAccountId.trim().isEmpty()) {
+                        throw new IllegalArgumentException("PayPal account ID cannot be empty");
+                }
+                if (!paypalAccountId.contains("@")) {
+                        throw new IllegalArgumentException("PayPal account ID should look like an email address");
+                }
                 this.paypalAccountId = paypalAccountId;
         }
         public static void loadPaypals(){
