@@ -2,6 +2,7 @@ package org.HomeApplianceStore.Products;
 
 import org.HomeApplianceStore.Extent;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +12,7 @@ public class Property implements Extent{
         private static ArrayList<Property> properties = new ArrayList<Property>();
 
         private String typeName;
-        private String value;
+        private T value;
 
         public Property(String typeName, String value) {
             validateTypeName(typeName);
@@ -50,11 +51,10 @@ public class Property implements Extent{
                 this.typeName = typeName;
                 saveProperties();
         }
-        public String getValue() {
+        public T getValue() {
                 return value;
         }
-        public void setValue(String value) {
-                validateValue(value);
+        public void setValue(T value) {
                 this.value = value;
                 saveProperties();
         }

@@ -1,17 +1,43 @@
 package org.HomeApplianceStore.Ordering;
 
-import java.math.BigDecimal;
+import jdk.jshell.Snippet;
+import org.HomeApplianceStore.Extent;
 
-public class ProductStatus {
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class ProductStatus implements Extent {
+        private static ArrayList<ProductStatus> statuses= new ArrayList<ProductStatus>();
 
         private long ammountNew;
         private long ammountUsed;
         private boolean toBeMoved;
         private boolean toBeIntegrated;
         private BigDecimal differenceInPrice;
+
+        public ProductStatus(long ammountNew,
+                             long ammountUsed,
+                             boolean toBeMoved,
+                             boolean toBeIntegrated,
+                             BigDecimal differenceInPrice) {
+
+                this.setAmmountNew(ammountNew);
+                this.setAmmountUsed(ammountUsed);
+                this.setToBeMoved(toBeMoved);
+                this.setToBeIntegrated(toBeIntegrated);
+                this.setDifferenceInPrice(differenceInPrice);
+                addProductStatus(this);
+
+        }
+        public static void addProductStatus(ProductStatus status) {
+                statuses.add(status);
+        }
         public long getAmmountNew() {
                 return ammountNew;
         }
+
         public void setAmmountNew(long ammountNew) {
                 this.ammountNew = ammountNew;
         }
@@ -38,5 +64,16 @@ public class ProductStatus {
         }
         public void setDifferenceInPrice(BigDecimal differenceInPrice) {
                 this.differenceInPrice = differenceInPrice;
+        }
+        public static void loadStatuses(){
+                statuses = Extent.loadClassList("./org/HomeApplianceStore/Ordering/ProductStatus.ser");
+        }
+
+        public static void saveStatuses(){
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/ProductStatus.ser", statuses);
+        }
+
+        public static List<ProductStatus> getStatuses() {
+                return Extent.getImmutableClassList(statuses);
         }
 }
