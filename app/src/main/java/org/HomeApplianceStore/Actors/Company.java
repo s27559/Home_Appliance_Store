@@ -12,10 +12,10 @@ public class Company implements Extent{
         private String name;
         private String email;
         private String phone;
-        private Address Address;
+        private Address address;
 
-        public Company(org.HomeApplianceStore.Address address, String name, String email, String phone) {
-                Address = address;
+        public Company(Address address, String name, String email, String phone) {
+                this.address = address;
                 this.name = name;
                 this.email = email;
                 this.phone = phone;
@@ -56,9 +56,9 @@ public class Company implements Extent{
                 this.phone = phone;
         }
         public Address getAddress() {
-                return Address;
+                return address;
         }
         public void setAddress(Address address) {
-                Address = address;
+                address = address;
         }
 }

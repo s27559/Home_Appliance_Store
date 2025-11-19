@@ -5,7 +5,7 @@ import java.util.Optional;
 public class Address {
 
         private String country;
-        private String reagion;
+        private String region;
         private String street;
         private String streetNum;
         private String apartmentNum; // Optional
@@ -16,11 +16,11 @@ public class Address {
         public void setCountry(String country) {
                 this.country = country;
         }
-        public String getReagion() {
-                return reagion;
+        public String getRegion() {
+                return region;
         }
-        public void setReagion(String reagion) {
-                this.reagion = reagion;
+        public void setRegion(String region) {
+                this.region = region;
         }
         public String getStreet() {
                 return street;
