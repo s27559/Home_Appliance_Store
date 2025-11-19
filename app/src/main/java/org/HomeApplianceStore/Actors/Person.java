@@ -11,6 +11,7 @@ public class Person implements Extent{
         private static ArrayList<Person> persons = new ArrayList<>();
 
         private String name;
+        private String middleName;
         private String surname;
         private LocalDate dateOfBirth;
         private Address address;
@@ -68,6 +69,14 @@ public class Person implements Extent{
 
         public long getAge(){
                 return dateOfBirth.until(LocalDate.now()).getYears();
+        }
+
+        public String getMiddleName() {
+                return middleName;
+        }
+
+        public void setMiddleName(String middleName) {
+                this.middleName = middleName;
         }
         
 }
