@@ -3,6 +3,7 @@ package org.HomeApplianceStore.Ordering;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,5 +34,24 @@ class OrderTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Order(null, false, false)
         );
+    }
+
+    @Test
+    void extentShouldUpdateAndPersistForOrders() {
+        int sizeBefore = Order.getOrders().size();
+
+        Order order = new Order(LocalDate.now().minusDays(1), false, false);
+
+        int sizeAfterCreate = Order.getOrders().size();
+        assertEquals(sizeBefore + 1, sizeAfterCreate);
+
+        List<Order> immutableList = Order.getOrders();
+        assertThrows(UnsupportedOperationException.class, () -> immutableList.add(order));
+
+        Order.saveOrders();
+        Order.loadOrders();
+
+        int sizeAfterReload = Order.getOrders().size();
+        assertEquals(sizeAfterCreate, sizeAfterReload);
     }
 }

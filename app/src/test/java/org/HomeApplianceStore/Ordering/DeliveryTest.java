@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,5 +82,26 @@ class DeliveryTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Delivery(send, receive, BigDecimal.ONE, false, "   ")
         );
+    }
+
+    @Test
+    void extentShouldUpdateAndPersistForDeliveries() {
+        int sizeBefore = Delivery.getDeliveries().size();
+
+        LocalDate send = LocalDate.now().minusDays(3);
+        LocalDate receive = LocalDate.now().minusDays(2);
+        Delivery delivery = new Delivery(send, receive, BigDecimal.ONE, false, "TRK-EXTENT");
+
+        int sizeAfterCreate = Delivery.getDeliveries().size();
+        assertEquals(sizeBefore + 1, sizeAfterCreate);
+
+        List<Delivery> immutableList = Delivery.getDeliveries();
+        assertThrows(UnsupportedOperationException.class, () -> immutableList.add(delivery));
+
+        Delivery.saveDeliveries();
+        Delivery.loadDeliveries();
+
+        int sizeAfterReload = Delivery.getDeliveries().size();
+        assertEquals(sizeAfterCreate, sizeAfterReload);
     }
 }

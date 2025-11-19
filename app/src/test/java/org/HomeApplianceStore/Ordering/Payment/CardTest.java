@@ -2,6 +2,8 @@ package org.HomeApplianceStore.Ordering.Payment;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CardTest {
@@ -13,7 +15,7 @@ class CardTest {
                 "123",
                 "John Doe");
 
-        assertEquals("1234567890123456", card.getCardNum()); // пробелы должны быть убраны
+        assertEquals("1234567890123456", card.getCardNum());
         assertEquals("123", card.getCvv());
         assertEquals("John Doe", card.getOwnerName());
     }
@@ -58,5 +60,27 @@ class CardTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Card("Card", "1234567890123456", "123", "   ")
         );
+    }
+
+    @Test
+    void extentShouldUpdateAndPersistForCards() {
+        int sizeBefore = Card.getCards().size();
+
+        Card card = new Card("Card",
+                "1111 2222 3333 4444",
+                "321",
+                "Jane Doe");
+
+        int sizeAfterCreate = Card.getCards().size();
+        assertEquals(sizeBefore + 1, sizeAfterCreate);
+
+        List<Card> immutableList = Card.getCards();
+        assertThrows(UnsupportedOperationException.class, () -> immutableList.add(card));
+
+        Card.saveCards();
+        Card.loadCards();
+
+        int sizeAfterReload = Card.getCards().size();
+        assertEquals(sizeAfterCreate, sizeAfterReload);
     }
 }
