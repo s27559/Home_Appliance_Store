@@ -2,17 +2,18 @@ package org.HomeApplianceStore.Products;
 
 import org.HomeApplianceStore.Extent;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Property {
+public class Property<T extends Serializable> {
 
         private static ArrayList<Property> properties = new ArrayList<Property>();
 
         private String typeName;
-        private String value;
+        private T value;
 
-        public Property(String typeName, String value) {
+        public Property(String typeName, T value) {
             this.typeName = typeName;
             this.value = value;
 
@@ -29,10 +30,10 @@ public class Property {
         public void setTypeName(String typeName) {
                 this.typeName = typeName;
         }
-        public String getValue() {
+        public T getValue() {
                 return value;
         }
-        public void setValue(String value) {
+        public void setValue(T value) {
                 this.value = value;
         }
 
