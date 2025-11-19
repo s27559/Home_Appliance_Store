@@ -26,9 +26,6 @@ public class ClosedFor implements Extent {
         }
 
         public long getPeriodDays() {
-            if (startDate == null || endDate == null)
-                throw new IllegalStateException("Start date and end date must be set to compute period days");
-
             return startDate.until(endDate).getDays();
         }
 
@@ -75,8 +72,7 @@ public class ClosedFor implements Extent {
 
         // extend methods
         public static void loadClosedForEvents() {
-            List<ClosedFor> loaded = Extent.loadClassList(FILE_LOCATION);
-            closedForEvents = (loaded == null) ? new ArrayList<>() : new ArrayList<>(loaded);
+            closedForEvents = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveClosedForEvents() {

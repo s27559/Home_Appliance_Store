@@ -17,26 +17,18 @@ public class Contract implements Extent {
         private LocalDate endDate;
         private BigDecimal pay;
         // periodDays
-        private Employee employee;
-        private Store store;
 
-        public Contract(LocalDate startDate, LocalDate endDate, BigDecimal pay, Employee employee, Store store) {
-            Objects.requireNonNull(employee, "Employee cannot be null");
-            Objects.requireNonNull(store, "Store cannot be null");
+        public Contract(LocalDate startDate, LocalDate endDate, BigDecimal pay) {
             Validation.validateDates(startDate, endDate);
             Validation.validateBigDecimal(pay, "Pay");
             this.startDate = startDate;
             this.endDate = endDate;
             this.pay = pay;
-            this.employee = employee;
-            this.store = store;
             addContract(this);
             saveContracts();
         }
 
         public long getPeriodDays() {
-                if (startDate == null || endDate == null)
-                        throw new IllegalStateException("Start date and end date must be set to compute period days");
                 return startDate.until(endDate).getDays();
         }
 
@@ -45,18 +37,6 @@ public class Contract implements Extent {
                 contracts.add(contract);
         }
 
-        public Employee getEmployee() {
-                return employee;
-        }
-        public void setEmployee(Employee employee) {
-                this.employee = employee;
-        }
-        public Store getStore() {
-                return store;
-        }
-        public void setStore(Store store) {
-                this.store = store;
-        }
         public LocalDate getStartDate() {
                 return startDate;
         }
@@ -76,6 +56,7 @@ public class Contract implements Extent {
                 throw new IllegalArgumentException("End date cannot be before start date");
             }
                 this.endDate = endDate;
+                saveContracts();
         }
         public BigDecimal getPay() {
                 return pay;
@@ -88,8 +69,7 @@ public class Contract implements Extent {
 
         // extend methods
         public static void loadContracts() {
-            List<Contract> loaded = Extent.loadClassList(FILE_LOCATION);
-            contracts = (loaded == null) ? new ArrayList<>() : new ArrayList<>(loaded);
+            contracts = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveContracts() {
@@ -105,20 +85,18 @@ public class Contract implements Extent {
                 saveContracts();
         }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Contract)) return false;
-        Contract other = (Contract) o;
-        return Objects.equals(startDate, other.startDate)
-                && Objects.equals(endDate, other.endDate)
-                && Objects.equals(pay, other.pay)
-                && Objects.equals(employee, other.employee)
-                && Objects.equals(store, other.store);
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Contract)) return false;
+            Contract other = (Contract) o;
+            return Objects.equals(startDate, other.startDate)
+                    && Objects.equals(endDate, other.endDate)
+                    && Objects.equals(pay, other.pay);
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(startDate, endDate, pay, employee, store);
-    }
+        @Override
+        public int hashCode() {
+            return Objects.hash(startDate, endDate, pay);
+        }
 }

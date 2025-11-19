@@ -27,9 +27,6 @@ public class Leave implements Extent {
         }
 
         public long getPeriodDays() {
-            if (startDate == null || endDate == null)
-                throw new IllegalStateException("Start date and end date must be set to compute period days");
-
             return startDate.until(endDate).getDays();
         }
 
@@ -77,8 +74,7 @@ public class Leave implements Extent {
 
         // extends methods
         public static void loadLeaves() {
-            List<Leave> loaded = Extent.loadClassList(FILE_LOCATION);
-            leaves = (loaded == null) ? new ArrayList<>() : new ArrayList<>(loaded);
+            leaves = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveLeaves() {

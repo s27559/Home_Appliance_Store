@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Validation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/ClosedFor.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/ClosedFor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Contract.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Contract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/HolidayShift.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/HolidayShift.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Leave.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Leave.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Shift.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Shift.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Store.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/Store.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/WeekdayShift.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Managment/WeekdayShift.java" afterDir="false" />
-    </list>
+    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -149,7 +139,7 @@
       <updated>1762983009508</updated>
       <workItem from="1762983010363" duration="10935000" />
       <workItem from="1763411963336" duration="3005000" />
-      <workItem from="1763578048439" duration="8989000" />
+      <workItem from="1763578048439" duration="9365000" />
     </task>
     <servers />
   </component>

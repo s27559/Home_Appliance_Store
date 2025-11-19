@@ -16,8 +16,8 @@ public class WeekdayShift extends Shift implements Extent {
 
         private DayOfWeek weekday;
 
-        public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday, ArrayList<Store> store) {
-                super(bonusPay, openTime, closeTime, store);
+        public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday) {
+                super(bonusPay, openTime, closeTime);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 Objects.requireNonNull(weekday);
                 this.weekday = weekday;
@@ -42,8 +42,7 @@ public class WeekdayShift extends Shift implements Extent {
 
         // extend methods
         public static void loadWeekdayShifts() {
-            List<WeekdayShift> loaded = Extent.loadClassList(FILE_LOCATION);
-            weekdayShifts = (loaded == null) ? new ArrayList<>() : new ArrayList<>(loaded);
+            weekdayShifts = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveWeekdayShifts() {

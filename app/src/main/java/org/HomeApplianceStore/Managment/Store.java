@@ -37,8 +37,7 @@ public class Store implements Extent {
         }
 
         public static void loadStores(){
-            List<Store> loaded = Extent.loadClassList(FILE_LOCATION);
-            stores = (loaded == null) ? new ArrayList<>() : new ArrayList<>(loaded);
+            stores = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveStore(){

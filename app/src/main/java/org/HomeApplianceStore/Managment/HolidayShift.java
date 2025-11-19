@@ -17,8 +17,8 @@ public class HolidayShift extends Shift implements Extent {
         private LocalDate startDate;
         private LocalDate endDate;
 
-        public HolidayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, LocalDate startDate, LocalDate endDate, ArrayList<Store> stores) {
-                super(bonusPay, openTime, closeTime, stores);
+        public HolidayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, LocalDate startDate, LocalDate endDate) {
+                super(bonusPay, openTime, closeTime);
                 Validation.validateDates(startDate, endDate);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 this.startDate = startDate;
@@ -28,8 +28,6 @@ public class HolidayShift extends Shift implements Extent {
         }
 
         public long getPeriodDays() {
-            if (startDate == null || endDate == null)
-                throw new IllegalStateException("Start date and end date must be set to correctly");
             return startDate.until(endDate).getDays();
         }
 

@@ -9,20 +9,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Shift implements Extent {
-        private static ArrayList<Shift> shifts = new ArrayList<Shift>();
+        private static ArrayList<Shift> shifts = new ArrayList<>();
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Shift.ser";
 
         private BigDecimal bonusPay;
         private LocalTime openTime;
         private LocalTime closeTime;
-        private ArrayList<Store> stores;
-        public Shift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, ArrayList<Store> stores) {
+        public Shift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime) {
                 Validation.validateTime(openTime, closeTime);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 this.bonusPay = bonusPay;
                 this.openTime = openTime;
                 this.closeTime = closeTime;
-                this.stores = stores;
                 addShift(this);
         }
 
@@ -32,16 +30,11 @@ public class Shift implements Extent {
             saveShiftEvents();
         }
 
-        public ArrayList<Store> getStores() {
-            return stores;
-        }
-        public void setStores(ArrayList<Store> stores) {
-            this.stores = stores;
-        }
         public BigDecimal getBonusPay() {
                 return bonusPay;
         }
         public void setBonusPay(BigDecimal bonusPay) {
+                Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 this.bonusPay = bonusPay;
                 saveShiftEvents();
         }
@@ -68,8 +61,7 @@ public class Shift implements Extent {
 
         // extend methods
         public static void loadShiftEvents() {
-            List<Shift> loaded = Extent.loadClassList(FILE_LOCATION);
-            shifts = (loaded == null) ? new ArrayList<>() : new ArrayList<>(loaded);
+            shifts = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveShiftEvents() {
@@ -92,12 +84,11 @@ public class Shift implements Extent {
             Shift shift = (Shift) o;
             return Objects.equals(bonusPay, shift.bonusPay) &&
                     Objects.equals(openTime, shift.openTime) &&
-                    Objects.equals(closeTime, shift.closeTime) &&
-                    Objects.equals(stores, shift.stores);
+                    Objects.equals(closeTime, shift.closeTime);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(bonusPay, openTime, closeTime, stores);
+            return Objects.hash(bonusPay, openTime, closeTime);
         }
 }
