@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Property implements Extent{
+public class Property<T> implements Extent{
 
         private static ArrayList<Property> properties = new ArrayList<Property>();
 
         private String typeName;
         private T value;
 
-        public Property(String typeName, String value) {
+        public Property(String typeName, T value) {
             validateTypeName(typeName);
             validateValue(value);
 
@@ -30,9 +30,9 @@ public class Property implements Extent{
                 throw new IllegalArgumentException("Property type name cannot be empty.");
             }
         }
-        private void validateValue(String value) {
+        private void validateValue(T value) {
             Objects.requireNonNull(value, "Property value cannot be null.");
-            if (value.trim().isEmpty()) {
+            if (value.equals("")) {
                 throw new IllegalArgumentException("Property value cannot be empty.");
             }
         }
