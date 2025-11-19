@@ -14,7 +14,6 @@ public class Employee implements Extent {
         private long sickDays;
         private long paidLeaveDays;
         private long unpaidLeaveDays;
-        private Person person;
 
         public Employee(Person person,
                         BigDecimal bonusPay,
@@ -22,7 +21,6 @@ public class Employee implements Extent {
                         long paidLeaveDays,
                         long unpaidLeaveDays) {
 
-                this.setPerson(person);
                 this.setBonusPay(bonusPay);
                 this.setSickDays(sickDays);
                 this.setPaidLeaveDays(paidLeaveDays);
@@ -35,7 +33,7 @@ public class Employee implements Extent {
                         throw new IllegalArgumentException("Employee cannot be null");
                 }
                 employees.add(employee);
-                saveEmployees(); // сохраняем состояние при изменении коллекции
+                saveEmployees();
         }
 
         public static void loadEmployees() {
@@ -48,17 +46,6 @@ public class Employee implements Extent {
 
         public static List<Employee> getEmployees() {
                 return Extent.getImmutableClassList(employees);
-        }
-
-        public Person getPerson() {
-                return person;
-        }
-
-        public void setPerson(Person person) {
-                if (person == null) {
-                        throw new IllegalArgumentException("Person for Employee cannot be null");
-                }
-                this.person = person;
         }
 
         public BigDecimal getBonusPay() {

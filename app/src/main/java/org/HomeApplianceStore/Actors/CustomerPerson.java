@@ -10,10 +10,8 @@ public class CustomerPerson extends Customer implements Extent {
         private static ArrayList<CustomerPerson> customerPersons = new ArrayList<>();
 
         private long points;
-        private Person person;
 
         public CustomerPerson(Person person, long points) {
-                this.setPerson(person);
                 this.setPoints(points);
                 addCustomerPerson(this);
         }
@@ -36,17 +34,6 @@ public class CustomerPerson extends Customer implements Extent {
 
         public static List<CustomerPerson> getCustomerPersons() {
                 return Extent.getImmutableClassList(customerPersons);
-        }
-
-        public Person getPerson() {
-                return person;
-        }
-
-        public void setPerson(Person person) {
-                if (person == null) {
-                        throw new IllegalArgumentException("Person for CustomerPerson cannot be null");
-                }
-                this.person = person;
         }
 
         public long getPoints() {

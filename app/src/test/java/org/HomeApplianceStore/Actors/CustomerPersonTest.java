@@ -24,7 +24,6 @@ class CustomerPersonTest {
 
         CustomerPerson customer = new CustomerPerson(person, 100L);
 
-        assertEquals(person, customer.getPerson());
         assertEquals(100L, customer.getPoints());
     }
 
