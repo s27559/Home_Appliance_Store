@@ -55,6 +55,7 @@ public class Property<T extends Serializable> implements Extent{
                 return value;
         }
         public void setValue(T value) {
+                validateValue(value);
                 this.value = value;
                 saveProperties();
         }
