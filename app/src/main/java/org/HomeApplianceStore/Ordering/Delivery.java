@@ -52,15 +52,6 @@ public class Delivery implements Extent {
                 }
         }
         public LocalDate getReciveDate() {
-                if (reciveDate == null) {
-                        throw new IllegalArgumentException("receiveDate cannot be null");
-                }
-                if (reciveDate.isAfter(LocalDate.now())) {
-                        throw new IllegalArgumentException("receiveDate cannot be in the future");
-                }
-                if (this.sendDate != null && reciveDate.isBefore(this.sendDate)) {
-                        throw new IllegalArgumentException("receiveDate cannot be before sendDate");
-                }
                 return reciveDate;
         }
         public void setReciveDate(LocalDate reciveDate) {

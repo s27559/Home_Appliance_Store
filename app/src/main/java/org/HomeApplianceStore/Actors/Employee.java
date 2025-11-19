@@ -1,45 +1,107 @@
 package org.HomeApplianceStore.Actors;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Employee {
+import org.HomeApplianceStore.Extent;
+
+public class Employee implements Extent {
+
+        private static ArrayList<Employee> employees = new ArrayList<Employee>();
 
         private BigDecimal bonusPay;
         private long sickDays;
         private long paidLeaveDays;
         private long unpaidLeaveDays;
-        // leaveDays
-        // fullPay
         private Person person;
+
+        public Employee(Person person,
+                        BigDecimal bonusPay,
+                        long sickDays,
+                        long paidLeaveDays,
+                        long unpaidLeaveDays) {
+
+                this.setPerson(person);
+                this.setBonusPay(bonusPay);
+                this.setSickDays(sickDays);
+                this.setPaidLeaveDays(paidLeaveDays);
+                this.setUnpaidLeaveDays(unpaidLeaveDays);
+                addEmployee(this);
+        }
+
+        public static void addEmployee(Employee employee) {
+                if (employee == null) {
+                        throw new IllegalArgumentException("Employee cannot be null");
+                }
+                employees.add(employee);
+                saveEmployees(); // сохраняем состояние при изменении коллекции
+        }
+
+        public static void loadEmployees() {
+                employees = Extent.loadClassList("./org/HomeApplianceStore/Actors/Employee.ser");
+        }
+
+        public static void saveEmployees() {
+                Extent.saveClassList("./org/HomeApplianceStore/Actors/Employee.ser", employees);
+        }
+
+        public static List<Employee> getEmployees() {
+                return Extent.getImmutableClassList(employees);
+        }
 
         public Person getPerson() {
                 return person;
         }
+
         public void setPerson(Person person) {
+                if (person == null) {
+                        throw new IllegalArgumentException("Person for Employee cannot be null");
+                }
                 this.person = person;
         }
+
         public BigDecimal getBonusPay() {
                 return bonusPay;
         }
+
         public void setBonusPay(BigDecimal bonusPay) {
+                if (bonusPay != null && bonusPay.signum() < 0) {
+                        throw new IllegalArgumentException("Bonus pay cannot be negative");
+                }
                 this.bonusPay = bonusPay;
         }
+
         public long getSickDays() {
                 return sickDays;
         }
+
         public void setSickDays(long sickDays) {
+                if (sickDays < 0) {
+                        throw new IllegalArgumentException("Sick days cannot be negative");
+                }
                 this.sickDays = sickDays;
         }
+
         public long getPaidLeaveDays() {
                 return paidLeaveDays;
         }
+
         public void setPaidLeaveDays(long paidLeaveDays) {
+                if (paidLeaveDays < 0) {
+                        throw new IllegalArgumentException("Paid leave days cannot be negative");
+                }
                 this.paidLeaveDays = paidLeaveDays;
         }
+
         public long getUnpaidLeaveDays() {
                 return unpaidLeaveDays;
         }
+
         public void setUnpaidLeaveDays(long unpaidLeaveDays) {
+                if (unpaidLeaveDays < 0) {
+                        throw new IllegalArgumentException("Unpaid leave days cannot be negative");
+                }
                 this.unpaidLeaveDays = unpaidLeaveDays;
         }
 }
