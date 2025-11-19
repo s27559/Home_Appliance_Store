@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="finished tests">
+    <list default="true" id="29c67929-1bdf-4f12-b0d8-5c5fd05cb1a5" name="Changes" comment="some xml file idk?">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CartProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CartProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Company.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CustomerCompany.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Actors/CustomerCompany.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Ordering/Payment/Blik.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/HomeApplianceStore/Ordering/Payment/Blik.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +37,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOP9XWls60bUGj&quot;,
+        &quot;number&quot;: 37
+      },
+      &quot;lastSeen&quot;: 1763593526490
+    }
+  ]
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -56,47 +62,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Gradle.CategoryTest.constructor_shouldInitializeFields_whenValid.executor": "Run",
-    "Gradle.CategoryTest.constructor_shouldThrowIllegalArgumentException_whenNameIsEmpty.executor": "Run",
-    "Gradle.CategoryTest.constructor_shouldThrowNullPointerException_whenNameIsNull.executor": "Run",
-    "Gradle.CategoryTest.equalsAndHashCode_shouldBeBasedOnName.executor": "Run",
-    "Gradle.CategoryTest.executor": "Run",
-    "Gradle.CompanyTest.executor": "Run",
-    "Gradle.CompanyTest.testCorrectness.executor": "Run",
-    "Gradle.FreestandingProductTest.executor": "Run",
-    "Gradle.IntegratedProductTest.executor": "Run",
-    "Gradle.ProductTest.constructor_throwsIllegalArgumentException_whenWarrantyDaysIsNegative.executor": "Run",
-    "Gradle.ProductTest.constructor_works_andInitializesFields_whenValid.executor": "Run",
-    "Gradle.ProductTest.executor": "Run",
-    "Gradle.ProductTest.setWeight_throwsException_whenZero.executor": "Run",
-    "Gradle.PropertyTest.executor": "Run",
-    "Gradle.PropertyTest.setValue_throwsNullPointerException_whenValueIsNull.executor": "Run",
-    "Gradle.PropertyTest.setValue_works_andUpdatesValue_whenValid.executor": "Run",
-    "Gradle.SaleTest.constructor_works_andInitializesFields_whenValid.executor": "Run",
-    "Gradle.SaleTest.executor": "Run",
-    "Gradle.SaleTest.setAmount_works_andUpdatesValue_whenValid.executor": "Run",
-    "Gradle.SaleTest.setEndDate_throwsIllegalArgumentException_whenBeforeStartDate.executor": "Run",
-    "Gradle.SaleTest.setEndDate_works_whenValid.executor": "Run",
-    "Gradle.StorageTest.executor": "Run",
-    "JUnit.LeaveTest.executor": "Run",
-    "JUnit.ShiftTest.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "#37 on maks",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/lordo/OneDrive/Belgeler/Home_Appliance_Store",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.CategoryTest.constructor_shouldInitializeFields_whenValid.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryTest.constructor_shouldThrowIllegalArgumentException_whenNameIsEmpty.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryTest.constructor_shouldThrowNullPointerException_whenNameIsNull.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryTest.equalsAndHashCode_shouldBeBasedOnName.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CategoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CompanyTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.CompanyTest.testCorrectness.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.FreestandingProductTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.IntegratedProductTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ProductTest.constructor_throwsIllegalArgumentException_whenWarrantyDaysIsNegative.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ProductTest.constructor_works_andInitializesFields_whenValid.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ProductTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ProductTest.setWeight_throwsException_whenZero.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PropertyTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PropertyTest.setValue_throwsNullPointerException_whenValueIsNull.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.PropertyTest.setValue_works_andUpdatesValue_whenValid.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.SaleTest.constructor_works_andInitializesFields_whenValid.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.SaleTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.SaleTest.setAmount_works_andUpdatesValue_whenValid.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.SaleTest.setEndDate_throwsIllegalArgumentException_whenBeforeStartDate.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.SaleTest.setEndDate_works_whenValid.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.StorageTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.LeaveTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ShiftTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#37 on maks&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lordo/OneDrive/Belgeler/Home_Appliance_Store&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Gradle.StorageTest">
     <configuration name="PropertyTest.setValue_works_andUpdatesValue_whenValid" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -318,7 +324,31 @@
       <option name="project" value="LOCAL" />
       <updated>1763590861892</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added validation and loading/saving">
+      <option name="closed" value="true" />
+      <created>1763593214474</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1763593214474</updated>
+    </task>
+    <task id="LOCAL-00011" summary="some xml file idk?">
+      <option name="closed" value="true" />
+      <created>1763593296121</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1763593296121</updated>
+    </task>
+    <task id="LOCAL-00012" summary="some xml file idk?">
+      <option name="closed" value="true" />
+      <created>1763593368406</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1763593368406</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,6 +363,8 @@
     <MESSAGE value="fixed date validation logic" />
     <MESSAGE value="fixed constructor" />
     <MESSAGE value="finished tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished tests" />
+    <MESSAGE value="added validation and loading/saving" />
+    <MESSAGE value="some xml file idk?" />
+    <option name="LAST_COMMIT_MESSAGE" value="some xml file idk?" />
   </component>
 </project>
