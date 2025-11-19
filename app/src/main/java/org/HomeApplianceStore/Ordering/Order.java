@@ -12,25 +12,28 @@ public class Order implements Extent {
 
         private LocalDate date;
         private boolean paidFor;
-        private boolean readyForPickUp;
-        public Order(LocalDate date, boolean paidFor, boolean readyForPickUp) {
-                this.setDate(date);
-                this.setPaidFor(paidFor);
-                this.setReadyForPickUp(readyForPickUp);
+        private Boolean readyForPickUp;   // OPTIONAL [0..1]
+
+        public Order(LocalDate date, boolean paidFor, Boolean readyForPickUp) {
+                setDate(date);
+                setPaidFor(paidFor);
+                setReadyForPickUp(readyForPickUp); // may be null
                 addOrder(this);
         }
-        public BigDecimal getCost(){
-                return new BigDecimal(0);
-        }
+
+        public BigDecimal getCost(){return new BigDecimal(0);}
+
         public static void addOrder(Order order){
                 if (order == null) {
                         throw new IllegalArgumentException("Order cannot be null");
                 }
                 orders.add(order);
         }
+
         public LocalDate getDate() {
                 return date;
         }
+
         public void setDate(LocalDate date) {
                 if (date == null) {
                         throw new IllegalArgumentException("date cannot be null");
@@ -40,18 +43,24 @@ public class Order implements Extent {
                 }
                 this.date = date;
         }
+
         public boolean isPaidFor() {
                 return paidFor;
         }
+
         public void setPaidFor(boolean paidFor) {
                 this.paidFor = paidFor;
         }
-        public boolean isReadyForPickUp() {
+
+        public Boolean getReadyForPickUp() {
                 return readyForPickUp;
         }
-        public void setReadyForPickUp(boolean readyForPickUp) {
+
+        // Optional attribute → null allowed
+        public void setReadyForPickUp(Boolean readyForPickUp) {
                 this.readyForPickUp = readyForPickUp;
         }
+
         public static void loadOrders(){
                 orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");
         }
