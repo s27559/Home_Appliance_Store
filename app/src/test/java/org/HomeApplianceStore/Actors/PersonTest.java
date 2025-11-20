@@ -1,27 +1,80 @@
 package org.HomeApplianceStore.Actors;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.time.LocalDate;
-
-import org.HomeApplianceStore.Address;
 import org.junit.jupiter.api.Test;
 
-public class PersonTest {
+import java.time.LocalDate;
+import java.util.List;
 
-        @Test
-        void testCorrectness(){
-                
-                String name = "name";
-                String surname = "surname";
-                LocalDate dateOfBirth = LocalDate.now();
-                Address address = new Address();
-                Person person = new Person(name, surname, dateOfBirth, address);
+import static org.junit.jupiter.api.Assertions.*;
 
-                assertTrue(name.equals(person.getName()));
-                assertTrue(surname.equals(person.getSurname()));
-                assertTrue(dateOfBirth.equals(person.getDateOfBirth()));
-                assertTrue(address.equals(person.getAddress()));
-                assertTrue(Person.getPersons().contains(person));
-        }
+class PersonTest {
+
+    @Test
+    void creatingValidPersonShouldSucceed() {
+        LocalDate dob = LocalDate.now().minusYears(20);
+
+        Person person = new Person("John", "Doe", dob, null);
+
+        assertEquals("John", person.getName());
+        assertEquals("Doe", person.getSurname());
+        assertEquals(dob, person.getDateOfBirth());
+        assertNull(person.getAddress());
+    }
+
+    @Test
+    void emptyNameShouldThrow() {
+        LocalDate dob = LocalDate.now().minusYears(20);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                new Person("   ", "Doe", dob, null)
+        );
+    }
+
+    @Test
+    void emptySurnameShouldThrow() {
+        LocalDate dob = LocalDate.now().minusYears(20);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                new Person("John", "   ", dob, null)
+        );
+    }
+
+    @Test
+    void nullDateOfBirthShouldThrow() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new Person("John", "Doe", null, null)
+        );
+    }
+
+    @Test
+    void futureDateOfBirthShouldThrow() {
+        LocalDate future = LocalDate.now().plusDays(1);
+
+        assertThrows(IllegalArgumentException.class, () ->
+                new Person("John", "Doe", future, null)
+        );
+    }
+
+    @Test
+    void addressCanBeNullOptionalAttribute() {
+        LocalDate dob = LocalDate.now().minusYears(30);
+        Person person = new Person("Anna", "Smith", dob, null);
+
+        assertNull(person.getAddress());
+    }
+
+    @Test
+    void extentShouldUpdateAndBeImmutableForPerson() {
+        int sizeBefore = Person.getPersons().size();
+
+        Person p = new Person("Mark", "Twain", LocalDate.now().minusYears(40), null);
+
+        int sizeAfter = Person.getPersons().size();
+        assertEquals(sizeBefore + 1, sizeAfter);
+
+        List<Person> immutable = Person.getPersons();
+        assertThrows(UnsupportedOperationException.class, () ->
+                immutable.add(p)
+        );
+    }
 }

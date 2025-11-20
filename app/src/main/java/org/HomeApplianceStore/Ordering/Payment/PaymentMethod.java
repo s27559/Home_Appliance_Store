@@ -23,6 +23,9 @@ public class PaymentMethod implements Extent {
         }
 
         public void setName(String name) {
+                if (name == null || name.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Payment method name cannot be empty");
+                }
                 this.name = name;
         }
         public static void loadMethods(){

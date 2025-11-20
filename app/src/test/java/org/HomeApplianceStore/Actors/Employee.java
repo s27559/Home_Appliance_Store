@@ -28,6 +28,7 @@ class EmployeeTest {
                 0L
         );
 
+        assertEquals(person, emp.getPerson());
         assertEquals(new BigDecimal("1000.00"), emp.getBonusPay());
         assertEquals(2L, emp.getSickDays());
         assertEquals(10L, emp.getPaidLeaveDays());

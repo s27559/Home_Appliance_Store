@@ -1,43 +1,39 @@
 package org.HomeApplianceStore.Actors;
 
+import org.HomeApplianceStore.Extent;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.HomeApplianceStore.Extent;
+public class CustomerPerson extends Customer implements Extent {
 
-public class CustomerPerson extends Customer implements Extent{
         private static ArrayList<CustomerPerson> customerPersons = new ArrayList<>();
 
         private long points;
-        private Person person;
 
-        public CustomerPerson(long points) {
-                super();
-                this.points = points;
+        public CustomerPerson(Person person, long points) {
+                this.setPoints(points);
+                addCustomerPerson(this);
+        }
+
+        public static void addCustomerPerson(CustomerPerson customerPerson) {
+                if (customerPerson == null) {
+                        throw new IllegalArgumentException("CustomerPerson cannot be null");
+                }
+                customerPersons.add(customerPerson);
+                saveCustomerPersons();
+        }
+
+        public static void loadCustomerPersons() {
+                customerPersons = Extent.loadClassList("./org/HomeApplianceStore/Actors/CustomerPerson.ser");
+        }
+
+        public static void saveCustomerPersons() {
+                Extent.saveClassList("./org/HomeApplianceStore/Actors/CustomerPerson.ser", customerPersons);
         }
 
         public static List<CustomerPerson> getCustomerPersons() {
                 return Extent.getImmutableClassList(customerPersons);
-        }
-
-        public static void loadCustomerPerson(){
-                customerPersons = Extent.loadClassList("./org/HomeApplianceStore/Actors/CustomerPerson.ser");
-        }
-
-        public static void saveCustomerPersons(){
-                Extent.saveClassList("./org/HomeApplianceStore/Actors/CustomerPerson.ser", customerPersons);
-        }
-
-        private static void addCustomerPersons(CustomerPerson customerPerson) {
-                customerPersons.add(customerPerson);
-        }
-
-        public Person getPerson() {
-                return person;
-        }
-
-        public void setPerson(Person person) {
-                this.person = person;
         }
 
         public long getPoints() {
@@ -45,7 +41,9 @@ public class CustomerPerson extends Customer implements Extent{
         }
 
         public void setPoints(long points) {
+                if (points < 0) {
+                        throw new IllegalArgumentException("Points cannot be negative");
+                }
                 this.points = points;
         }
-
 }

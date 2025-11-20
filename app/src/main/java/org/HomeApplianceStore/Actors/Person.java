@@ -7,38 +7,42 @@ import java.util.List;
 import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
 
-public class Person implements Extent{
-        private static ArrayList<Person> persons = new ArrayList<>();
+public class Person implements Extent {
+
+        private static ArrayList<Person> persons = new ArrayList<Person>();
 
         private String name;
         private String middleName;
         private String surname;
         private LocalDate dateOfBirth;
         private Address address;
-        // age
 
         public Person(String name, String surname, LocalDate dateOfBirth, Address address) {
-                this.name = name;
-                this.surname = surname;
-                this.dateOfBirth = dateOfBirth;
-                this.address = address;
+                this.setName(name);
+                this.setSurname(surname);
+                this.setDateOfBirth(dateOfBirth);
+                this.setAddress(address);
                 addPerson(this);
+        }
+
+        public static void addPerson(Person person) {
+                if (person == null) {
+                        throw new IllegalArgumentException("Person cannot be null");
+                }
+                persons.add(person);
+                savePersons();
+        }
+
+        public static void loadPersons() {
+                persons = Extent.loadClassList("./org/HomeApplianceStore/Actors/Person.ser");
+        }
+
+        public static void savePersons() {
+                Extent.saveClassList("./org/HomeApplianceStore/Actors/Person.ser", persons);
         }
 
         public static List<Person> getPersons() {
                 return Extent.getImmutableClassList(persons);
-        }
-
-        public static void loadPersons(){
-                persons = Extent.loadClassList("./org/HomeApplianceStore/Actors/Person.ser");
-        }
-
-        public static void savePersons(){
-                Extent.saveClassList("./org/HomeApplianceStore/Actors/Person.ser", persons);
-        }
-
-        private static void addPerson(Person person) {
-                persons.add(person);
         }
 
         public String getName() {
@@ -46,20 +50,37 @@ public class Person implements Extent{
         }
 
         public void setName(String name) {
-                this.name = name;
+                if (name == null || name.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Name cannot be empty");
+                }
+                this.name = name.trim();
         }
+
         public String getSurname() {
                 return surname;
         }
+
         public void setSurname(String surname) {
-                this.surname = surname;
+                if (surname == null || surname.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Surname cannot be empty");
+                }
+                this.surname = surname.trim();
         }
+
         public LocalDate getDateOfBirth() {
                 return dateOfBirth;
         }
+
         public void setDateOfBirth(LocalDate dateOfBirth) {
+                if (dateOfBirth == null) {
+                        throw new IllegalArgumentException("Date of birth cannot be null");
+                }
+                if (dateOfBirth.isAfter(LocalDate.now())) {
+                        throw new IllegalArgumentException("Date of birth cannot be in the future");
+                }
                 this.dateOfBirth = dateOfBirth;
         }
+
         public Address getAddress() {
                 return address;
         }

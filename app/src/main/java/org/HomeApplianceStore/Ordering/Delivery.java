@@ -30,14 +30,26 @@ public class Delivery implements Extent {
                 addDelivery(this);
         }
 
+        public static void addDelivery(Delivery delivery){
+                if (delivery == null) {
+                        throw new IllegalArgumentException("Delivery cannot be null");
+                }
+                deliveries.add(delivery);
+        }
         public LocalDate getSendDate() {
                 return sendDate;
         }
-        public static void addDelivery(Delivery delivery){
-                deliveries.add(delivery);
-        }
         public void setSendDate(LocalDate sendDate) {
+                if (sendDate == null) {
+                        throw new IllegalArgumentException("sendDate cannot be null");
+                }
+                if (sendDate.isAfter(LocalDate.now())) {
+                        throw new IllegalArgumentException("sendDate cannot be in the future");
+                }
                 this.sendDate = sendDate;
+                if (this.reciveDate != null && this.reciveDate.isBefore(this.sendDate)) {
+                        throw new IllegalArgumentException("receiveDate cannot be before sendDate");
+                }
         }
         public LocalDate getReciveDate() {
                 return reciveDate;
@@ -49,6 +61,12 @@ public class Delivery implements Extent {
                 return cost;
         }
         public void setCost(BigDecimal cost) {
+                if (cost == null) {
+                        throw new IllegalArgumentException("cost cannot be null");
+                }
+                if (cost.signum() < 0) {
+                        throw new IllegalArgumentException("cost cannot be negative");
+                }
                 this.cost = cost;
         }
         public boolean isRecived() {
@@ -61,7 +79,11 @@ public class Delivery implements Extent {
                 return trackingNumber;
         }
         public void setTrackingNumber(String trackingNumber) {
-                this.trackingNumber = trackingNumber;
+                if (trackingNumber == null || trackingNumber.trim().isEmpty()) {
+                throw new IllegalArgumentException("trackingNumber cannot be empty");
+        }
+                this.trackingNumber = trackingNumber.trim();
+
         }
         public static void loadDeliveries(){
                 deliveries = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Delivery.ser");
