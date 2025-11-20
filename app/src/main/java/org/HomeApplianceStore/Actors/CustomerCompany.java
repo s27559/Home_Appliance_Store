@@ -14,12 +14,8 @@ public class CustomerCompany extends Customer implements Extent {
     private static ArrayList<CustomerCompany> customerCompanies = new ArrayList<>();
     private static BigDecimal bulkOrderDiscount;
 
-    private Company company;
-
-    public CustomerCompany(Company company) {
+    public CustomerCompany() {
         super();
-        Objects.requireNonNull(company, "Company cannot be null.");
-        this.company = company;
         addCustomerCompany(this);
         saveCustomerCompanies();
     }
@@ -42,24 +38,12 @@ public class CustomerCompany extends Customer implements Extent {
         }
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        Objects.requireNonNull(company, "Company cannot be null.");
-        this.company = company;
-        saveCustomerCompanies();
-    }
-
     public static BigDecimal getBulkOrderDiscount() {
         return bulkOrderDiscount;
     }
 
     public static void setBulkOrderDiscount(BigDecimal bulkOrderDiscount) {
-        if (bulkOrderDiscount != null) {
-            Validation.validateBigDecimal(bulkOrderDiscount, "Bulk Order Discount");
-        }
+        Validation.validateBigDecimal(bulkOrderDiscount, "Bulk Order Discount");
         CustomerCompany.bulkOrderDiscount = bulkOrderDiscount;
     }
 
@@ -73,11 +57,11 @@ public class CustomerCompany extends Customer implements Extent {
         if (this == o) return true;
         if (!(o instanceof CustomerCompany)) return false;
         CustomerCompany that = (CustomerCompany) o;
-        return Objects.equals(company, that.company);
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), company);
+        return Objects.hash(super.hashCode());
     }
 }

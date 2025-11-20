@@ -12,15 +12,12 @@ public class ClosedFor implements Extent {
         private LocalDate endDate;
         private String reason;
         // periodDays;
-        private ArrayList<Store> stores;
-
-    public ClosedFor(LocalDate startDate, LocalDate endDate, String reason, ArrayList<Store> stores){
+    public ClosedFor(LocalDate startDate, LocalDate endDate, String reason){
             Validation.validateDates(startDate, endDate);
             Validation.validateString(reason, "Reason");
             this.startDate = startDate;
             this.endDate = endDate;
             this.reason = reason;
-            this.stores = stores;
             addClosedForEvent(this);
             saveClosedForEvents();
         }
@@ -35,12 +32,6 @@ public class ClosedFor implements Extent {
             saveClosedForEvents();
         }
 
-        public ArrayList<Store> getStores() {
-                return stores;
-        }
-        public void setStores(ArrayList<Store> stores) {
-                this.stores = stores;
-        }
         public LocalDate getStartDate() {
                 return startDate;
         }
@@ -96,12 +87,11 @@ public class ClosedFor implements Extent {
         ClosedFor other = (ClosedFor) o;
         return Objects.equals(startDate, other.startDate)
                 && Objects.equals(endDate, other.endDate)
-                && Objects.equals(reason, other.reason)
-                && Objects.equals(stores, other.stores);
+                && Objects.equals(reason, other.reason);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startDate, endDate, reason, stores);
+        return Objects.hash(startDate, endDate, reason);
     }
 }
