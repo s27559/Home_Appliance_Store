@@ -5,6 +5,7 @@ import org.HomeApplianceStore.Extent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Store implements Extent {
         private Address locationAddress;
@@ -12,14 +13,17 @@ public class Store implements Extent {
         private static ArrayList<Store> stores = new ArrayList<Store>();
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Store.ser";
 
-
         public Store(Address locationAddress){
+                Objects.requireNonNull(locationAddress, "Missing Address object.");
                 this.locationAddress = locationAddress;
                 addStore(this);
+                saveStore();
         }
 
         private static void addStore(Store store){
+            if(!stores.contains(store))
                 stores.add(store);
+            saveStore();
         }
 
         public Address getLocationAddress() {
@@ -27,11 +31,13 @@ public class Store implements Extent {
         }
 
         public void setLocationAddress(Address locationAddress) {
+                Objects.requireNonNull(locationAddress, "Address cannot be null.");
                 this.locationAddress = locationAddress;
+                saveStore();
         }
 
         public static void loadStores(){
-                stores = Extent.loadClassList(FILE_LOCATION);
+            stores = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveStore(){
@@ -44,5 +50,19 @@ public class Store implements Extent {
 
         public void delete(){
                 stores.remove(this);
+                saveStore();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Store)) return false;
+            Store other = (Store) o;
+            return Objects.equals(locationAddress, other.locationAddress);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(locationAddress);
         }
 }

@@ -12,43 +12,26 @@ public class ClosedFor implements Extent {
         private LocalDate endDate;
         private String reason;
         // periodDays;
-        private ArrayList<Store> stores;
-
-    public ClosedFor(LocalDate startDate, LocalDate endDate, String reason, ArrayList<Store> stores){
-            validateDates(startDate, endDate);
+    public ClosedFor(LocalDate startDate, LocalDate endDate, String reason){
+            Validation.validateDates(startDate, endDate);
+            Validation.validateString(reason, "Reason");
             this.startDate = startDate;
             this.endDate = endDate;
             this.reason = reason;
-            this.stores = stores;
             addClosedForEvent(this);
             saveClosedForEvents();
         }
 
-        private static void validateDates(LocalDate startDate, LocalDate endDate){
-            Objects.requireNonNull(startDate, "Start date cannot be null");
-            Objects.requireNonNull(endDate, "End date cannot be null");
-            if (endDate.isBefore(startDate))
-                throw new IllegalArgumentException("End date cannot be before start date");
-        }
-
         public long getPeriodDays() {
-            if (startDate == null || endDate == null)
-                throw new IllegalStateException("Start date and end date must be set to compute period days");
-
             return startDate.until(endDate).getDays();
         }
 
         private static void addClosedForEvent(ClosedFor event) {
             if(!closedForEvents.contains(event))
                     closedForEvents.add(event);
+            saveClosedForEvents();
         }
 
-        public ArrayList<Store> getStores() {
-                return stores;
-        }
-        public void setStores(ArrayList<Store> stores) {
-                this.stores = stores;
-        }
         public LocalDate getStartDate() {
                 return startDate;
         }
@@ -64,7 +47,7 @@ public class ClosedFor implements Extent {
         }
         public void setEndDate(LocalDate endDate) {
             Objects.requireNonNull(endDate, "End date cannot be null");
-            if (this.startDate != null && endDate.isBefore(this.startDate)) {
+            if (this.startDate != null && endDate.isBefore(startDate)) {
                 throw new IllegalArgumentException("End date cannot be before start date");
             }
             this.endDate = endDate;
@@ -80,8 +63,7 @@ public class ClosedFor implements Extent {
 
         // extend methods
         public static void loadClosedForEvents() {
-            List<ClosedFor> loaded = Extent.loadClassList(FILE_LOCATION);
-            closedForEvents = (loaded == null) ? new ArrayList<>() : new ArrayList<>(loaded);
+            closedForEvents = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveClosedForEvents() {
@@ -94,6 +76,7 @@ public class ClosedFor implements Extent {
 
         public void delete() {
                 closedForEvents.remove(this);
+                saveClosedForEvents();
         }
 
 
@@ -104,12 +87,11 @@ public class ClosedFor implements Extent {
         ClosedFor other = (ClosedFor) o;
         return Objects.equals(startDate, other.startDate)
                 && Objects.equals(endDate, other.endDate)
-                && Objects.equals(reason, other.reason)
-                && Objects.equals(stores, other.stores);
+                && Objects.equals(reason, other.reason);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startDate, endDate, reason, stores);
+        return Objects.hash(startDate, endDate, reason);
     }
 }

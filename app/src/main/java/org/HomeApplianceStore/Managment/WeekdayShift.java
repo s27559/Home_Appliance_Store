@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WeekdayShift extends Shift implements Extent {
 
@@ -17,12 +18,17 @@ public class WeekdayShift extends Shift implements Extent {
 
         public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday) {
                 super(bonusPay, openTime, closeTime);
+                Validation.validateBigDecimal(bonusPay, "Bonus Pay");
+                Objects.requireNonNull(weekday);
                 this.weekday = weekday;
                 addWeekdayShift(this);
+                saveWeekdayShifts();
         }
 
         private static void addWeekdayShift(WeekdayShift shift) {
+            if (!weekdayShifts.contains(shift))
                 weekdayShifts.add(shift);
+            saveWeekdayShifts();
         }
 
         public DayOfWeek getWeekday() {
@@ -31,11 +37,12 @@ public class WeekdayShift extends Shift implements Extent {
 
         public void setWeekday(DayOfWeek weekday) {
                 this.weekday = weekday;
+                saveWeekdayShifts();
         }
 
         // extend methods
         public static void loadWeekdayShifts() {
-                weekdayShifts = Extent.loadClassList(FILE_LOCATION);
+            weekdayShifts = Extent.loadClassList(FILE_LOCATION);
         }
 
         public static void saveWeekdayShifts() {
@@ -48,5 +55,20 @@ public class WeekdayShift extends Shift implements Extent {
 
         public void delete() {
                 weekdayShifts.remove(this);
+                saveWeekdayShifts();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof WeekdayShift)) return false;
+            if (!super.equals(o)) return false;
+            WeekdayShift other = (WeekdayShift) o;
+            return Objects.equals(weekday, other.weekday);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), weekday);
         }
 }
