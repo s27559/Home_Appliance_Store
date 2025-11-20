@@ -14,17 +14,20 @@ public class Employee implements Extent {
         private long sickDays;
         private long paidLeaveDays;
         private long unpaidLeaveDays;
+        private EmpRole role;
 
         public Employee(Person person,
                         BigDecimal bonusPay,
                         long sickDays,
                         long paidLeaveDays,
-                        long unpaidLeaveDays) {
+                        long unpaidLeaveDays,
+                        EmpRole role ) {
 
                 this.setBonusPay(bonusPay);
                 this.setSickDays(sickDays);
                 this.setPaidLeaveDays(paidLeaveDays);
                 this.setUnpaidLeaveDays(unpaidLeaveDays);
+                this.role = role;
                 addEmployee(this);
         }
 
@@ -90,5 +93,21 @@ public class Employee implements Extent {
                         throw new IllegalArgumentException("Unpaid leave days cannot be negative");
                 }
                 this.unpaidLeaveDays = unpaidLeaveDays;
+        }
+
+        public EmpRole getRole() {
+                return role;
+        }
+
+        public void setRole(EmpRole role) {
+                this.role = role;
+        }
+
+        public BigDecimal getFullPay(){
+                return new BigDecimal(0);
+        }
+
+        public long getLeaveDays(){
+                return paidLeaveDays + unpaidLeaveDays;
         }
 }
