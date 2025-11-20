@@ -1,8 +1,9 @@
 package org.HomeApplianceStore;
 
+import java.io.Serializable;
 import java.util.Optional;
 
-public class Address {
+public class Address implements Serializable{
 
         private String country;
         private String region;
@@ -34,8 +35,8 @@ public class Address {
         public void setStreetNum(String streetNum) {
                 this.streetNum = streetNum;
         }
-        public String getApartmentNum() {
-                return apartmentNum;
+        public Optional<String> getApartmentNum() {
+                return Optional.of(apartmentNum);
         }
         public void setApartmentNum(String apartmentNum) {
                 this.apartmentNum = apartmentNum;
