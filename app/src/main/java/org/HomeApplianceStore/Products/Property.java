@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Property<T extends Serializable> implements Extent{
-
-    private static ArrayList<Property> properties = new ArrayList<Property>();
-
+public class Property<T extends Serializable> implements Serializable{
     private String typeName;
     private T value;
 
@@ -20,9 +17,6 @@ public class Property<T extends Serializable> implements Extent{
 
         this.typeName = typeName;
         this.value = value;
-
-        addProperty(this);
-        saveProperties();
     }
     private void validateTypeName(String typeName) {
         Objects.requireNonNull(typeName, "Property type name cannot be null.");
@@ -37,19 +31,12 @@ public class Property<T extends Serializable> implements Extent{
         }
     }
 
-    private static void addProperty(Property property) {
-        if(!properties.contains(property)) {
-            properties.add(property);
-        }
-    }
-
     public String getTypeName() {
         return typeName;
     }
     public void setTypeName(String typeName) {
         validateTypeName(typeName);
         this.typeName = typeName;
-        saveProperties();
     }
     public T getValue() {
         return value;
@@ -57,19 +44,6 @@ public class Property<T extends Serializable> implements Extent{
     public void setValue(T value) {
         validateValue(value);
         this.value = value;
-        saveProperties();
-    }
-
-    public static void LoadProperties() {
-        properties = Extent.loadClassList("./org/HomeApplianceStore/Products/Property.ser");
-    }
-
-    public static void saveProperties() {
-        Extent.saveClassList("./org/HomeApplianceStore/Products/Property.ser", properties);
-    }
-
-    public static List<Property> getProperties() {
-        return Extent.getImmutableClassList(properties);
     }
 
     @Override
