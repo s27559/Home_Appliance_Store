@@ -13,6 +13,10 @@ public class Sale implements Extent {
 
     private static ArrayList<Sale> sales = new ArrayList<Sale>();
 
+        static {
+                loadSales();
+        }
+
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;

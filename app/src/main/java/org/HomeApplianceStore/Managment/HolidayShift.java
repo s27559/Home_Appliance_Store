@@ -14,6 +14,10 @@ public class HolidayShift extends Shift implements Extent {
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/HolidayShift.ser";
         private static ArrayList<HolidayShift> holidayShifts = new ArrayList<>();
 
+        static {
+                loadHolidayShifts();
+        }
+
         private LocalDate startDate;
         private LocalDate endDate;
 

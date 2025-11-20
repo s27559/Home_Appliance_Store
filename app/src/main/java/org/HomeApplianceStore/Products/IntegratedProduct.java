@@ -11,6 +11,10 @@ public class IntegratedProduct implements Extent{
 
     private static ArrayList<IntegratedProduct> integratedProducts = new ArrayList<IntegratedProduct>();
 
+        static {
+                LoadIntegratedProducts();
+        }
+
     private BigDecimal integrationCost;
     private boolean mustBeDone;
 

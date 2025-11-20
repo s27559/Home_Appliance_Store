@@ -13,6 +13,10 @@ public class Contract implements Extent {
         private static ArrayList<Contract> contracts = new ArrayList<>();
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Contract.ser";
 
+        static {
+                loadContracts();
+        }
+
         private LocalDate startDate;
         private LocalDate endDate;
         private BigDecimal pay;

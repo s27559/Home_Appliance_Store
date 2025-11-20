@@ -13,6 +13,10 @@ public class CartProduct implements Extent{
 
     private static ArrayList<CartProduct> cartProducts = new ArrayList<>();
 
+        static {
+                loadCartProducts();
+        }
+
     private long amountNew;
     private long amountUsed;
 

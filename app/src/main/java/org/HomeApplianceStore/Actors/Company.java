@@ -13,6 +13,10 @@ public class Company implements Extent{
 
     private static ArrayList<Company> companies = new ArrayList<>();
 
+        static {
+                loadCompanies();
+        }
+
     private String name;
     private String email;
     private String phone;

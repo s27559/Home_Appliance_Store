@@ -10,6 +10,10 @@ import java.util.List;
 public class Delivery implements Extent {
         private static ArrayList<Delivery> deliveries = new ArrayList<Delivery>();
 
+        static {
+                loadDeliveries();
+        }
+
         private LocalDate sendDate;
         private LocalDate reciveDate;
         private BigDecimal cost;

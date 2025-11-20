@@ -8,6 +8,10 @@ import java.util.List;
 public class Blik extends PaymentMethod implements Extent {
         private static ArrayList<Blik> bliks = new ArrayList<Blik>();
 
+        static {
+                loadBliks();
+        }
+
         private String code;
         private String transactionId;
 

@@ -11,6 +11,10 @@ public class FreestandingProduct implements Extent{
 
     private static ArrayList<FreestandingProduct> freestandingProducts =new ArrayList<FreestandingProduct>();
 
+        static {
+                loadFreestandingProducts();
+        }
+
     private BigDecimal moveCost;
 
     public FreestandingProduct(BigDecimal moveCost) {

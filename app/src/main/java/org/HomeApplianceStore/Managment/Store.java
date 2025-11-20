@@ -13,6 +13,10 @@ public class Store implements Extent {
         private static ArrayList<Store> stores = new ArrayList<Store>();
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Store.ser";
 
+        static {
+                loadStores();
+        }
+
         public Store(Address locationAddress){
                 Objects.requireNonNull(locationAddress, "Missing Address object.");
                 this.locationAddress = locationAddress;

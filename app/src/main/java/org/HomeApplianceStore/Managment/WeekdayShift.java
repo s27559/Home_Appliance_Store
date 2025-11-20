@@ -14,6 +14,10 @@ public class WeekdayShift extends Shift implements Extent {
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/WeekdayShift.ser";
         private static ArrayList<WeekdayShift> weekdayShifts = new ArrayList<>();
 
+        static {
+                loadWeekdayShifts();
+        }
+
         private DayOfWeek weekday;
 
         public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday) {

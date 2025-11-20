@@ -12,6 +12,10 @@ public class Shift implements Extent {
         private static ArrayList<Shift> shifts = new ArrayList<>();
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Shift.ser";
 
+        static {
+                loadShiftEvents();
+        }
+
         private BigDecimal bonusPay;
         private LocalTime openTime;
         private LocalTime closeTime;

@@ -10,6 +10,9 @@ public class Paypal extends PaymentMethod implements Extent {
 
         private static ArrayList<Paypal> paypals = new ArrayList<>();
 
+        static {
+                loadPaypals();
+        }
         private String paypalAccountId;
 
         public Paypal(String name, String paypalAccountId) {

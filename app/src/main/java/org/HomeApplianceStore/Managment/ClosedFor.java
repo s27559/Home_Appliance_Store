@@ -8,6 +8,10 @@ import java.util.*;
 public class ClosedFor implements Extent {
         private static ArrayList<ClosedFor> closedForEvents = new ArrayList<>();
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/ClosedFor.ser";
+
+        static {
+                loadClosedForEvents();
+        }
         private LocalDate startDate;
         private LocalDate endDate;
         private String reason;

@@ -8,6 +8,10 @@ import java.util.List;
 public class Card extends PaymentMethod implements Extent {
         private static ArrayList<Card> cards = new ArrayList<Card>();
 
+        static {
+                loadCards();
+        }
+
         private String cardNum;
         private String cvv;
         private String ownerName;

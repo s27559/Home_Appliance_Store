@@ -8,6 +8,10 @@ import java.util.List;
 public class PaymentMethod implements Extent {
         private static ArrayList<PaymentMethod> methods = new ArrayList<PaymentMethod>();
 
+        static {
+                loadMethods();
+        }
+
         private String name;
         public PaymentMethod(String name) {
                 this.setName(name);

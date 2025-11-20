@@ -10,6 +10,10 @@ public class Employee implements Extent {
 
         private static ArrayList<Employee> employees = new ArrayList<Employee>();
 
+        static {
+                loadEmployees();
+        }
+
         private BigDecimal bonusPay;
         private long sickDays;
         private long paidLeaveDays;

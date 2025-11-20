@@ -10,6 +10,10 @@ public class Storage implements Extent {
 
     private static ArrayList<Storage> storages = new ArrayList<Storage>();
 
+        static {
+                loadStorage();
+        }
+
     private long inRepairAmmount;
     private long usedStock;
     private long newStock;

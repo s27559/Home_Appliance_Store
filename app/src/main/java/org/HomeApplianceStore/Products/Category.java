@@ -11,6 +11,10 @@ public class Category implements Extent {
 
     private static ArrayList<Category> categories = new ArrayList<>();
 
+        static {
+                loadCategories();
+        }
+
     private String name;
     private ArrayList<Property> properties;
 

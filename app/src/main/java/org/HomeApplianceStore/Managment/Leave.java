@@ -11,6 +11,10 @@ public class Leave implements Extent {
         private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Leave.ser";
         private static ArrayList<Leave> leaves = new ArrayList<>();
 
+        static {
+                loadLeaves();
+        }
+
         private boolean isSick;
         private boolean isPaid;
         private LocalDate startDate;

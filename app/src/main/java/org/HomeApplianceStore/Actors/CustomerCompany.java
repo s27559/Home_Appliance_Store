@@ -14,6 +14,10 @@ public class CustomerCompany extends Customer implements Extent {
     private static ArrayList<CustomerCompany> customerCompanies = new ArrayList<>();
     private static BigDecimal bulkOrderDiscount;
 
+        static {
+                loadCustomerCompanies();
+        }
+
     public CustomerCompany() {
         super();
         addCustomerCompany(this);

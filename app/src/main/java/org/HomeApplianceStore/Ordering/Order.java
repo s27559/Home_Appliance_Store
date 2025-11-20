@@ -10,6 +10,10 @@ import java.util.List;
 public class Order implements Extent {
         private static ArrayList<Order> orders= new ArrayList<Order>();
 
+        static {
+                loadOrders();
+        }
+
         private LocalDate date;
         private boolean paidFor;
         private Boolean readyForPickUp;   // OPTIONAL [0..1]

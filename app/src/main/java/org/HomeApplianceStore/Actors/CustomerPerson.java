@@ -9,6 +9,10 @@ public class CustomerPerson extends Customer implements Extent {
 
         private static ArrayList<CustomerPerson> customerPersons = new ArrayList<>();
 
+        static {
+                loadCustomerPersons();
+        }
+
         private long points;
 
         public CustomerPerson(Person person, long points) {

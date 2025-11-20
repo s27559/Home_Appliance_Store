@@ -13,6 +13,10 @@ public class Customer implements Extent {
 
     private static ArrayList<Customer> customers = new ArrayList<>();
 
+        static {
+                loadCustomers();
+        }
+
     private String name;
     private String email;
     private String address;

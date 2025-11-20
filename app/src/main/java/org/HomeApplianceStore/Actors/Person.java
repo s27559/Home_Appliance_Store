@@ -11,6 +11,10 @@ public class Person implements Extent {
 
         private static ArrayList<Person> persons = new ArrayList<Person>();
 
+        static {
+                loadPersons();
+        }
+
         private String name;
         private String middleName;
         private String surname;

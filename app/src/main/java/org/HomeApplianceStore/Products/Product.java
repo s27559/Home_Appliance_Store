@@ -11,6 +11,10 @@ public class Product implements Extent{
 
     private static ArrayList<Product> products = new ArrayList<Product>();
 
+        static {
+                LoadProducts();
+        }
+
     private static BigDecimal minPrice;
     private String name;
     private String desc;
