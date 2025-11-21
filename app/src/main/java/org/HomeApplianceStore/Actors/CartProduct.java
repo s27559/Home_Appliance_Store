@@ -20,19 +20,13 @@ public class CartProduct implements Extent{
     private long amountNew;
     private long amountUsed;
 
-    private Product product;
 
-    private Customer customer;
-
-    public CartProduct(long amountNew, long amountUsed, Product product, Customer customer) {
+    public CartProduct(long amountNew, long amountUsed) {
         validateAmount(amountNew, "New amount");
         validateAmount(amountUsed, "Used amount");
-        Objects.requireNonNull(product, "Product cannot be null for a cart item.");
 
         this.amountNew = amountNew;
         this.amountUsed = amountUsed;
-        this.product = product;
-        this.customer = customer;
 
         addCartProduct(this);
         saveCartProducts();
@@ -63,23 +57,6 @@ public class CartProduct implements Extent{
         }
     }
 
-    public Product getProduct() {
-        return product;
-    }
-    public void setProduct(Product product) {
-        Objects.requireNonNull(product, "Product cannot be null for a cart item.");
-        this.product = product;
-        saveCartProducts();
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-        saveCartProducts();
-    }
-
     public long getAmountNew() {
         return amountNew;
     }
@@ -103,13 +80,11 @@ public class CartProduct implements Extent{
         if (this == o) return true;
         if (!(o instanceof CartProduct that)) return false;
         return amountNew == that.amountNew &&
-                amountUsed == that.amountUsed &&
-                Objects.equals(product, that.product) &&
-                Objects.equals(customer, that.customer);
+                amountUsed == that.amountUsed;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(product, customer, amountNew, amountUsed);
+        return Objects.hash(amountNew, amountUsed);
     }
 }
