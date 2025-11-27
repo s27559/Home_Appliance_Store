@@ -49,7 +49,7 @@ public class CustomerCompany extends Customer implements Extent {
 
     public static void setBulkOrderDiscount(BigDecimal bulkOrderDiscount) {
         Validation.validateBigDecimal(bulkOrderDiscount, "Bulk Order Discount");
-        this.bulkOrderDiscount = bulkOrderDiscount;
+        CustomerCompany.bulkOrderDiscount = bulkOrderDiscount;
     }
 
     public void delete() {
