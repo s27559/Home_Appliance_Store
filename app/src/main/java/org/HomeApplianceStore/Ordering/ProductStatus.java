@@ -82,11 +82,11 @@ public class ProductStatus implements Extent {
                 this.differenceInPrice = differenceInPrice;
         }
         public static void loadStatuses(){
-                statuses = Extent.loadClassList("./org/HomeApplianceStore/Ordering/ProductStatus.ser");
+                statuses = Extent.loadClassList("ProductStatus.ser");
         }
 
         public static void saveStatuses(){
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/ProductStatus.ser", statuses);
+                Extent.saveClassList("ProductStatus.ser", statuses);
         }
 
         public static List<ProductStatus> getStatuses() {

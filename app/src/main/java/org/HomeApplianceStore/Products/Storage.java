@@ -19,9 +19,9 @@ public class Storage implements Extent {
     private long newStock;
 
     public Storage(long inRepairAmmount, long usedStock, long newStock) {
-        validateStockLevel(inRepairAmmount, "In repair ammount");
-        validateStockLevel(usedStock, "Used stock");
-        validateStockLevel(newStock, "New stock");
+        validateStockLevel(inRepairAmmount);
+        validateStockLevel(usedStock);
+        validateStockLevel(newStock);
 
         this.inRepairAmmount = inRepairAmmount;
         this.usedStock = usedStock;
@@ -30,9 +30,9 @@ public class Storage implements Extent {
         addStorage(this);
         saveStorage();
     }
-    private void validateStockLevel(long value, String name) {
+    private void validateStockLevel(long value) {
         if (value < 0) {
-            throw new IllegalArgumentException(name + " cannot be negative.");
+            throw new IllegalArgumentException();
         }
     }
 
@@ -47,7 +47,7 @@ public class Storage implements Extent {
         return inRepairAmmount;
     }
     public void setInRepairAmmount(long inRepairAmmount) {
-        validateStockLevel(inRepairAmmount, "In repair ammount");
+        validateStockLevel(inRepairAmmount);
         this.inRepairAmmount = inRepairAmmount;
         saveStorage();
     }
@@ -55,7 +55,7 @@ public class Storage implements Extent {
         return usedStock;
     }
     public void setUsedStock(long usedStock) {
-        validateStockLevel(usedStock, "Used stock");
+        validateStockLevel(usedStock);
         this.usedStock = usedStock;
         saveStorage();
     }
@@ -63,7 +63,7 @@ public class Storage implements Extent {
         return newStock;
     }
     public void setNewStock(long newStock) {
-        validateStockLevel(newStock, "New stock");
+        validateStockLevel(newStock);
         this.newStock = newStock;
         saveStorage();
     }

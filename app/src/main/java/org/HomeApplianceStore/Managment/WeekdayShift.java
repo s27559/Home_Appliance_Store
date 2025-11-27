@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class WeekdayShift extends Shift implements Extent {
 
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/WeekdayShift.ser";
+        private static final String FILE_LOCATION = "WeekdayShift.ser";
         private static ArrayList<WeekdayShift> weekdayShifts = new ArrayList<>();
 
         static {

@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Actors;
 
+import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
 
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ public class Customer implements Extent {
 
     private String name;
     private String email;
-    private String address;
+    private Address address;
     private List<CartProduct> cartProducts;
 
-    public Customer(String name, String email, String address) {
+    public Customer(String name, String email, Address address) {
         validateName(name);
         validateEmail(email);
 
@@ -86,10 +87,10 @@ public class Customer implements Extent {
         saveCustomers();
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
         saveCustomers();
     }

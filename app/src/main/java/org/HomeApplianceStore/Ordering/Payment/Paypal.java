@@ -42,11 +42,11 @@ public class Paypal extends PaymentMethod implements Extent {
                 this.paypalAccountId = paypalAccountId.trim();
         }
         public static void loadPaypals(){
-                paypals = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Paypal.ser");
+                paypals = Extent.loadClassList("Paypal.ser");
         }
 
         public static void savePaypals(){
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Payment/Paypal.ser", paypals);
+                Extent.saveClassList("Paypal.ser", paypals);
         }
 
         public static List<Paypal> getPaypals() {

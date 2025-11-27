@@ -11,7 +11,7 @@ public class Store implements Extent {
         private Address locationAddress;
 
         private static ArrayList<Store> stores = new ArrayList<Store>();
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Store.ser";
+        private static final String FILE_LOCATION = "Store.ser";
 
         static {
                 loadStores();

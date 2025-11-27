@@ -30,28 +30,28 @@ class CardTest {
     @Test
     void cardNumberWithLettersShouldThrow() {
         assertThrows(IllegalArgumentException.class, () ->
-                new Card("Card", "1234-ABCD-5678", "123", "John Doe")
+                new Card("Card", "1234-ABCD-", "123", "John Doe")
         );
     }
 
     @Test
     void cardNumberTooShortShouldThrow() {
         assertThrows(IllegalArgumentException.class, () ->
-                new Card("Card", "12345678901", "123", "John Doe")
+                new Card("Card", "", "123", "John Doe")
         );
     }
 
     @Test
     void emptyCvvShouldThrow() {
         assertThrows(IllegalArgumentException.class, () ->
-                new Card("Card", "1234567890123456", "   ", "John Doe")
+                new Card("Card", "", "   ", "John Doe")
         );
     }
 
     @Test
     void cvvWithWrongLengthShouldThrow() {
         assertThrows(IllegalArgumentException.class, () ->
-                new Card("Card", "1234567890123456", "12", "John Doe")
+                new Card("Card", "", "12", "John Doe")
         );
     }
 

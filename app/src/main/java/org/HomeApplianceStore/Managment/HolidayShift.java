@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class HolidayShift extends Shift implements Extent {
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/HolidayShift.ser";
+        private static final String FILE_LOCATION = "HolidayShift.ser";
         private static ArrayList<HolidayShift> holidayShifts = new ArrayList<>();
 
         static {
