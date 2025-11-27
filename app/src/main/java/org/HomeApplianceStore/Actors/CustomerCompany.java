@@ -13,15 +13,14 @@ public class CustomerCompany extends Customer implements Extent {
 
     private static final String FILE_LOCATION = "./org/HomeApplianceStore/Actors/CustomerCompany.ser";
     private static ArrayList<CustomerCompany> customerCompanies = new ArrayList<>();
-    private BigDecimal bulkOrderDiscount;
+    private static BigDecimal bulkOrderDiscount;
 
         static {
                 loadCustomerCompanies();
         }
 
-    public CustomerCompany(String name, String email, Address address, BigDecimal bulkOrderDiscount) {
+    public CustomerCompany(String name, String email, Address address) {
         super(name, email, address);
-        this.bulkOrderDiscount = bulkOrderDiscount;
         addCustomerCompany(this);
         saveCustomerCompanies();
     }
@@ -44,11 +43,11 @@ public class CustomerCompany extends Customer implements Extent {
         }
     }
 
-    public BigDecimal getBulkOrderDiscount() {
+    public static BigDecimal getBulkOrderDiscount() {
         return bulkOrderDiscount;
     }
 
-    public void setBulkOrderDiscount(BigDecimal bulkOrderDiscount) {
+    public static void setBulkOrderDiscount(BigDecimal bulkOrderDiscount) {
         Validation.validateBigDecimal(bulkOrderDiscount, "Bulk Order Discount");
         this.bulkOrderDiscount = bulkOrderDiscount;
     }
