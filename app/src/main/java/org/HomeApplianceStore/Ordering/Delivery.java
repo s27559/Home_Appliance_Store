@@ -90,11 +90,11 @@ public class Delivery implements Extent {
 
         }
         public static void loadDeliveries(){
-                deliveries = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Delivery.ser");
+                deliveries = Extent.loadClassList("Delivery.ser");
         }
 
         public static void saveDeliveries(){
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Delivery.ser", deliveries);
+                Extent.saveClassList("Delivery.ser", deliveries);
         }
 
         public static List<Delivery> getDeliveries() {

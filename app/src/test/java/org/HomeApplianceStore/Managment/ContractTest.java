@@ -14,10 +14,10 @@ import org.HomeApplianceStore.Actors.EmpRole;
 import org.HomeApplianceStore.Actors.Employee;
 
 public class ContractTest {
-    private Contract createContract(LocalDate start, LocalDate end, BigDecimal pay, Employee emp, Store store) throws Exception {
-        Constructor<Contract> constructor = Contract.class.getDeclaredConstructor(LocalDate.class, LocalDate.class, BigDecimal.class, Employee.class, Store.class);
+    private Contract createContract(LocalDate start, LocalDate end, BigDecimal pay) throws Exception {
+        Constructor<Contract> constructor = Contract.class.getDeclaredConstructor(LocalDate.class, LocalDate.class, BigDecimal.class);
         constructor.setAccessible(true);
-        return constructor.newInstance(start, end, pay, emp, store);
+        return constructor.newInstance(start, end, pay);
     }
 
     @Test
@@ -26,11 +26,7 @@ public class ContractTest {
         LocalDate end = LocalDate.of(2025, 1, 1);
         BigDecimal pay = new BigDecimal("5000.00");
 
-        // Dummy dependencies
-        Employee employee = new Employee(BigDecimal.ZERO, 0, 0, 0, EmpRole.CLERK);
-        Store store = new Store(new Address());
-
-        Contract contract = createContract(start, end, pay, employee, store);
+        Contract contract = createContract(start, end, pay);
 
         assertEquals(start, contract.getStartDate());
         assertEquals(end, contract.getEndDate());
@@ -44,10 +40,10 @@ public class ContractTest {
     void testPeriodDaysCalculation() throws Exception {
         LocalDate start = LocalDate.of(2024, 6, 1);
         LocalDate end = LocalDate.of(2024, 6, 11);
-        Employee employee = new Employee(BigDecimal.ZERO, 0, 0, 0, EmpRole.CLERK);
-        Store store = new Store(new Address());
+        BigDecimal uniquePay = new BigDecimal("12345.67"); // Unique identifier for this test
 
-        Contract contract = createContract(start, end, BigDecimal.ZERO, employee, store);
+
+        Contract contract = createContract(start, end, BigDecimal.ZERO);
 
         long expected = 10L;
         assertEquals(expected, contract.getPeriodDays());
@@ -58,10 +54,8 @@ public class ContractTest {
         LocalDate start = LocalDate.of(2024, 2, 1);
         LocalDate end = LocalDate.of(2024, 8, 1);
         BigDecimal uniquePay = new BigDecimal("12345.67"); // Unique identifier for this test
-        Employee employee = new Employee(BigDecimal.ZERO, 0, 0, 0, EmpRole.CLERK);
-        Store store = new Store(new Address());
 
-        Contract contract = createContract(start, end, uniquePay, employee, store);
+        Contract contract = createContract(start, end, uniquePay);
 
         Contract.saveContracts();
 

@@ -40,7 +40,7 @@ public class WeekdayShiftTest {
     @Test
     void testExtentPersistenceRoundTrip() throws Exception {
         BigDecimal uniqueBonus = new BigDecimal("888.88");
-        WeekdayShift shift = new WeekdayShift(uniqueBonus, LocalTime.NOON, LocalTime.MIDNIGHT, DayOfWeek.WEDNESDAY);
+        WeekdayShift shift = new WeekdayShift(uniqueBonus, LocalTime.of(13, 20), LocalTime.of(23, 20), DayOfWeek.WEDNESDAY);
 
         WeekdayShift.saveWeekdayShifts();
 

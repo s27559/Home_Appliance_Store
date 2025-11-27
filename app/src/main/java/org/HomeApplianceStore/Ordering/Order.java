@@ -67,11 +67,11 @@ public class Order implements Extent {
         }
 
         public static void loadOrders(){
-                orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");
+                orders = Extent.loadClassList("Order.ser");
         }
 
         public static void saveOrders(){
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Order.ser", orders);
+                Extent.saveClassList("Order.ser", orders);
         }
 
         public static List<Order> getOrders() {

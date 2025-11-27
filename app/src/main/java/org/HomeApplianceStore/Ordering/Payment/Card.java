@@ -59,11 +59,11 @@ public class Card extends PaymentMethod implements Extent {
                 this.ownerName = ownerName;
         }
         public static void loadCards(){
-                cards = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Card.ser");
+                cards = Extent.loadClassList("Payment/Card.ser");
         }
 
         public static void saveCards(){
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Payment/Card.ser", cards);
+                Extent.saveClassList("Payment/Card.ser", cards);
         }
 
         public static List<Card> getCards() {

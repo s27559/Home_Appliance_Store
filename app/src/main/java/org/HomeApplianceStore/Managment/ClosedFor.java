@@ -7,7 +7,7 @@ import java.util.*;
 
 public class ClosedFor implements Extent {
         private static ArrayList<ClosedFor> closedForEvents = new ArrayList<>();
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/ClosedFor.ser";
+        private static final String FILE_LOCATION = "ClosedFor.ser";
 
         static {
                 loadClosedForEvents();
@@ -23,7 +23,6 @@ public class ClosedFor implements Extent {
             this.endDate = endDate;
             this.reason = reason;
             addClosedForEvent(this);
-            saveClosedForEvents();
         }
 
         public long getPeriodDays() {
@@ -31,9 +30,10 @@ public class ClosedFor implements Extent {
         }
 
         private static void addClosedForEvent(ClosedFor event) {
-            if(!closedForEvents.contains(event))
-                    closedForEvents.add(event);
-            saveClosedForEvents();
+            if(!closedForEvents.contains(event)){
+                closedForEvents.add(event);
+                saveClosedForEvents();
+            }
         }
 
         public LocalDate getStartDate() {

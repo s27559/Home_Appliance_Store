@@ -33,11 +33,11 @@ public class PaymentMethod implements Extent {
                 this.name = name;
         }
         public static void loadMethods(){
-                methods = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/PaymentMethod.ser");
+                methods = Extent.loadClassList("PaymentMethod.ser");
         }
 
         public static void saveMethods(){
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Payment/PaymentMethod.ser", methods);
+                Extent.saveClassList("PaymentMethod.ser", methods);
         }
 
         public static List<PaymentMethod> getMethods() {

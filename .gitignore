@@ -334,3 +334,4 @@ build
 # mein
 .idea/
 .idea/workspace.xml
+*.ser

@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Actors;
 
+import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
 
 import java.util.ArrayList;
@@ -15,8 +16,9 @@ public class CustomerPerson extends Customer implements Extent {
 
         private long points;
 
-        public CustomerPerson(Person person, long points) {
-                this.setPoints(points);
+        public CustomerPerson(long points, String name, String email, Address address) {
+            super(name, email, address);
+            this.setPoints(points);
                 addCustomerPerson(this);
         }
 

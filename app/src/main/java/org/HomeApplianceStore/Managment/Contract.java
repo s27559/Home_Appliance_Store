@@ -11,7 +11,7 @@ import org.HomeApplianceStore.Extent;
 
 public class Contract implements Extent {
         private static ArrayList<Contract> contracts = new ArrayList<>();
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Contract.ser";
+        private static final String FILE_LOCATION = "Contract.ser";
 
         static {
                 loadContracts();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Leave implements Extent {
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Leave.ser";
+        private static final String FILE_LOCATION = "Leave.ser";
         private static ArrayList<Leave> leaves = new ArrayList<>();
 
         static {

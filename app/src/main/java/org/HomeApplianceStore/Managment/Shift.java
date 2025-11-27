@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class Shift implements Extent {
         private static ArrayList<Shift> shifts = new ArrayList<>();
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Shift.ser";
+        private static final String FILE_LOCATION = "Shift.ser";
 
         static {
                 loadShiftEvents();

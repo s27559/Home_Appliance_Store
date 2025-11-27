@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
 import org.HomeApplianceStore.Managment.Validation; // Validation sınıfını kullanıyoruz
 
@@ -12,14 +13,15 @@ public class CustomerCompany extends Customer implements Extent {
 
     private static final String FILE_LOCATION = "./org/HomeApplianceStore/Actors/CustomerCompany.ser";
     private static ArrayList<CustomerCompany> customerCompanies = new ArrayList<>();
-    private static BigDecimal bulkOrderDiscount;
+    private BigDecimal bulkOrderDiscount;
 
         static {
                 loadCustomerCompanies();
         }
 
-    public CustomerCompany() {
-        super();
+    public CustomerCompany(String name, String email, Address address, BigDecimal bulkOrderDiscount) {
+        super(name, email, address);
+        this.bulkOrderDiscount = bulkOrderDiscount;
         addCustomerCompany(this);
         saveCustomerCompanies();
     }
@@ -42,13 +44,13 @@ public class CustomerCompany extends Customer implements Extent {
         }
     }
 
-    public static BigDecimal getBulkOrderDiscount() {
+    public BigDecimal getBulkOrderDiscount() {
         return bulkOrderDiscount;
     }
 
-    public static void setBulkOrderDiscount(BigDecimal bulkOrderDiscount) {
+    public void setBulkOrderDiscount(BigDecimal bulkOrderDiscount) {
         Validation.validateBigDecimal(bulkOrderDiscount, "Bulk Order Discount");
-        CustomerCompany.bulkOrderDiscount = bulkOrderDiscount;
+        this.bulkOrderDiscount = bulkOrderDiscount;
     }
 
     public void delete() {
@@ -61,11 +63,11 @@ public class CustomerCompany extends Customer implements Extent {
         if (this == o) return true;
         if (!(o instanceof CustomerCompany)) return false;
         CustomerCompany that = (CustomerCompany) o;
-        return false;
+        return Objects.equals(bulkOrderDiscount, that.bulkOrderDiscount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode());
+        return Objects.hash(super.hashCode(), bulkOrderDiscount);
     }
 }
