@@ -5,13 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.HomeApplianceStore.Address;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-
 public class CustomerCompanyTest {
 
         @Test
         void testCorrectness(){
-            CustomerCompany customerCompany = new CustomerCompany("nanme", "email@", new Address(), new BigDecimal("0.10"));
+            CustomerCompany customerCompany = new CustomerCompany("nanme", "email@", new Address());
 
                 assertTrue(CustomerCompany.getCustomerCompanies().contains(customerCompany));
         }
