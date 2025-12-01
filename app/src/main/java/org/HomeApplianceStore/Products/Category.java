@@ -2,12 +2,12 @@ package org.HomeApplianceStore.Products;
 
 import org.HomeApplianceStore.Extent;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Category implements Extent {
+
+    private Category parentCategory;
+    private Set<Category> subCategories = new HashSet<>();
 
     private static ArrayList<Category> categories = new ArrayList<>();
 
@@ -16,15 +16,22 @@ public class Category implements Extent {
         }
 
     private String name;
-    private ArrayList<Property> properties;
+    private Set<Property<?>> requiredProperties = new HashSet<>();
 
-    public Category(String name, ArrayList<Property> properties) {
+    public Category(String name, ArrayList<Property<?>> initialProperties) {
         Objects.requireNonNull(name, "Category name cannot be null");
         if (name.trim().isEmpty()) {
             throw new IllegalArgumentException("Category name cannot be null or empty");
         }
+        if (initialProperties != null) {
+            for (Property<?> property : initialProperties) {
+                if (property.getValue() != null) {
+                    throw new IllegalArgumentException("Category properties must be templates (value must be null)");
+                }
+            }
+            this.requiredProperties.addAll(initialProperties);
+        }
         this.name = name;
-        this.properties = properties;
 
         addCategory(this);
         Category.saveCategories();
@@ -46,22 +53,49 @@ public class Category implements Extent {
         this.name = name;
         Category.saveCategories();
     }
-    public List<Property> getProperties() {
-        return (properties == null) ? null : Collections.unmodifiableList(properties);
+    public Set<Property<?>> getRequiredProperties() {
+        return Collections.unmodifiableSet(requiredProperties);
     }
-    public void setProperties(ArrayList<Property> properties) {
-        this.properties = properties;
+    public void setProperties(Set<Property<?>> newProperties) {
+        if (newProperties != null) {
+            for  (Property<?> property : newProperties) {
+                if (property.getValue() != null) {
+                    throw new IllegalArgumentException("Category properties must be templates (value must be null)");
+                }
+            }
+            this.requiredProperties = newProperties;
+        } else {
+            this.requiredProperties = new HashSet<>();
+        }
         Category.saveCategories();
     }
-
+    public void addRequiredProperty(Property<?> property) {
+        Objects.requireNonNull(property, "Property cannot be null.");
+        if (property.getValue() != null) {
+            throw new IllegalArgumentException("Category property must be a template (value must be null).");
+        }
+        this.requiredProperties.add(property);
+        Category.saveCategories();
+    }
+    public void removeRequiredProperty(Property<?> property) {
+        Objects.requireNonNull(property, "Property cannot be null.");
+        this.requiredProperties.remove(property);
+        Category.saveCategories();
+    }
     public static void loadCategories(){
         if(categories.isEmpty()){
             categories = Extent.loadClassList("./org/HomeApplianceStore/Products/Category.ser");
         }
     }
-
     public static void saveCategories(){
         Extent.saveClassList("./org/HomeApplianceStore/Products/Category.ser", categories);
+    }
+
+    public Category getParentCategory() {
+        return parentCategory;
+    }
+    public Set<Category> getSubCategories() {
+        return Collections.unmodifiableSet(this.subCategories);
     }
 
     public static List<Category> getCategories() {

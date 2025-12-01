@@ -1,10 +1,6 @@
 package org.HomeApplianceStore.Products;
 
-import org.HomeApplianceStore.Extent;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Property<T extends Serializable> implements Serializable{
@@ -13,6 +9,9 @@ public class Property<T extends Serializable> implements Serializable{
 
     public Property(String typeName, T value) {
         validateTypeName(typeName);
+        if (value!=null) {
+            validateValue(value);
+        }
         validateValue(value);
 
         this.typeName = typeName;
@@ -25,12 +24,10 @@ public class Property<T extends Serializable> implements Serializable{
         }
     }
     private void validateValue(T value) {
-        Objects.requireNonNull(value, "Property value cannot be null.");
         if (value.equals("")) {
             throw new IllegalArgumentException("Property value cannot be empty.");
         }
     }
-
     public String getTypeName() {
         return typeName;
     }
@@ -49,13 +46,11 @@ public class Property<T extends Serializable> implements Serializable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Property)) return false;
-        Property property = (Property) o;
-        return Objects.equals(getTypeName(), property.getTypeName()) &&
-                Objects.equals(getValue(), property.getValue());
+        if (!(o instanceof Property<?> property)) return false;
+        return Objects.equals(getTypeName(), property.getTypeName());
     }
     @Override
     public int hashCode() {
-        return Objects.hash(getTypeName(), getValue());
+        return Objects.hash(getTypeName());
     }
 }
