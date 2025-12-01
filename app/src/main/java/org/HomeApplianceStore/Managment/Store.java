@@ -3,11 +3,10 @@ package org.HomeApplianceStore.Managment;
 import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Store implements Extent {
+        private Set<ClosedFor> _closedForEvents = new HashSet<>(); // COlelction to hold the 'Many' side of the association
         private Address locationAddress;
 
         private static ArrayList<Store> stores = new ArrayList<Store>();
@@ -40,6 +39,40 @@ public class Store implements Extent {
                 saveStore();
         }
 
+        // ClosedFor association methods Store 1 <-> * ClosedFor
+        // Getter for ClosedFor events
+        public Set<ClosedFor> getClosedForEvents() {
+                return Collections.unmodifiableSet(_closedForEvents);
+        }
+        // Adds a ClosedFor event to the Store
+        public void  addClosedForEvent(ClosedFor event){
+            if (event == null) {
+                throw new IllegalArgumentException("ClosedFor event cannot be null.");
+            }
+            if (!_closedForEvents.contains(event)) {
+                _closedForEvents.add(event);
+
+                if (event.getStore() != this) {
+                    event.setStore(this);
+                }
+                saveStore(); // Persist changes
+            }
+        }
+        // Removes a ClosedFor event from the Store
+        public void removeClosedFor(ClosedFor event) {
+            if (event == null) return;
+
+            if (_closedForEvents.contains(event)) {
+                _closedForEvents.remove(event);
+
+                if (event.getStore() == this) {
+                    event.delete(); // This removes the event from the extent
+                }
+                saveStore();
+            }
+        }
+
+        // extent methods
         public static void loadStores(){
             stores = Extent.loadClassList(FILE_LOCATION);
         }
@@ -52,9 +85,13 @@ public class Store implements Extent {
                 return Extent.getImmutableClassList(stores);
         }
 
+        // updated for deleting all associated ClosedFor events
         public void delete(){
-                stores.remove(this);
-                saveStore();
+            for (ClosedFor event : new ArrayList<>(_closedForEvents)) {
+                removeClosedFor(event);
+            }
+            stores.remove(this);
+            saveStore();
         }
 
         @Override
