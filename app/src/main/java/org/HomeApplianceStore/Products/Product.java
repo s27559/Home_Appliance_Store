@@ -15,6 +15,7 @@ public class Product implements Extent{
 
     private Category category;
     private Set<Property<?>> properties = new HashSet<>();
+    private Set<Storage> storageRecords = new HashSet<>();
 
     private static BigDecimal minPrice;
     private String name;
@@ -114,6 +115,19 @@ public class Product implements Extent{
         if(!products.contains(product)){
             products.add(product);
         }
+    }
+    public Set<Storage> getStorageRecords() {
+        return Collections.unmodifiableSet(storageRecords);
+    }
+    public void addStorage(Storage storage) {
+        Objects.requireNonNull(storage, "Storage record cannot be null.");
+        storageRecords.add(storage);
+        saveProducts();
+    }
+    void removeStorageReverse(Storage storage) {
+        Objects.requireNonNull(storage, "Storage record cannot be null.");
+        storageRecords.remove(storage);
+        saveProducts();
     }
     public Category getCategory() {
         return category;
