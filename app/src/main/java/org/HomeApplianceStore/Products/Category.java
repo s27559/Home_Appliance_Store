@@ -51,7 +51,7 @@ public class Category implements Extent {
     public Set<Property<?>> getRequiredProperties() {
         return Collections.unmodifiableSet(requiredProperties);
     }
-    public void setProperties(Set<Property<?>> newProperties) {
+    private void setProperties(Set<Property<?>> newProperties) {
         if (newProperties != null) {
             for  (Property<?> property : newProperties) {
                 if (property.getValue() != null) {
