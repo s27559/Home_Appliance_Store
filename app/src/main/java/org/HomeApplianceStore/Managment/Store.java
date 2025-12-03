@@ -2,10 +2,9 @@ package org.HomeApplianceStore.Managment;
 
 import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Products.Storage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Store implements Extent {
         private Address locationAddress;
@@ -16,6 +15,8 @@ public class Store implements Extent {
         static {
                 loadStores();
         }
+
+        private Set<Storage> storageRecords = new HashSet<Storage>();
 
         public Store(Address locationAddress){
                 Objects.requireNonNull(locationAddress, "Missing Address object.");
@@ -38,6 +39,22 @@ public class Store implements Extent {
                 Objects.requireNonNull(locationAddress, "Address cannot be null.");
                 this.locationAddress = locationAddress;
                 saveStore();
+        }
+
+        public Set<Storage> getStorageRecords() {
+            return Collections.unmodifiableSet(storageRecords);
+        }
+
+        public void addStorage(Storage storage) {
+            Objects.requireNonNull(storage, "Storage record cannot be null.");
+            this.storageRecords.add(storage);
+            saveStore();
+        }
+
+        public void removeStorageReverse(Storage storage) {
+            Objects.requireNonNull(storage, "Storage record cannot be null.");
+            this.storageRecords.remove(storage);
+            saveStore();
         }
 
         public static void loadStores(){
