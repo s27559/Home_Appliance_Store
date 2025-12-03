@@ -25,11 +25,6 @@ public class Category implements Extent {
             throw new IllegalArgumentException("Category name cannot be null or empty");
         }
         if (initialProperties != null) {
-            for (Property<?> property : initialProperties) {
-                if (property.getValue() != null) {
-                    throw new IllegalArgumentException("Category properties must be templates (value must be null)");
-                }
-            }
             this.requiredProperties.addAll(initialProperties);
         }
         this.name = name;
