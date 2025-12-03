@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Managment;
 
+import org.HomeApplianceStore.Actors.Employee;
 import org.HomeApplianceStore.Extent;
 
 import java.math.BigDecimal;
@@ -21,8 +22,8 @@ public class HolidayShift extends Shift implements Extent {
         private LocalDate startDate;
         private LocalDate endDate;
 
-        public HolidayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, LocalDate startDate, LocalDate endDate) {
-                super(bonusPay, openTime, closeTime);
+        public HolidayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, LocalDate startDate, LocalDate endDate, Store store, Employee employee) {
+                super(bonusPay, openTime, closeTime, store, employee);
                 Validation.validateDates(startDate, endDate);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 this.startDate = startDate;
