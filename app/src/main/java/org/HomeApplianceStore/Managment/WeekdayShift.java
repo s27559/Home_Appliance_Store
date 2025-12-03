@@ -21,8 +21,8 @@ public class WeekdayShift extends Shift implements Extent {
 
         private DayOfWeek weekday;
 
-        public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday, Store store, Employee employee) {
-                super(bonusPay, openTime, closeTime, store, employee);
+        public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday, Store store) {
+                super(bonusPay, openTime, closeTime, store);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 Objects.requireNonNull(weekday);
                 this.weekday = weekday;
@@ -59,6 +59,7 @@ public class WeekdayShift extends Shift implements Extent {
         }
 
         public void delete() {
+                super.delete();
                 weekdayShifts.remove(this);
                 saveWeekdayShifts();
         }

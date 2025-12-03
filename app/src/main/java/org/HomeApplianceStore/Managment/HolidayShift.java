@@ -22,8 +22,8 @@ public class HolidayShift extends Shift implements Extent {
         private LocalDate startDate;
         private LocalDate endDate;
 
-        public HolidayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, LocalDate startDate, LocalDate endDate, Store store, Employee employee) {
-                super(bonusPay, openTime, closeTime, store, employee);
+        public HolidayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, LocalDate startDate, LocalDate endDate, Store store) {
+                super(bonusPay, openTime, closeTime, store);
                 Validation.validateDates(startDate, endDate);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 this.startDate = startDate;
@@ -78,6 +78,7 @@ public class HolidayShift extends Shift implements Extent {
         }
 
         public void delete() {
+                super.delete();
                 holidayShifts.remove(this);
                 saveHolidayShifts();
         }

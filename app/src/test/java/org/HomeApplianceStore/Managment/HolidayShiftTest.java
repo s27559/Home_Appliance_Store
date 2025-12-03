@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Managment;
 
+import org.HomeApplianceStore.Address;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
@@ -11,6 +12,10 @@ import java.util.List;
 
 public class HolidayShiftTest {
 
+    private Store createDummyStore() {
+        return new Store(new Address());
+    }
+
     @Test
     void testConstructorSetsAttributesAndAddsToExtent() {
         BigDecimal bonus = new BigDecimal("100.00");
@@ -18,14 +23,16 @@ public class HolidayShiftTest {
         LocalTime close = LocalTime.of(17, 0);
         LocalDate start = LocalDate.of(2024, 12, 24);
         LocalDate end = LocalDate.of(2024, 12, 26);
+        Store store = createDummyStore();
 
-        HolidayShift shift = new HolidayShift(bonus, open, close, start, end);
+        HolidayShift shift = new HolidayShift(bonus, open, close, start, end, store);
 
         assertEquals(bonus, shift.getBonusPay());
         assertEquals(open, shift.getOpenTime());
         assertEquals(close, shift.getCloseTime());
         assertEquals(start, shift.getStartDate());
         assertEquals(end, shift.getEndDate());
+        assertEquals(store, shift.getStore());
 
         List<HolidayShift> extent = HolidayShift.getHolidayShifts();
         assertTrue(extent.contains(shift));
@@ -35,7 +42,9 @@ public class HolidayShiftTest {
     void testPeriodDaysCalculation() {
         LocalDate start = LocalDate.of(2024, 1, 1);
         LocalDate end = LocalDate.of(2024, 1, 5);
-        HolidayShift shift = new HolidayShift(BigDecimal.ZERO, LocalTime.NOON, LocalTime.NOON, start, end);
+        Store store = createDummyStore();
+
+        HolidayShift shift = new HolidayShift(BigDecimal.ZERO, LocalTime.NOON, LocalTime.NOON, start, end, store);
 
         long expected = 4L;
         assertEquals(expected, shift.getPeriodDays());
@@ -44,7 +53,9 @@ public class HolidayShiftTest {
     @Test
     void testExtentPersistenceRoundTrip() throws Exception {
         BigDecimal uniqueBonus = new BigDecimal("999.99");
-        HolidayShift shift = new HolidayShift(uniqueBonus, LocalTime.MIN, LocalTime.MAX, LocalDate.now(), LocalDate.now().plusDays(1));
+        Store store = createDummyStore();
+
+        HolidayShift shift = new HolidayShift(uniqueBonus, LocalTime.MIN, LocalTime.MAX, LocalDate.now(), LocalDate.now().plusDays(1), store);
 
         HolidayShift.saveHolidayShifts();
 
