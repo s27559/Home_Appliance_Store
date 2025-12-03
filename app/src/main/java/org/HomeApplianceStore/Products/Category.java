@@ -66,9 +66,6 @@ public class Category implements Extent {
     }
     public void addRequiredProperty(Property<?> property) {
         Objects.requireNonNull(property, "Property cannot be null.");
-        if (property.getValue() != null) {
-            throw new IllegalArgumentException("Category property must be a template (value must be null).");
-        }
         this.requiredProperties.add(property);
         Category.saveCategories();
     }
