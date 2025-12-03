@@ -16,12 +16,11 @@ public class ClosedForTest {
         String reason = "Renovation";
         ArrayList<Store> stores = new ArrayList<>();
 
-        ClosedFor event = new ClosedFor(start, end, reason, stores);
+        ClosedFor event = new ClosedFor(start, end, reason);
 
         assertEquals(reason, event.getReason());
         assertEquals(start, event.getStartDate());
         assertEquals(end, event.getEndDate());
-        assertSame(stores, event.getStores());
         List<ClosedFor> extent = ClosedFor.getClosedForEvents();
         assertTrue(extent.contains(event));
     }
@@ -31,7 +30,7 @@ public class ClosedForTest {
         LocalDate start = LocalDate.of(2024, 5, 10);
         LocalDate end = LocalDate.of(2024, 5, 20);
 
-        ClosedFor event = new ClosedFor(start, end, "Inventory", new ArrayList<>());
+        ClosedFor event = new ClosedFor(start, end, "Inventory");
 
         long expected = 10L;
         assertEquals(expected, event.getPeriodDays());
@@ -43,7 +42,7 @@ public class ClosedForTest {
         LocalDate end = LocalDate.of(2024, 6, 5); // end before start
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new ClosedFor(start, end, "Invalid range", new ArrayList<>());
+            new ClosedFor(start, end, "Invalid range");
         });
     }
 
@@ -52,7 +51,8 @@ public class ClosedForTest {
         LocalDate start = LocalDate.of(2024, 7, 1);
         LocalDate end = LocalDate.of(2024, 7, 2);
         String uniqueReason = "PersistTest-" + System.currentTimeMillis();
-        ClosedFor event = new ClosedFor(start, end, uniqueReason, new ArrayList<>());
+
+        ClosedFor event = new ClosedFor(start, end, uniqueReason);
 
         ClosedFor.saveClosedForEvents();
 

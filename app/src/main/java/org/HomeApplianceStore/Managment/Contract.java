@@ -11,23 +11,64 @@ import org.HomeApplianceStore.Extent;
 
 public class Contract implements Extent {
         private static ArrayList<Contract> contracts = new ArrayList<>();
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/Contract.ser";
+        private static final String FILE_LOCATION = "Contract.ser";
+
+        static {
+                loadContracts();
+        }
 
         private LocalDate startDate;
         private LocalDate endDate;
         private BigDecimal pay;
         // periodDays
 
-        public Contract(LocalDate startDate, LocalDate endDate, BigDecimal pay) {
+        // Associations
+        private Employee employee;
+        private  Store store;
+
+        public Contract(LocalDate startDate, LocalDate endDate, BigDecimal pay, Employee employee, Store store) {
+            Objects.requireNonNull(employee, "Employee cannot be null");
+            Objects.requireNonNull(store, "Store cannot be null");
             Validation.validateDates(startDate, endDate);
             Validation.validateBigDecimal(pay, "Pay");
             this.startDate = startDate;
             this.endDate = endDate;
             this.pay = pay;
+            this.employee = employee;
+            this.employee.addContract(this);
+            this.store = store;
+            this.store.addContract(this);
+
             addContract(this);
             saveContracts();
         }
 
+        // Association Setters
+        public void setStore(Store newStore) {
+            Objects.requireNonNull(newStore);
+            if (this.store != newStore) {
+                if (this.store != null) this.store.removeContract(this);
+                this.store = newStore;
+                this.store.addContract(this);
+                saveContracts();
+            }
+        }
+
+        public Store getStore() { return store; }
+
+        public void setEmployee(Employee newEmployee) {
+            Objects.requireNonNull(newEmployee);
+            if (this.employee != newEmployee) {
+                if (this.employee != null) this.employee.removeContract(this); // Requires removeContract in Employee
+                this.employee = newEmployee;
+                this.employee.addContract(this);
+                saveContracts();
+            }
+        }
+
+        public Employee getEmployee() { return employee; }
+
+        // Getters and Setters
         public long getPeriodDays() {
                 return startDate.until(endDate).getDays();
         }
@@ -81,8 +122,16 @@ public class Contract implements Extent {
         }
 
         public void delete() {
-                contracts.remove(this);
-                saveContracts();
+            if(this.store != null) {
+                this.store.removeContract(this);
+                this.store = null;
+            }
+            if(this.employee != null) {
+                this.employee.removeContract(this);
+                this.employee = null;
+            }
+            contracts.remove(this);
+            saveContracts();
         }
 
         @Override
@@ -92,11 +141,13 @@ public class Contract implements Extent {
             Contract other = (Contract) o;
             return Objects.equals(startDate, other.startDate)
                     && Objects.equals(endDate, other.endDate)
-                    && Objects.equals(pay, other.pay);
+                    && Objects.equals(pay, other.pay)
+                    && Objects.equals(employee, other.employee)
+                    && Objects.equals(store, other.store);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(startDate, endDate, pay);
+            return Objects.hash(startDate, endDate, pay, employee, store);
         }
 }

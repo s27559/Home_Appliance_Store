@@ -7,6 +7,11 @@ import java.util.List;
 
 public class Blik extends PaymentMethod implements Extent {
         private static ArrayList<Blik> bliks = new ArrayList<Blik>();
+
+        static {
+                loadBliks();
+        }
+
         private String code;
         private String transactionId;
 
@@ -50,11 +55,11 @@ public class Blik extends PaymentMethod implements Extent {
         }
 
         public static void loadBliks(){
-                bliks = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Blik.ser");
+                bliks = Extent.loadClassList("Blik.ser");
         }
 
         public static void saveBliks(){
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Payment/Blik.ser", bliks);
+                Extent.saveClassList("Blik.ser", bliks);
         }
 
         public static List<Blik> getBliks() {

@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Actors;
 
+import org.HomeApplianceStore.Address;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -20,9 +21,8 @@ class CustomerPersonTest {
 
     @Test
     void creatingValidCustomerPersonShouldSucceed() {
-        Person person = createSamplePerson();
 
-        CustomerPerson customer = new CustomerPerson(person, 100L);
+        CustomerPerson customer = new CustomerPerson(100L, "name", "email@", new Address());
 
         assertEquals(100L, customer.getPoints());
     }
@@ -32,20 +32,20 @@ class CustomerPersonTest {
         Person person = createSamplePerson();
 
         assertThrows(IllegalArgumentException.class, () ->
-                new CustomerPerson(person, -1L)
+                new CustomerPerson(-100L, "name", "email@", new Address())
         );
     }
 
     @Test
     void nullPersonShouldThrow() {
         assertThrows(IllegalArgumentException.class, () ->
-                new CustomerPerson(null, 0L)
+                new CustomerPerson(0L, "name", "", new Address())
         );
     }
 
     @Test
     void setPointsShouldValidate() {
-        CustomerPerson customer = new CustomerPerson(createSamplePerson(), 0L);
+        CustomerPerson customer = new CustomerPerson(100L, "name", "email@", new Address());
 
         assertThrows(IllegalArgumentException.class, () ->
                 customer.setPoints(-5L)
@@ -59,7 +59,7 @@ class CustomerPersonTest {
     void extentShouldUpdateAndBeImmutableForCustomerPerson() {
         int sizeBefore = CustomerPerson.getCustomerPersons().size();
 
-        CustomerPerson customer = new CustomerPerson(createSamplePerson(), 5L);
+        CustomerPerson customer = new CustomerPerson(5L, "name", "email@", new Address());
 
         int sizeAfterCreate = CustomerPerson.getCustomerPersons().size();
         assertEquals(sizeBefore + 1, sizeAfterCreate);

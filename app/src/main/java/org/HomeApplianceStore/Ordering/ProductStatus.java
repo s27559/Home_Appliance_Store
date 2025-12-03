@@ -11,6 +11,10 @@ public class ProductStatus implements Extent {
 
         private static ArrayList<ProductStatus> statuses = new ArrayList<>();
 
+        static {
+                loadStatuses();
+        }
+
         private long ammountNew;
         private long ammountUsed;
         private boolean toBeMoved;

@@ -10,6 +10,10 @@ public class PaymentMethod implements Extent {
 
         private static ArrayList<PaymentMethod> methods = new ArrayList<>();
 
+        static {
+                loadMethods();
+        }
+
         private String name;
         private List<Order> orders = new ArrayList<>();
 

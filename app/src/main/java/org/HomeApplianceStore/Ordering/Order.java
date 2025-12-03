@@ -7,10 +7,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Order implements Extent {
 
         private static ArrayList<Order> orders = new ArrayList<>();
+
+        static {
+                loadOrders();
+        }
 
         private LocalDate date;
         private boolean paidFor;
@@ -61,8 +66,8 @@ public class Order implements Extent {
                 this.paidFor = paidFor;
         }
 
-        public Boolean getReadyForPickUp() {
-                return readyForPickUp;
+        public Optional<Boolean> getReadyForPickUp() {
+                return Optional.of(readyForPickUp);
         }
 
         public void setReadyForPickUp(Boolean readyForPickUp) {

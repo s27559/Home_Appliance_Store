@@ -10,19 +10,27 @@ public class Employee implements Extent {
 
         private static ArrayList<Employee> employees = new ArrayList<Employee>();
 
+        static {
+                loadEmployees();
+        }
+
         private BigDecimal bonusPay;
         private long sickDays;
         private long paidLeaveDays;
         private long unpaidLeaveDays;
         private EmpRole role;
 
-        public Employee(Person person,
-                        BigDecimal bonusPay,
+        public Employee(BigDecimal bonusPay,
                         long sickDays,
                         long paidLeaveDays,
                         long unpaidLeaveDays,
                         EmpRole role ) {
-
+                if (bonusPay == null) {
+                    throw new IllegalArgumentException("Bonus pay cannot be null");
+                }
+                if (role == null) {
+                    throw new IllegalArgumentException("Role cannot be null");
+                }
                 this.setBonusPay(bonusPay);
                 this.setSickDays(sickDays);
                 this.setPaidLeaveDays(paidLeaveDays);

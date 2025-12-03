@@ -5,31 +5,46 @@ import org.HomeApplianceStore.Extent;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Sale implements Extent {
 
     private static ArrayList<Sale> sales = new ArrayList<Sale>();
+
+        static {
+                loadSales();
+        }
 
     private String name;
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal amount;
 
-    public Sale(String name, LocalDate startDate, LocalDate endDate, BigDecimal amount) {
+    private Set<Product> products = new HashSet<>();
+
+    public Sale(String name, LocalDate startDate, LocalDate endDate, BigDecimal amount, Set<Product> initialProducts) {
         validateName(name);
         validateDates(startDate,  endDate);
         validateAmount(amount);
+        validateProducts(initialProducts);
 
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.amount = amount.setScale(2,  RoundingMode.HALF_UP);
 
+        for (Product p : products) {
+            addProduct(p);
+        }
+
         addSale(this);
         saveSales();
+    }
+    private void validateProducts(Set<Product> products) {
+        Objects.requireNonNull(products, "Sale must be associated with at least one product (1..*).");
+        if (products.isEmpty()) {
+            throw new IllegalArgumentException("Sale must be associated with at least one product (1..*).");
+        }
     }
     private void validateName(String name) {
         Objects.requireNonNull(name, "Sale name cannot be null.");
@@ -55,7 +70,40 @@ public class Sale implements Extent {
             sales.add(sale);
         }
     }
+    public Set<Product> getProducts() {
+        return Collections.unmodifiableSet(products);
+    }
+    public void addProduct(Product product) {
+        Objects.requireNonNull(product, "Product to add cannot be null.");
+        if (products.contains(product)) {
+            return;
+        }
 
+        products.add(product);
+        product.addSaleReverse(this);
+        saveSales();
+    }
+    public void removeProduct(Product product) {
+        Objects.requireNonNull(product, "Product to remove cannot be null.");
+
+        if (products.size() == 1 && products.contains(product)) {
+            throw new IllegalStateException("Cannot remove the last product. Sale must be associated with at least one product (1..*).");
+        }
+
+        if (products.remove(product)) {
+            product.removeSaleReverse(this);
+            saveSales();
+        }
+    }
+    void addProductReverse(Product product) {
+        products.add(product);
+        saveSales();
+    }
+
+    void removeProductReverse(Product product) {
+        products.remove(product);
+        saveSales();
+    }
     public String getName() {
         return name;
     }

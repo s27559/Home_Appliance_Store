@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
 import org.HomeApplianceStore.Managment.Validation; // Validation sınıfını kullanıyoruz
 
@@ -14,8 +15,12 @@ public class CustomerCompany extends Customer implements Extent {
     private static ArrayList<CustomerCompany> customerCompanies = new ArrayList<>();
     private static BigDecimal bulkOrderDiscount;
 
-    public CustomerCompany() {
-        super();
+        static {
+                loadCustomerCompanies();
+        }
+
+    public CustomerCompany(String name, String email, Address address) {
+        super(name, email, address);
         addCustomerCompany(this);
         saveCustomerCompanies();
     }
@@ -57,11 +62,11 @@ public class CustomerCompany extends Customer implements Extent {
         if (this == o) return true;
         if (!(o instanceof CustomerCompany)) return false;
         CustomerCompany that = (CustomerCompany) o;
-        return false;
+        return Objects.equals(bulkOrderDiscount, that.bulkOrderDiscount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode());
+        return Objects.hash(super.hashCode(), bulkOrderDiscount);
     }
 }

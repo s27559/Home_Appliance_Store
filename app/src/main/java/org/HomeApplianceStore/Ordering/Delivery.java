@@ -12,6 +12,10 @@ public class Delivery implements Extent {
 
         private static ArrayList<Delivery> deliveries = new ArrayList<>();
 
+        static {
+                loadDeliveries();
+        }
+
         private LocalDate sendDate;
         private LocalDate receiveDate;
         private BigDecimal cost;
@@ -114,20 +118,12 @@ public class Delivery implements Extent {
         public Order getOrder() {
                 return order;
         }
-
-        // package-private – used from Order.addDelivery / removeDelivery
-        void setOrder(Order order) {
-                this.order = order;
+        public static void loadDeliveries(){
+                deliveries = Extent.loadClassList("Delivery.ser");
         }
 
-        // extent handling
-
-        public static void loadDeliveries() {
-                deliveries = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Delivery.ser");
-        }
-
-        public static void saveDeliveries() {
-                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Delivery.ser", deliveries);
+        public static void saveDeliveries(){
+                Extent.saveClassList("Delivery.ser", deliveries);
         }
 
         public static List<Delivery> getDeliveries() {

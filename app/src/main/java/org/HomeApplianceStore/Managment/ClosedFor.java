@@ -7,19 +7,26 @@ import java.util.*;
 
 public class ClosedFor implements Extent {
         private static ArrayList<ClosedFor> closedForEvents = new ArrayList<>();
-        private static final String FILE_LOCATION = "./org/HomeApplianceStore/Managment/ClosedFor.ser";
+        private static final String FILE_LOCATION = "ClosedFor.ser";
+
+        static {
+                loadClosedForEvents();
+        }
         private LocalDate startDate;
         private LocalDate endDate;
         private String reason;
+        private Store store;
         // periodDays;
-    public ClosedFor(LocalDate startDate, LocalDate endDate, String reason){
+    public ClosedFor(LocalDate startDate, LocalDate endDate, String reason, Store store) {
+            Objects.requireNonNull(store, "Store cannot be null");
             Validation.validateDates(startDate, endDate);
             Validation.validateString(reason, "Reason");
             this.startDate = startDate;
             this.endDate = endDate;
             this.reason = reason;
+            this.store = store;
+            this.store.addClosedForEvent(this);
             addClosedForEvent(this);
-            saveClosedForEvents();
         }
 
         public long getPeriodDays() {
@@ -27,9 +34,10 @@ public class ClosedFor implements Extent {
         }
 
         private static void addClosedForEvent(ClosedFor event) {
-            if(!closedForEvents.contains(event))
-                    closedForEvents.add(event);
-            saveClosedForEvents();
+            if(!closedForEvents.contains(event)){
+                closedForEvents.add(event);
+                saveClosedForEvents();
+            }
         }
 
         public LocalDate getStartDate() {
@@ -61,6 +69,26 @@ public class ClosedFor implements Extent {
                 saveClosedForEvents();
         }
 
+        public Store getStore() {
+                return store;
+        }
+        public void setStore(Store newStore) {
+            Objects.requireNonNull(newStore, "Store cannot be null");
+            if (this.store != newStore) {
+                // Remove from the old store's list
+                if (this.store != null) {
+                    this.store.removeClosedFor(this);
+                }
+                // Assign new store
+                this.store = newStore;
+                // add to the new store's list (Reverse connection)
+                this.store.addClosedForEvent(this);
+
+                saveClosedForEvents();
+            }
+
+        }
+
         // extend methods
         public static void loadClosedForEvents() {
             closedForEvents = Extent.loadClassList(FILE_LOCATION);
@@ -74,9 +102,16 @@ public class ClosedFor implements Extent {
                 return Extent.getImmutableClassList(closedForEvents);
         }
 
+        // updated delete method to handle association cleanup
         public void delete() {
-                closedForEvents.remove(this);
-                saveClosedForEvents();
+            // Remove the reverse connection from the Store
+            if (this.store != null) {
+                this.store.removeClosedFor(this);
+                this.store = null; // Prevent dangling reference
+            }
+
+            closedForEvents.remove(this);
+            saveClosedForEvents();
         }
 
 
@@ -87,11 +122,22 @@ public class ClosedFor implements Extent {
         ClosedFor other = (ClosedFor) o;
         return Objects.equals(startDate, other.startDate)
                 && Objects.equals(endDate, other.endDate)
-                && Objects.equals(reason, other.reason);
+                && Objects.equals(reason, other.reason)
+                && Objects.equals(store, other.store);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startDate, endDate, reason);
+        return Objects.hash(startDate, endDate, reason, store);
+    }
+
+    // toString method for better readability
+    @Override
+    public String toString() {
+        return "ClosedFor{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", reason='" + reason + '\'' +
+                '}';
     }
 }

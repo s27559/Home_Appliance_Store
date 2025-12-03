@@ -11,23 +11,40 @@ public class FreestandingProduct implements Extent{
 
     private static ArrayList<FreestandingProduct> freestandingProducts =new ArrayList<FreestandingProduct>();
 
+        static {
+                loadFreestandingProducts();
+        }
+
+    private Product product;
     private BigDecimal moveCost;
 
-    public FreestandingProduct(BigDecimal moveCost) {
+    public FreestandingProduct(Product product, BigDecimal moveCost) {
+        validateProduct(product);
         if (moveCost == null || moveCost.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Move cost cannot be negative");
         }
+        if (product.getFreestandingProduct() != null) {
+            throw new IllegalStateException("Freestanding product already exists");
+        }
+
+        this.product = product;
         this.moveCost = moveCost.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        this.product.setFreestandingProduct(this);
 
         addFreestandingProduct(this);
         saveFreestandingProducts();
     }
-
+    private void validateProduct(Product product) {
+        Objects.requireNonNull(product, "FreestandingProduct must be associated with a Product (1).");
+    }
     private static void addFreestandingProduct(FreestandingProduct freestandingProduct) {
         if(!freestandingProducts.contains(freestandingProduct))
             freestandingProducts.add(freestandingProduct);
     }
-
+    private Product getProduct() {
+        return product;
+    }
     public BigDecimal getMoveCost() {
         return moveCost;
     }

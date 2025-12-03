@@ -3,6 +3,7 @@ package org.HomeApplianceStore.Actors;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
@@ -10,6 +11,10 @@ import org.HomeApplianceStore.Extent;
 public class Person implements Extent {
 
         private static ArrayList<Person> persons = new ArrayList<Person>();
+
+        static {
+                loadPersons();
+        }
 
         private String name;
         private String middleName;
@@ -92,8 +97,8 @@ public class Person implements Extent {
                 return dateOfBirth.until(LocalDate.now()).getYears();
         }
 
-        public String getMiddleName() {
-                return middleName;
+        public Optional<String> getMiddleName() {
+                return Optional.of(middleName);
         }
 
         public void setMiddleName(String middleName) {

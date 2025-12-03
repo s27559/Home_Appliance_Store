@@ -13,8 +13,8 @@ public class CartProductTest {
                 
                 CartProduct cartProduct = new CartProduct(ammountNew, ammountUsed);
 
-                assertTrue(ammountNew == cartProduct.getAmmountNew());
-                assertTrue(ammountUsed == cartProduct.getAmmountUsed());
+                assertTrue(ammountNew == cartProduct.getAmountNew());
+                assertTrue(ammountUsed == cartProduct.getAmountUsed());
                 assertTrue(CartProduct.getCartProducts().contains(cartProduct));
         }
 }

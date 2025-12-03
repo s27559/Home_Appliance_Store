@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.HomeApplianceStore.Actors.EmpRole.CLERK;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeTest {
@@ -18,14 +19,13 @@ class EmployeeTest {
 
     @Test
     void creatingValidEmployeeShouldSucceed() {
-        Person person = createSamplePerson();
 
         Employee emp = new Employee(
-                person,
                 new BigDecimal("1000.00"),
                 2L,
                 10L,
-                0L
+                0L,
+                CLERK
         );
 
         assertEquals(new BigDecimal("1000.00"), emp.getBonusPay());
@@ -39,11 +39,11 @@ class EmployeeTest {
         Person person = createSamplePerson();
 
         Employee emp = new Employee(
-                person,
                 null,
                 0L,
                 0L,
-                0L
+                0L,
+                CLERK
         );
 
         assertNull(emp.getBonusPay());
@@ -55,11 +55,11 @@ class EmployeeTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 new Employee(
-                        person,
                         new BigDecimal("-1.00"),
                         0L,
                         0L,
-                        0L
+                        0L,
+                        CLERK
                 )
         );
     }
@@ -70,11 +70,11 @@ class EmployeeTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 new Employee(
-                        person,
                         null,
                         -1L,
                         0L,
-                        0L
+                        0L,
+                        CLERK
                 )
         );
     }
@@ -85,11 +85,11 @@ class EmployeeTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 new Employee(
-                        person,
                         null,
                         0L,
                         -5L,
-                        0L
+                        0L,
+                        CLERK
                 )
         );
     }
@@ -100,11 +100,11 @@ class EmployeeTest {
 
         assertThrows(IllegalArgumentException.class, () ->
                 new Employee(
-                        person,
                         null,
                         0L,
                         0L,
-                        -3L
+                        -3L,
+                        CLERK
                 )
         );
     }
@@ -114,10 +114,10 @@ class EmployeeTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Employee(
                         null,
-                        null,
                         0L,
                         0L,
-                        0L
+                        0L,
+                        null
                 )
         );
     }
@@ -127,11 +127,11 @@ class EmployeeTest {
         int sizeBefore = Employee.getEmployees().size();
 
         Employee emp = new Employee(
-                createSamplePerson(),
                 null,
                 0L,
                 0L,
-                0L
+                0L,
+                CLERK
         );
 
         int sizeAfter = Employee.getEmployees().size();
