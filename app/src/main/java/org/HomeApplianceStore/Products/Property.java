@@ -12,7 +12,6 @@ public class Property<T extends Serializable> implements Serializable{
         if (value!=null) {
             validateValue(value);
         }
-        validateValue(value);
 
         this.typeName = typeName;
         this.value = value;
