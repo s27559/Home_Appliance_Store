@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Managment;
 
+import org.HomeApplianceStore.Actors.Employee;
 import org.HomeApplianceStore.Extent;
 
 import java.math.BigDecimal;
@@ -20,8 +21,8 @@ public class WeekdayShift extends Shift implements Extent {
 
         private DayOfWeek weekday;
 
-        public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday) {
-                super(bonusPay, openTime, closeTime);
+        public WeekdayShift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, DayOfWeek weekday, Store store, Employee employee) {
+                super(bonusPay, openTime, closeTime, store, employee);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
                 Objects.requireNonNull(weekday);
                 this.weekday = weekday;
