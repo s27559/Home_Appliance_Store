@@ -11,10 +11,6 @@ public class ProductStatus implements Extent {
 
         private static ArrayList<ProductStatus> statuses = new ArrayList<>();
 
-        static {
-                loadStatuses();
-        }
-
         private long ammountNew;
         private long ammountUsed;
         private boolean toBeMoved;
@@ -45,7 +41,7 @@ public class ProductStatus implements Extent {
                 statuses.add(status);
         }
 
-        // ===== basic attributes =====
+        //basic attributes
 
         public long getAmmountNew() {
                 return ammountNew;
@@ -96,7 +92,7 @@ public class ProductStatus implements Extent {
                 this.differenceInPrice = differenceInPrice;
         }
 
-        // ================== Association with Order ==================
+        //Association with Order
 
         public Order getOrder() {
                 return order;
@@ -105,8 +101,6 @@ public class ProductStatus implements Extent {
         public void setOrder(Order order) {
                 this.order = order;
         }
-
-        // ===== extent handling =====
 
         public static void loadStatuses() {
                 statuses = Extent.loadClassList("./org/HomeApplianceStore/Ordering/ProductStatus.ser");

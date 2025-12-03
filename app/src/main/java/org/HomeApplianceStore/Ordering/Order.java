@@ -7,15 +7,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Order implements Extent {
 
         private static ArrayList<Order> orders = new ArrayList<>();
-
-        static {
-                loadOrders();
-        }
 
         private LocalDate date;
         private boolean paidFor;
@@ -45,7 +40,7 @@ public class Order implements Extent {
                 orders.add(order);
         }
 
-        // ===== basic attributes =====
+        //basic attributes
 
         public LocalDate getDate() {
                 return date;
@@ -66,15 +61,15 @@ public class Order implements Extent {
                 this.paidFor = paidFor;
         }
 
-        public Optional<Boolean> getReadyForPickUp() {
-                return Optional.of(readyForPickUp);
+        public Boolean getReadyForPickUp() {
+                return readyForPickUp;
         }
 
         public void setReadyForPickUp(Boolean readyForPickUp) {
                 this.readyForPickUp = readyForPickUp;
         }
 
-        // cost derived from deliveries (you can adjust the formula if needed)
+        // cost derived from deliveries
         public BigDecimal getCost() {
                 BigDecimal result = BigDecimal.ZERO;
                 for (Delivery delivery : deliveries) {
@@ -85,10 +80,7 @@ public class Order implements Extent {
                 return result;
         }
 
-        // ================== Associations handling ==================
-
-        // -------- Deliveries --------
-
+        // Associations handling
         public List<Delivery> getDeliveries() {
                 return new ArrayList<>(deliveries);
         }
@@ -116,8 +108,6 @@ public class Order implements Extent {
                         }
                 }
         }
-
-        // -------- ProductStatuses --------
 
         public List<ProductStatus> getProductStatuses() {
                 return new ArrayList<>(productStatuses);
@@ -147,27 +137,30 @@ public class Order implements Extent {
                 }
         }
 
-        // -------- PaymentMethod --------
-
         public PaymentMethod getPaymentMethod() {
                 return paymentMethod;
         }
 
         public void setPaymentMethod(PaymentMethod paymentMethod) {
                 if (paymentMethod == null) {
-                        throw new IllegalArgumentException("paymentMethod cannot be null");
+                        if (this.paymentMethod != null) {
+                                this.paymentMethod.removeOrder(this);
+                        }
+                        this.paymentMethod = null;
+                        return;
                 }
+
                 if (this.paymentMethod == paymentMethod) {
                         return;
                 }
+
                 if (this.paymentMethod != null) {
                         this.paymentMethod.removeOrder(this);
                 }
+
                 this.paymentMethod = paymentMethod;
                 paymentMethod.addOrder(this);
         }
-
-        // ===== extent handling =====
 
         public static void loadOrders() {
                 orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");

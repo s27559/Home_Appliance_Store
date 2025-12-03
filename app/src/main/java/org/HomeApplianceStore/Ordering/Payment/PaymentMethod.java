@@ -4,18 +4,17 @@ import org.HomeApplianceStore.Extent;
 import org.HomeApplianceStore.Ordering.Order;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PaymentMethod implements Extent {
 
+        // extent
         private static ArrayList<PaymentMethod> methods = new ArrayList<>();
 
-        static {
-                loadMethods();
-        }
-
         private String name;
-        private List<Order> orders = new ArrayList<>();
+
+        private ArrayList<Order> orders = new ArrayList<>();
 
         public PaymentMethod(String name) {
                 setName(name);
@@ -29,6 +28,8 @@ public class PaymentMethod implements Extent {
                 methods.add(method);
         }
 
+        //basic attribute
+
         public String getName() {
                 return name;
         }
@@ -41,7 +42,7 @@ public class PaymentMethod implements Extent {
         }
 
         public List<Order> getOrders() {
-                return new ArrayList<>(orders);
+                return Collections.unmodifiableList(orders);
         }
 
         public void addOrder(Order order) {
@@ -55,6 +56,14 @@ public class PaymentMethod implements Extent {
 
         public void removeOrder(Order order) {
                 orders.remove(order);
+        }
+
+        public void delete() {
+                for (Order order : new ArrayList<>(orders)) {
+                        order.setPaymentMethod(null);
+                }
+                orders.clear();
+                methods.remove(this);
         }
 
         public static void loadMethods() {

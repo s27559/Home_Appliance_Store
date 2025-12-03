@@ -1,7 +1,6 @@
 package org.HomeApplianceStore.Ordering;
 
 import org.HomeApplianceStore.Extent;
-import org.HomeApplianceStore.Ordering.Order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,10 +11,6 @@ public class Delivery implements Extent {
 
         private static ArrayList<Delivery> deliveries = new ArrayList<>();
 
-        static {
-                loadDeliveries();
-        }
-
         private LocalDate sendDate;
         private LocalDate receiveDate;
         private BigDecimal cost;
@@ -23,15 +18,20 @@ public class Delivery implements Extent {
         private String trackingNumber;
         private String deliveryCompany;
 
-        // Association to Order: each delivery is for exactly one order
+        // Association to Order: each delivery is for exactly one order (1)
         private Order order;
 
-        public Delivery(LocalDate sendDate,
+        public Delivery(Order order,
+                        LocalDate sendDate,
                         LocalDate receiveDate,
                         BigDecimal cost,
                         boolean received,
                         String trackingNumber,
                         String deliveryCompany) {
+
+                if (order == null) {
+                        throw new IllegalArgumentException("Order cannot be null for Delivery");
+                }
 
                 setSendDate(sendDate);
                 setReceiveDate(receiveDate);
@@ -39,7 +39,10 @@ public class Delivery implements Extent {
                 setReceived(received);
                 setTrackingNumber(trackingNumber);
                 setDeliveryCompany(deliveryCompany);
+
                 addDelivery(this);
+
+                order.addDelivery(this);
         }
 
         private static void addDelivery(Delivery delivery) {
@@ -48,7 +51,8 @@ public class Delivery implements Extent {
                 }
                 deliveries.add(delivery);
         }
-        // basic attributes
+
+        //basic attributes
 
         public LocalDate getSendDate() {
                 return sendDate;
@@ -113,17 +117,22 @@ public class Delivery implements Extent {
                 this.deliveryCompany = deliveryCompany.trim();
         }
 
-        // Association with Order
+        //association with Order
 
         public Order getOrder() {
                 return order;
         }
-        public static void loadDeliveries(){
-                deliveries = Extent.loadClassList("Delivery.ser");
+
+        void setOrder(Order order) {
+                this.order = order;
         }
 
-        public static void saveDeliveries(){
-                Extent.saveClassList("Delivery.ser", deliveries);
+        public static void loadDeliveries() {
+                deliveries = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Delivery.ser");
+        }
+
+        public static void saveDeliveries() {
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Delivery.ser", deliveries);
         }
 
         public static List<Delivery> getDeliveries() {
