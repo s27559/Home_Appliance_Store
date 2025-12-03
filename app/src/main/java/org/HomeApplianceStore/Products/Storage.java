@@ -1,6 +1,7 @@
 package org.HomeApplianceStore.Products;
 
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Managment.Store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +15,39 @@ public class Storage implements Extent {
                 loadStorage();
         }
 
-    private long inRepairAmmount;
+    private Store store;
+    private Product product;
+
+    private long inRepairAmount;
     private long usedStock;
     private long newStock;
 
-    public Storage(long inRepairAmmount, long usedStock, long newStock) {
-        validateStockLevel(inRepairAmmount);
+    public Storage(Store store, Product product, long inRepairAmount, long usedStock, long newStock) {
+        Objects.requireNonNull(store, "Storage must be associated with a Store");
+        Objects.requireNonNull(product, "Storage must be associated with a Product");
+
+        validateStockLevel(inRepairAmount);
         validateStockLevel(usedStock);
         validateStockLevel(newStock);
 
-        this.inRepairAmmount = inRepairAmmount;
+        this.store = store;
+        this.product = product;
+        this.inRepairAmount = inRepairAmount;
         this.usedStock = usedStock;
         this.newStock = newStock;
 
+        store.addStorage(this);
+        product.addStorage(this);
+
         addStorage(this);
+        saveStorage();
+    }
+    public void deleteStorage() {
+        store.removeStorageReverse(this);
+        product.removeStorageReverse(this);
+        storages.remove(this);
+        this.store = null;
+        this.product = null;
         saveStorage();
     }
     private void validateStockLevel(long value) {
@@ -43,12 +63,12 @@ public class Storage implements Extent {
         }
     }
 
-    public long getInRepairAmmount() {
-        return inRepairAmmount;
+    public long getInRepairAmount() {
+        return inRepairAmount;
     }
-    public void setInRepairAmmount(long inRepairAmmount) {
-        validateStockLevel(inRepairAmmount);
-        this.inRepairAmmount = inRepairAmmount;
+    public void setInRepairAmount(long inRepairAmount) {
+        validateStockLevel(inRepairAmount);
+        this.inRepairAmount = inRepairAmount;
         saveStorage();
     }
     public long getUsedStock() {
@@ -85,12 +105,14 @@ public class Storage implements Extent {
         if (this == o) return true;
         if (!(o instanceof Storage)) return false;
         Storage storage = (Storage) o;
-        return inRepairAmmount == storage.inRepairAmmount &&
+        return inRepairAmount == storage.inRepairAmount &&
                 usedStock == storage.usedStock &&
-                newStock == storage.newStock;
+                newStock == storage.newStock &&
+                Objects.equals(store, storage.store) &&
+                Objects.equals(product, storage.product);
     }
     @Override
     public int hashCode() {
-        return Objects.hash(inRepairAmmount, usedStock, newStock);
+        return Objects.hash(inRepairAmount, usedStock, newStock);
     }
 }

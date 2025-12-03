@@ -15,27 +15,36 @@ public class IntegratedProduct implements Extent{
                 LoadIntegratedProducts();
         }
 
+    private Product product;
     private BigDecimal integrationCost;
     private boolean mustBeDone;
 
-    public IntegratedProduct(String name, BigDecimal integrationCost, boolean mustBeDone) {
+    public IntegratedProduct(Product product, String name, BigDecimal integrationCost, boolean mustBeDone) {
+        validateProduct(product);
         Objects.requireNonNull(name, "IntegratedProduct name cannot be null");
         if(integrationCost.compareTo(BigDecimal.ZERO) < 0){
             throw new IllegalArgumentException("IntegratedProduct cost cannot be negative");
         }
+        this.product = product;
         this.integrationCost = integrationCost.setScale(2, BigDecimal.ROUND_HALF_UP);
         this.mustBeDone = mustBeDone;
+
+        this.product.addIntegratedProduct(this);
 
         addIntegratedProduct(this);
         saveIntegratedProducts();
     }
-
+    private void validateProduct(Product product) {
+        Objects.requireNonNull(product, "IntegratedProduct must be associated with a Product (1).");
+    }
     private static void addIntegratedProduct(IntegratedProduct integratedProduct){
         if(!integratedProducts.contains(integratedProduct)){
             integratedProducts.add(integratedProduct);
         }
     }
-
+    public Product getProduct() {
+        return product;
+    }
     public BigDecimal getIntegrationCost() {
         return integrationCost;
     }
