@@ -1,6 +1,7 @@
 package org.HomeApplianceStore.Ordering;
 
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Ordering.Order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,86 +9,114 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Delivery implements Extent {
-        private static ArrayList<Delivery> deliveries = new ArrayList<Delivery>();
+
+        private static ArrayList<Delivery> deliveries = new ArrayList<>();
 
         static {
                 loadDeliveries();
         }
 
         private LocalDate sendDate;
-        private LocalDate reciveDate;
+        private LocalDate receiveDate;
         private BigDecimal cost;
-        private boolean recived;
+        private boolean received;
         private String trackingNumber;
+        private String deliveryCompany;
+
+        // Association to Order: each delivery is for exactly one order
+        private Order order;
 
         public Delivery(LocalDate sendDate,
-                        LocalDate reciveDate,
+                        LocalDate receiveDate,
                         BigDecimal cost,
-                        boolean recived,
-                        String trackingNumber) {
+                        boolean received,
+                        String trackingNumber,
+                        String deliveryCompany) {
 
-                this.setSendDate(sendDate);
-                this.setReciveDate(reciveDate);
-                this.setCost(cost);
-                this.setRecived(recived);
-                this.setTrackingNumber(trackingNumber);
+                setSendDate(sendDate);
+                setReceiveDate(receiveDate);
+                setCost(cost);
+                setReceived(received);
+                setTrackingNumber(trackingNumber);
+                setDeliveryCompany(deliveryCompany);
                 addDelivery(this);
         }
 
-        public static void addDelivery(Delivery delivery){
+        private static void addDelivery(Delivery delivery) {
                 if (delivery == null) {
-                        throw new IllegalArgumentException("Delivery cannot be null");
+                        throw new IllegalArgumentException("delivery cannot be null");
                 }
                 deliveries.add(delivery);
         }
+        // basic attributes
+
         public LocalDate getSendDate() {
                 return sendDate;
         }
+
         public void setSendDate(LocalDate sendDate) {
                 if (sendDate == null) {
                         throw new IllegalArgumentException("sendDate cannot be null");
                 }
-                if (sendDate.isAfter(LocalDate.now())) {
-                        throw new IllegalArgumentException("sendDate cannot be in the future");
-                }
                 this.sendDate = sendDate;
-                if (this.reciveDate != null && this.reciveDate.isBefore(this.sendDate)) {
+        }
+
+        public LocalDate getReceiveDate() {
+                return receiveDate;
+        }
+
+        public void setReceiveDate(LocalDate receiveDate) {
+                if (receiveDate != null && sendDate != null && receiveDate.isBefore(sendDate)) {
                         throw new IllegalArgumentException("receiveDate cannot be before sendDate");
                 }
+                this.receiveDate = receiveDate;
         }
-        public LocalDate getReciveDate() {
-                return reciveDate;
-        }
-        public void setReciveDate(LocalDate reciveDate) {
-                this.reciveDate = reciveDate;
-        }
+
         public BigDecimal getCost() {
                 return cost;
         }
+
         public void setCost(BigDecimal cost) {
-                if (cost == null) {
-                        throw new IllegalArgumentException("cost cannot be null");
-                }
-                if (cost.signum() < 0) {
-                        throw new IllegalArgumentException("cost cannot be negative");
+                if (cost == null || cost.signum() < 0) {
+                        throw new IllegalArgumentException("cost must be non-negative");
                 }
                 this.cost = cost;
         }
-        public boolean isRecived() {
-                return recived;
+
+        public boolean isReceived() {
+                return received;
         }
-        public void setRecived(boolean recived) {
-                this.recived = recived;
+
+        public void setReceived(boolean received) {
+                this.received = received;
         }
+
         public String getTrackingNumber() {
                 return trackingNumber;
         }
+
         public void setTrackingNumber(String trackingNumber) {
                 if (trackingNumber == null || trackingNumber.trim().isEmpty()) {
-                throw new IllegalArgumentException("trackingNumber cannot be empty");
-        }
+                        throw new IllegalArgumentException("trackingNumber cannot be empty");
+                }
                 this.trackingNumber = trackingNumber.trim();
+        }
 
+        public String getDeliveryCompany() {
+                return deliveryCompany;
+        }
+
+        public void setDeliveryCompany(String deliveryCompany) {
+                if (deliveryCompany == null || deliveryCompany.trim().isEmpty()) {
+                        throw new IllegalArgumentException("deliveryCompany cannot be empty");
+                }
+                this.deliveryCompany = deliveryCompany.trim();
+        }
+
+        // Association with Order
+
+        public Order getOrder() {
+                return order;
         }
         public static void loadDeliveries(){
                 deliveries = Extent.loadClassList("Delivery.ser");
