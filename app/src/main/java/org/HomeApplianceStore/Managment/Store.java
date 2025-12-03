@@ -42,9 +42,7 @@ public class Store implements Extent {
         }
         // Adds a ClosedFor event to the Store
         public void  addClosedForEvent(ClosedFor event){
-            if (event == null) {
-                throw new IllegalArgumentException("ClosedFor event cannot be null.");
-            }
+            if (event == null) throw new IllegalArgumentException("ClosedFor event cannot be null.");
             if (!_closedForEvents.contains(event)) {
                 _closedForEvents.add(event);
                 // reverse connection automatic update
@@ -181,17 +179,19 @@ public class Store implements Extent {
 
         // updated for deleting all associations
         public void delete() {
-            // Cascade delete for Composition
             for (ClosedFor event : new ArrayList<>(_closedForEvents)) {
                 removeClosedFor(event);
             }
-            // Remove associations
             for (Shift shift : new ArrayList<>(_shifts)) {
                 removeShift(shift);
+            }
+            for (Storage storage : new ArrayList<>(_storages)) {
+                removeStorage(storage);
             }
             for (Contract contract : new ArrayList<>(_contracts)) {
                 removeContract(contract);
             }
+
             stores.remove(this);
             saveStore();
         }

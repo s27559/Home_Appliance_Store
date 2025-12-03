@@ -23,21 +23,19 @@ public class Shift implements Extent {
     // Association Class Links
         private Store store;
         private Employee employee;
-        public Shift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, Store store, Employee employee) {
-                Objects.requireNonNull(store, "Store cannot be null");
-                Objects.requireNonNull(employee, "Employee cannot be null");
-                Validation.validateTime(openTime, closeTime);
-                Validation.validateBigDecimal(bonusPay, "Bonus Pay");
+        public Shift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, Store store) {
+            Validation.validateTime(openTime, closeTime);
+            Validation.validateBigDecimal(bonusPay, "Bonus Pay");
+            Objects.requireNonNull(store, "Shift must be associated with a Store.");
 
-                this.bonusPay = bonusPay;
-                this.openTime = openTime;
-                this.closeTime = closeTime;
-                this.store = store;
-                this.store.addShift(this);
-                this.employee = employee;
-                this.employee.addShift(this);
+            this.bonusPay = bonusPay;
+            this.openTime = openTime;
+            this.closeTime = closeTime;
 
-                addShift(this);
+            this.store = store;
+            this.store.addShift(this);
+
+            addShift(this);
         }
 
         // Association methods, reverse connections
@@ -62,13 +60,14 @@ public class Shift implements Extent {
         }
 
         public void setEmployee(Employee newEmployee) {
-            Objects.requireNonNull(newEmployee, "Employee cannot be null");
             if (this.employee != newEmployee) {
                 if (this.employee != null) {
                     this.employee.removeShift(this);
                 }
                 this.employee = newEmployee;
-                this.employee.addShift(this);
+                if (newEmployee != null) {
+                    this.employee.addShift(this);
+                }
                 saveShiftEvents();
             }
         }

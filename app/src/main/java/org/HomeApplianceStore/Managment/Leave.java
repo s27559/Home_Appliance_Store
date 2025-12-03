@@ -23,6 +23,7 @@ public class Leave implements Extent {
 
     // Association
     private Employee employee;
+    private Employee manager;
 
     public Leave(boolean isSick, boolean isPaid, LocalDate startDate, LocalDate endDate, Employee employee) {
         Validation.validateDates(startDate, endDate);
@@ -37,6 +38,9 @@ public class Leave implements Extent {
         this.employee = employee;
         this.employee.addLeave(this);
 
+        // Manager is not assigned at creation
+        this.manager = null;
+
         addLeave(this);
         saveLeaves();
     }
@@ -50,9 +54,14 @@ public class Leave implements Extent {
             saveLeaves();
         }
     }
+    public Employee getManager() { return manager; }
 
-    public Employee getEmployee() { return employee; }
-
+    public void setApprover(Employee newManager) {
+        if (this.manager != newManager) {
+            this.manager = newManager;
+            saveLeaves();
+        }
+    }
     public long getPeriodDays() {
         return startDate.until(endDate).getDays();
     }
@@ -122,6 +131,8 @@ public class Leave implements Extent {
             this.employee.removeLeave(this);
             this.employee = null;
         }
+        this.manager = null;
+
         leaves.remove(this);
         saveLeaves();
     }
