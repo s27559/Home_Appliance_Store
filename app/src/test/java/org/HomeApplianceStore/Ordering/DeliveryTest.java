@@ -10,6 +10,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeliveryTest {
 
+    private Order createOrder() {
+        return new Order(LocalDate.now().minusDays(1), false, null);
+    }
+
+    private Delivery createDelivery(String tracking) {
+        return new Delivery(
+                LocalDate.now().minusDays(3),
+                LocalDate.now().minusDays(1),
+                BigDecimal.ONE,
+                false,
+                tracking
+        );
+    }
+
     @Test
     void creatingValidDeliveryShouldSucceed() {
         LocalDate send = LocalDate.now().minusDays(2);
@@ -19,9 +33,9 @@ class DeliveryTest {
         Delivery delivery = new Delivery(send, receive, cost, true, "TRK123");
 
         assertEquals(send, delivery.getSendDate());
-        assertEquals(receive, delivery.getReciveDate());
+        assertEquals(receive, delivery.getReceiveDate());
         assertEquals(cost, delivery.getCost());
-        assertTrue(delivery.isRecived());
+        assertTrue(delivery.isReceived());
         assertEquals("TRK123", delivery.getTrackingNumber());
     }
 
@@ -103,5 +117,42 @@ class DeliveryTest {
 
         int sizeAfterReload = Delivery.getDeliveries().size();
         assertEquals(sizeAfterCreate, sizeAfterReload);
+    }
+
+    //ASSOCIATIONS: DELIVERY–ORDER
+    @Test
+    void addingDeliveryToOrderShouldSetOrderInDelivery() {
+        Order order = createOrder();
+        Delivery delivery = createDelivery("TRK-A");
+
+        order.addDelivery(delivery);
+
+        assertEquals(order, delivery.getOrder());
+        assertTrue(order.getDeliveries().contains(delivery));
+    }
+
+    @Test
+    void deliveryCannotBelongToTwoOrders() {
+        Order first = createOrder();
+        Order second = createOrder();
+        Delivery delivery = createDelivery("TRK-B");
+
+        first.addDelivery(delivery);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> second.addDelivery(delivery));
+        assertEquals(first, delivery.getOrder());
+    }
+
+    @Test
+    void removingDeliveryFromOrderShouldNullOutOrderInDelivery() {
+        Order order = createOrder();
+        Delivery delivery = createDelivery("TRK-C");
+        order.addDelivery(delivery);
+
+        order.removeDelivery(delivery);
+
+        assertNull(delivery.getOrder());
+        assertFalse(order.getDeliveries().contains(delivery));
     }
 }
