@@ -1,20 +1,31 @@
 package org.HomeApplianceStore.Managment;
 
+import org.HomeApplianceStore.Actors.EmpRole;
+import org.HomeApplianceStore.Actors.Employee;
+import org.HomeApplianceStore.Address;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LeaveTest {
+
+    private Employee createDummyEmployee() {
+        Address address = new Address();
+        return new Employee(BigDecimal.ONE, 10L, 5L, 3L, EmpRole.CLERK);
+    }
+
     @Test
     void constructorAddsToExtentAndSetsAttributes() {
         LocalDate start = LocalDate.of(3000, 1, 1);
         LocalDate end = LocalDate.of(3000, 1, 5);
+        Employee applicant = createDummyEmployee();
 
-        Leave leave = new Leave(true, false, start, end);
+        Leave leave = new Leave(true, false, start, end, applicant);
 
         assertTrue(leave.isSick());
         assertFalse(leave.isPaid());
@@ -29,8 +40,9 @@ public class LeaveTest {
     void periodDaysCalculationUsesDaysBetween() {
         LocalDate start = LocalDate.of(2024, 6, 1);
         LocalDate end = LocalDate.of(2024, 6, 10);
+        Employee applicant = createDummyEmployee();
 
-        Leave leave = new Leave(false, true, start, end);
+        Leave leave = new Leave(false, true, start, end, applicant);
 
         long expected = ChronoUnit.DAYS.between(start, end);
         assertEquals(expected, leave.getPeriodDays());
@@ -40,9 +52,20 @@ public class LeaveTest {
     void constructorThrowsOnEndBeforeStart() {
         LocalDate start = LocalDate.of(2024, 6, 10);
         LocalDate end = LocalDate.of(2024, 6, 5);
+        Employee applicant = createDummyEmployee();
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Leave(false, false, start, end);
+            new Leave(false, false, start, end, applicant);
+        });
+    }
+
+    @Test
+    void constructorThrowsOnNullEmployee() {
+        LocalDate start = LocalDate.of(2024, 6, 1);
+        LocalDate end = LocalDate.of(2024, 6, 5);
+
+        assertThrows(NullPointerException.class, () -> {
+            new Leave(false, false, start, end, null);
         });
     }
 
@@ -50,7 +73,9 @@ public class LeaveTest {
     void persistenceRoundTripLoadsSavedLeave() throws Exception {
         LocalDate start = LocalDate.of(4000, 1, 1);
         LocalDate end = LocalDate.of(4000, 1, 2);
-        Leave leave = new Leave(true, true, start, end);
+        Employee applicant = createDummyEmployee();
+
+        Leave leave = new Leave(true, true, start, end, applicant);
 
         // save
         Leave.saveLeaves();
