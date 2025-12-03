@@ -86,10 +86,6 @@ public class Sale implements Extent {
     public void removeProduct(Product product) {
         Objects.requireNonNull(product, "Product to remove cannot be null.");
 
-        if (products.size() == 1 && products.contains(product)) {
-            throw new IllegalStateException("Cannot remove the last product. Sale must be associated with at least one product (1..*).");
-        }
-
         if (products.remove(product)) {
             product.removeSaleReverse(this);
             saveSales();
