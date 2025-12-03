@@ -99,4 +99,59 @@ public class ClosedForTest {
                         && end.equals(e.getEndDate()));
         assertTrue(found, "Persisted ClosedFor event should be loaded into extent");
     }
+
+    // -- BYT 6 --
+    @Test
+    void testAddClosedForCreatesReverseConnection() {
+        Store store = createDummyStore();
+        LocalDate start = LocalDate.now();
+        LocalDate end = start.plusDays(3);
+
+        // Create ClosedFor (Composition)
+        ClosedFor event = new ClosedFor(start, end, "Renovation", store);
+
+        // Check Forward Connection
+        assertEquals(store, event.getStore());
+
+        // Check Reverse Connection
+        assertTrue(store.getClosedForEvents().contains(event),
+                "Store should contain the ClosedFor event created with it");
+    }
+
+    @Test
+    void testModifyClosedForMovesAssociation() {
+        Store store = createDummyStore();
+        Store newStore = createDummyStore();
+        LocalDate start = LocalDate.now();
+        LocalDate end = start.plusDays(3);
+        ClosedFor event = new ClosedFor(start, end, "Renovation", store);
+
+        assertTrue(store.getClosedForEvents().contains(event));
+        assertFalse(newStore.getClosedForEvents().contains(event));
+
+        event.setStore(newStore);
+
+        // Verify Reverse Connection update
+        assertFalse(store.getClosedForEvents().contains(event), "Old store should no longer have the event");
+        assertTrue(newStore.getClosedForEvents().contains(event), "New store should now have the event");
+        assertEquals(newStore, event.getStore());
+    }
+
+    @Test
+    void testDeleteRemovesReverseConnection() {
+        Store store = createDummyStore();
+        ClosedFor event = new ClosedFor(LocalDate.now(), LocalDate.now().plusDays(1), "Holiday", store);
+
+        assertTrue(store.getClosedForEvents().contains(event));
+
+        event.delete();
+        assertFalse(store.getClosedForEvents().contains(event), "Deleting ClosedFor should remove it from Store");
+    }
+
+    @Test
+    void testErrorHandlingNullStore() {
+        assertThrows(NullPointerException.class, () -> {
+            new ClosedFor(LocalDate.now(), LocalDate.now().plusDays(1), "Fail", null);
+        });
+    }
 }

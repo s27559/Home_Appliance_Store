@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -57,5 +59,39 @@ public class ShiftTest {
 
         assertEquals(newBonus, shift.getBonusPay());
         assertEquals(newOpen, shift.getOpenTime());
+    }
+
+    // -- BYT 6 --
+    @Test
+    void testAddShiftCreatesReverseConnectionWithStore() {
+        Store store = createDummyStore();
+        WeekdayShift shift = new WeekdayShift(
+                BigDecimal.TEN, LocalTime.of(9, 0), LocalTime.of(17, 0), DayOfWeek.MONDAY, store
+        );
+
+        assertTrue(store.getShifts().contains(shift), "Store must contain the created shift");
+        assertEquals(store, shift.getStore());
+    }
+
+    @Test
+    void testErrorHandlingNullStore() {
+        // Error Handling: Mandatory association
+        assertThrows(NullPointerException.class, () -> {
+            new WeekdayShift(BigDecimal.TEN, LocalTime.of(9, 0), LocalTime.of(17, 0), DayOfWeek.MONDAY, null);
+        }, "Shift cannot exist without a Store");
+    }
+
+    @Test
+    void testHolidayShiftAssociation() {
+        Store store = createDummyStore();
+        HolidayShift shift = new HolidayShift(
+                BigDecimal.TEN, LocalTime.of(9, 0), LocalTime.of(17, 0),
+                LocalDate.now(), LocalDate.now().plusDays(1), store
+        );
+
+        assertTrue(store.getShifts().contains(shift));
+
+        shift.delete();
+        assertFalse(store.getShifts().contains(shift), "Deleting shift should remove it from Store");
     }
 }

@@ -4,6 +4,8 @@ import org.HomeApplianceStore.Actors.EmpRole;
 import org.HomeApplianceStore.Actors.Employee;
 import org.HomeApplianceStore.Address;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -17,6 +19,13 @@ public class LeaveTest {
     private Employee createDummyEmployee() {
         Address address = new Address();
         return new Employee(BigDecimal.ONE, 10L, 5L, 3L, EmpRole.CLERK);
+    }
+    private Employee applicant;
+    private Employee approver;
+    @BeforeEach
+    void setUp() {
+        applicant = new Employee(BigDecimal.ONE, 10L, 5L, 3L, EmpRole.CLERK);
+        approver = new Employee(BigDecimal.ONE, 10L, 5L, 3L, EmpRole.CLERK);
     }
 
     @Test
@@ -96,5 +105,29 @@ public class LeaveTest {
                         && start.equals(l.getStartDate())
                         && end.equals(l.getEndDate()));
         assertTrue(found, "Persisted Leave should be loaded into extent");
+    }
+
+    // -- BYT 6 --
+    @Test
+    void testSetApproverAssociation() {
+        Leave leave = new Leave(true, true, LocalDate.now(), LocalDate.now().plusDays(2), applicant);
+
+        assertNull(leave.getManager());
+
+        // 1. Add Association (Approver)
+        leave.setApprover(approver);
+
+        // 2. Check Connection
+        assertEquals(approver, leave.getManager());
+    }
+
+    @Test
+    void testChangeApplicantRemovesFromOld() {
+        Leave leave = new Leave(true, true, LocalDate.now(), LocalDate.now().plusDays(2), applicant);
+        Employee newApplicant = new Employee(BigDecimal.ONE, 10L, 5L, 3L, EmpRole.CLERK);
+
+        leave.setEmployee(newApplicant);
+
+        assertEquals(newApplicant, leave.getManager());
     }
 }
