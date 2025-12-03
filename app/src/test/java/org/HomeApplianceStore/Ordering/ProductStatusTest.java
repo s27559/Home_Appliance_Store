@@ -3,11 +3,26 @@ package org.HomeApplianceStore.Ordering;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductStatusTest {
+
+    private Order createOrder() {
+        return new Order(LocalDate.now().minusDays(1), false, null);
+    }
+
+    private ProductStatus createStatus() {
+        return new ProductStatus(
+                2L,
+                1L,
+                false,
+                true,
+                BigDecimal.ZERO
+        );
+    }
 
     @Test
     void creatingValidProductStatusShouldSucceed() {
@@ -70,5 +85,32 @@ class ProductStatusTest {
 
         int sizeAfterReload = ProductStatus.getStatuses().size();
         assertEquals(sizeAfterCreate, sizeAfterReload);
+    }
+
+    //ASSOCIATIONS: PRODUCTSTATUS–ORDER
+    @Test
+    void productStatusAssignedToOrderThroughOrderAdd() {
+        Order order = createOrder();
+        ProductStatus status = createStatus();
+
+        order.addProductStatus(status);
+
+        assertEquals(order, status.getOrder());
+        assertTrue(order.getProductStatuses().contains(status));
+    }
+
+    @Test
+    void productStatusCanBeMovedToAnotherOrderAfterRemoval() {
+        Order first = createOrder();
+        Order second = createOrder();
+        ProductStatus status = createStatus();
+
+        first.addProductStatus(status);
+        first.removeProductStatus(status);
+        second.addProductStatus(status);
+
+        assertEquals(second, status.getOrder());
+        assertFalse(first.getProductStatuses().contains(status));
+        assertTrue(second.getProductStatuses().contains(status));
     }
 }
