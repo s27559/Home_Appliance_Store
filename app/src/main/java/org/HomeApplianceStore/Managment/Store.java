@@ -166,22 +166,6 @@ public class Store implements Extent {
                 saveStore();
         }
 
-        public Set<Storage> getStorageRecords() {
-            return Collections.unmodifiableSet(storageRecords);
-        }
-
-        public void addStorage(Storage storage) {
-            Objects.requireNonNull(storage, "Storage record cannot be null.");
-            this.storageRecords.add(storage);
-            saveStore();
-        }
-
-        public void removeStorageReverse(Storage storage) {
-            Objects.requireNonNull(storage, "Storage record cannot be null.");
-            this.storageRecords.remove(storage);
-            saveStore();
-        }
-
         public static void loadStores(){
             stores = Extent.loadClassList(FILE_LOCATION);
         }

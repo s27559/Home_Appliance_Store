@@ -25,7 +25,7 @@ public class Leave implements Extent {
     private Employee employee;
     private Employee manager;
 
-    public Leave(boolean isSick, boolean isPaid, LocalDate startDate, LocalDate endDate, Employee employee) {
+    public Leave(boolean isSick, boolean isPaid, LocalDate startDate, LocalDate endDate, Employee employee, Employee manager) {
         Validation.validateDates(startDate, endDate);
         Objects.requireNonNull(employee, "Employee cannot be null");
 

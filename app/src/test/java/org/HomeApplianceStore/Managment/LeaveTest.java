@@ -34,7 +34,7 @@ public class LeaveTest {
         LocalDate end = LocalDate.of(3000, 1, 5);
         Employee applicant = createDummyEmployee();
 
-        Leave leave = new Leave(true, false, start, end, applicant);
+        Leave leave = new Leave(true, false, start, end, applicant, approver);
 
         assertTrue(leave.isSick());
         assertFalse(leave.isPaid());
@@ -51,7 +51,7 @@ public class LeaveTest {
         LocalDate end = LocalDate.of(2024, 6, 10);
         Employee applicant = createDummyEmployee();
 
-        Leave leave = new Leave(false, true, start, end, applicant);
+        Leave leave = new Leave(false, true, start, end, applicant, approver);
 
         long expected = ChronoUnit.DAYS.between(start, end);
         assertEquals(expected, leave.getPeriodDays());
@@ -64,7 +64,7 @@ public class LeaveTest {
         Employee applicant = createDummyEmployee();
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Leave(false, false, start, end, applicant);
+            new Leave(false, false, start, end, applicant, approver);
         });
     }
 
@@ -74,7 +74,7 @@ public class LeaveTest {
         LocalDate end = LocalDate.of(2024, 6, 5);
 
         assertThrows(NullPointerException.class, () -> {
-            new Leave(false, false, start, end, null);
+            new Leave(false, false, start, end, null, approver);
         });
     }
 
@@ -84,7 +84,7 @@ public class LeaveTest {
         LocalDate end = LocalDate.of(4000, 1, 2);
         Employee applicant = createDummyEmployee();
 
-        Leave leave = new Leave(true, true, start, end, applicant);
+        Leave leave = new Leave(true, true, start, end, applicant, approver);
 
         // save
         Leave.saveLeaves();
@@ -110,7 +110,7 @@ public class LeaveTest {
     // -- BYT 6 --
     @Test
     void testSetApproverAssociation() {
-        Leave leave = new Leave(true, true, LocalDate.now(), LocalDate.now().plusDays(2), applicant);
+        Leave leave = new Leave(true, true, LocalDate.now(), LocalDate.now().plusDays(2), applicant, approver);
 
         assertNull(leave.getManager());
 
@@ -123,7 +123,7 @@ public class LeaveTest {
 
     @Test
     void testChangeApplicantRemovesFromOld() {
-        Leave leave = new Leave(true, true, LocalDate.now(), LocalDate.now().plusDays(2), applicant);
+        Leave leave = new Leave(true, true, LocalDate.now(), LocalDate.now().plusDays(2), applicant, approver);
         Employee newApplicant = new Employee(BigDecimal.ONE, 10L, 5L, 3L, EmpRole.CLERK);
 
         leave.setEmployee(newApplicant);
