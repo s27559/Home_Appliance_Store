@@ -9,9 +9,9 @@ public class Product implements Extent{
 
     private static ArrayList<Product> products = new ArrayList<Product>();
 
-        static {
-                LoadProducts();
-        }
+    static {
+        LoadProducts();
+    }
 
     private Category category;
     private Set<Property<?>> properties = new HashSet<>();
@@ -66,6 +66,7 @@ public class Product implements Extent{
         addProduct(this);
         saveProducts();
     }
+
     private void validatePropertiesAgainstCategory(Set<Property<?>> productProperties, Category category) {
 
         Set<Property<?>> requiredTypes = category.getRequiredProperties();
@@ -95,16 +96,19 @@ public class Product implements Extent{
             }
         }
     }
+
     private void validatePrice(BigDecimal price) {
         if (price != null && price.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Price must be non-negative.");
         }
     }
+
     private void validateWeight(BigDecimal weight) {
         if (weight != null && weight.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Weight must be positive.");
         }
     }
+
     private void validateWarranty(long days) {
         if (days < 0) {
             throw new IllegalArgumentException("Warranty days must be non-negative.");
@@ -116,19 +120,17 @@ public class Product implements Extent{
             products.add(product);
         }
     }
+
     public Set<Storage> getStorageRecords() {
         return Collections.unmodifiableSet(storageRecords);
     }
+
     public void addStorage(Storage storage) {
         Objects.requireNonNull(storage, "Storage record cannot be null.");
         storageRecords.add(storage);
         saveProducts();
     }
-    void removeStorageReverse(Storage storage) {
-        Objects.requireNonNull(storage, "Storage record cannot be null.");
-        storageRecords.remove(storage);
-        saveProducts();
-    }
+
     public Category getCategory() {
         return category;
     }
@@ -139,10 +141,24 @@ public class Product implements Extent{
     public FreestandingProduct getFreestandingProduct() {
         return freestandingProduct;
     }
-    void setFreestandingProduct(FreestandingProduct freestandingProduct) {
+
+    public void setFreestandingProduct(FreestandingProduct freestandingProduct) {
+        if (Objects.equals(this.freestandingProduct, freestandingProduct)) {
+            return;
+        }
+
+        if (this.freestandingProduct != null) {
+            this.freestandingProduct.removeProduct(this);
+        }
+
         this.freestandingProduct = freestandingProduct;
+
+        if (freestandingProduct != null) {
+            freestandingProduct.setProduct(this);
+        }
         saveProducts();
     }
+
     public Set<IntegratedProduct> getIntegratedProducts() {
         return Collections.unmodifiableSet(integratedProducts);
     }
@@ -169,27 +185,43 @@ public class Product implements Extent{
         this.properties.remove(property);
         saveProducts();
     }
-    void addIntegratedProduct(IntegratedProduct integratedProduct) {
+
+    public void addIntegratedProduct(IntegratedProduct integratedProduct) {
         Objects.requireNonNull(integratedProduct, "Integrated product cannot be null.");
+
+        if (integratedProducts.contains(integratedProduct)) {
+            return;
+        }
+
         integratedProducts.add(integratedProduct);
+
+        integratedProduct.setProduct(this);
         saveProducts();
     }
-    void removeIntegratedPart(IntegratedProduct integratedProduct) {
+
+    public void removeIntegratedPart(IntegratedProduct integratedProduct) {
         Objects.requireNonNull(integratedProduct, "Integrated product cannot be null.");
-        integratedProducts.remove(integratedProduct);
-        saveProducts();
+
+        if (integratedProducts.remove(integratedProduct)) {
+            integratedProduct.removeProduct(this);
+            saveProducts();
+        }
     }
+
     public Set<Sale> getSales() {
         return Collections.unmodifiableSet(sales);
     }
+
     public void addSale(Sale sale) {
         Objects.requireNonNull(sale, "Sale to add cannot be null.");
+
         if (sales.contains(sale)) {
             return;
         }
 
         sales.add(sale);
-        sale.addProductReverse(this);
+
+        sale.addProduct(this);
         saveProducts();
     }
 
@@ -197,19 +229,11 @@ public class Product implements Extent{
         Objects.requireNonNull(sale, "Sale to remove cannot be null.");
 
         if (sales.remove(sale)) {
-            sale.removeProductReverse(this);
+            sale.removeProduct(this);
             saveProducts();
         }
     }
-    void addSaleReverse(Sale sale) {
-        sales.add(sale);
-        saveProducts();
-    }
 
-    void removeSaleReverse(Sale sale) {
-        sales.remove(sale);
-        saveProducts();
-    }
     public static BigDecimal getMinPrice() {
         return minPrice;
     }
