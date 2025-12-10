@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Managment.Contract;
+import org.HomeApplianceStore.Managment.Leave;
 
 public class Employee implements Extent {
 
@@ -118,4 +120,14 @@ public class Employee implements Extent {
         public long getLeaveDays(){
                 return paidLeaveDays + unpaidLeaveDays;
         }
+
+    public void addContract(Contract contract) {
+    }
+
+    public void removeContract(Contract contract) {
+    }
+
+    public void removeLeave(Leave leave) {
+
+    }
 }
