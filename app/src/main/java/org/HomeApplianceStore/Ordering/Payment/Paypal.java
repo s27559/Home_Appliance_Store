@@ -1,8 +1,6 @@
 package org.HomeApplianceStore.Ordering.Payment;
 
 import org.HomeApplianceStore.Extent;
-
-import javax.naming.NamingEnumeration;
 import java.util.ArrayList;
 import java.util.List;
 

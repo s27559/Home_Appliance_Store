@@ -22,15 +22,15 @@ public class Order implements Extent {
 
         // 0..* product statuses for one order
         private List<ProductStatus> productStatuses = new ArrayList<>();
-
-        // 1 payment method for the order
         private PaymentMethod paymentMethod;
 
-        public Order(LocalDate date, boolean paidFor, Boolean readyForPickUp) {
+        // 1 payment method for the order
+        public Order(LocalDate date, boolean paidFor, Boolean readyForPickUp, PaymentMethod paymentMethod) {
                 setDate(date);
                 setPaidFor(paidFor);
                 setReadyForPickUp(readyForPickUp);
-                addOrder(this);
+                setPaymentMethod(paymentMethod);
+                addOrder(this);                      // extent
         }
 
         private static void addOrder(Order order) {
@@ -137,29 +137,30 @@ public class Order implements Extent {
                 }
         }
 
-        public PaymentMethod getPaymentMethod() {
-                return paymentMethod;
-        }
-
         public void setPaymentMethod(PaymentMethod paymentMethod) {
                 if (paymentMethod == null) {
-                        if (this.paymentMethod != null) {
-                                this.paymentMethod.removeOrder(this);
-                        }
-                        this.paymentMethod = null;
-                        return;
+                        throw new IllegalArgumentException("paymentMethod cannot be null");
                 }
 
+                // nothing to do
                 if (this.paymentMethod == paymentMethod) {
                         return;
                 }
 
+                // detach from old method
                 if (this.paymentMethod != null) {
                         this.paymentMethod.removeOrder(this);
                 }
 
+                // set new method
                 this.paymentMethod = paymentMethod;
-                paymentMethod.addOrder(this);
+
+                // ensure reverse link – add only if not already present
+                paymentMethod.addOrder(this);   // no recursion because of check inside addOrder
+        }
+
+        public PaymentMethod getPaymentMethod() {
+                return paymentMethod;
         }
 
         public static void loadOrders() {
