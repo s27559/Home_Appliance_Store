@@ -22,8 +22,6 @@ public class Store implements Extent {
                 loadStores();
         }
 
-        private Set<Storage> storageRecords = new HashSet<Storage>();
-
         public Store(Address locationAddress){
                 Objects.requireNonNull(locationAddress, "Missing Address object.");
                 this.locationAddress = locationAddress;

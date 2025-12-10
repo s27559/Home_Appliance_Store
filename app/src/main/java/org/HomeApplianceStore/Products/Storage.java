@@ -43,7 +43,7 @@ public class Storage implements Extent {
         saveStorage();
     }
     public void deleteStorage() {
-        store.removeStorageReverse(this);
+        store.removeStorage(this);
         product.removeStorageReverse(this);
         storages.remove(this);
         this.store = null;
@@ -114,5 +114,24 @@ public class Storage implements Extent {
     @Override
     public int hashCode() {
         return Objects.hash(inRepairAmount, usedStock, newStock);
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        Objects.requireNonNull(store, "Storage must be associated with a Store");
+        this.store = store;
+        saveStorage();
+    }
+
+    public void delete() {
+        store.removeStorage(this);
+        product.removeStorageReverse(this);
+        storages.remove(this);
+        this.store = null;
+        this.product = null;
+        saveStorage();
     }
 }

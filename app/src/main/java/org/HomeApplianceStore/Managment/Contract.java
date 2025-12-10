@@ -59,7 +59,7 @@ public class Contract implements Extent {
         public void setEmployee(Employee newEmployee) {
             Objects.requireNonNull(newEmployee);
             if (this.employee != newEmployee) {
-                if (this.employee != null) this.employee.removeContract(this); // Requires removeContract in Employee
+                if (this.employee != null) this.employee.removeContract(this);
                 this.employee = newEmployee;
                 this.employee.addContract(this);
                 saveContracts();
