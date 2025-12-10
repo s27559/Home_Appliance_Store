@@ -128,6 +128,8 @@ public class Employee implements Extent {
     }
 
     public void removeLeave(Leave leave) {
+    }
 
+    public void addLeave(Leave leave) {
     }
 }
