@@ -21,13 +21,13 @@ public class Delivery implements Extent {
         // Association to Order: each delivery is for exactly one order (1)
         private Order order;
 
-        public Delivery(LocalDate sendDate,
+        public Delivery(Order order, LocalDate sendDate,
                         LocalDate receiveDate,
                         BigDecimal cost,
                         boolean received,
-                        String trackingNumber) {
+                        String trackingNumber, String fedEx) {
 
-                if (order == null) {
+                if (this.order == null) {
                         throw new IllegalArgumentException("Order cannot be null for Delivery");
                 }
 
@@ -40,7 +40,7 @@ public class Delivery implements Extent {
 
                 addDelivery(this);
 
-                order.addDelivery(this);
+                this.order.addDelivery(this);
         }
 
         private static void addDelivery(Delivery delivery) {

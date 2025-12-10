@@ -49,14 +49,28 @@ public class PaymentMethod implements Extent {
                 if (order == null) {
                         throw new IllegalArgumentException("order cannot be null");
                 }
-                if (!orders.contains(order)) {
-                        orders.add(order);
+
+                // already registered – nothing to do
+                if (orders.contains(order)) {
+                        return;
+                }
+
+                orders.add(order);
+
+                // ensure reverse link – but now order already points to this
+                if (order.getPaymentMethod() != this) {
+                        order.setPaymentMethod(this);
                 }
         }
 
         public void removeOrder(Order order) {
                 orders.remove(order);
         }
+        // helper for Order.setPaymentMethod to avoid recursion
+        public boolean hasOrderInternal(Order order) {
+                return orders.contains(order);
+        }
+
 
         public void delete() {
                 for (Order order : new ArrayList<>(orders)) {

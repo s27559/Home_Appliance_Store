@@ -1,7 +1,6 @@
 package org.HomeApplianceStore.Ordering;
 
 import org.HomeApplianceStore.Extent;
-import org.HomeApplianceStore.Ordering.Order;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
