@@ -136,4 +136,9 @@ public class Delivery implements Extent {
         public static List<Delivery> getDeliveries() {
                 return Extent.getImmutableClassList(deliveries);
         }
+
+        public void delete() {
+            deliveries.remove(this);
+                saveDeliveries();
+        }
 }

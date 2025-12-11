@@ -20,10 +20,14 @@ public class CartProduct implements Extent{
     private long amountNew;
     private long amountUsed;
 
+        private Product product;
 
-    public CartProduct(long amountNew, long amountUsed) {
+
+    public CartProduct(long amountNew, long amountUsed, Customer customer, Product product) {
         validateAmount(amountNew, "New amount");
         validateAmount(amountUsed, "Used amount");
+                customer.addCartProduct(this);
+                this.product = product;
 
         this.amountNew = amountNew;
         this.amountUsed = amountUsed;
@@ -31,6 +35,14 @@ public class CartProduct implements Extent{
         addCartProduct(this);
         saveCartProducts();
     }
+
+        public void delete() {
+                cartProducts.remove(this);
+                saveCartProducts();
+                for(Customer customer : Customer.getCustomers()) {
+                        if(customer.getCartProducts().contains(this)) customer.removeCartProduct(this);
+                }
+        }
 
     private void validateAmount(long value, String name) {
         if (value < 0) {
@@ -86,5 +98,16 @@ public class CartProduct implements Extent{
     @Override
     public int hashCode() {
         return Objects.hash(amountNew, amountUsed);
+    }
+
+    public Customer getCustomer() {
+        for (Customer customer : Customer.getCustomers()) {
+                if (customer.getCartProducts().contains(this)) return customer;
+        }
+        throw new NullPointerException();
+    }
+
+    public Product getProduct() {
+        return product;
     }
 }

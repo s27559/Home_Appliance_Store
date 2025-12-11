@@ -2,9 +2,11 @@ package org.HomeApplianceStore.Actors;
 
 import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Ordering.Order;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,8 +23,12 @@ public class Customer implements Extent {
     private String name;
     private String email;
     private Address address;
-    private List<CartProduct> cartProducts;
 
+        private ArrayList<CartProduct> cartProducts;
+        private ArrayList<Order> BuyOrders;
+        private ArrayList<Order> SellOrders;
+
+        
     public Customer(String name, String email, Address address) {
         validateName(name);
         validateEmail(email);
@@ -95,15 +101,18 @@ public class Customer implements Extent {
         saveCustomers();
     }
 
-    public List<CartProduct> getCartProducts() {
-        return Collections.unmodifiableList(cartProducts);
-    }
+        public void delete(){
+                for(CartProduct cartProduct : getCartProducts()) cartProduct.delete();
+                for (Order order : getBuyOrders()) {
+                        order.delete();
+                }
+                for (Order order : getSellOrders()) {
+                        order.delete();
+                }
+                customers.remove(this);
+                saveCustomers();
+        }
 
-    public void setCartProducts(List<CartProduct> cartProducts) {
-        Objects.requireNonNull(cartProducts, "Cart products list cannot be null.");
-        this.cartProducts = new ArrayList<>(cartProducts);
-        saveCustomers();
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -116,5 +125,45 @@ public class Customer implements Extent {
     @Override
     public int hashCode() {
         return Objects.hash(email);
+    }
+
+    public List<CartProduct> getCartProducts() {
+        return Extent.getImmutableClassList(cartProducts);
+    }
+
+    public List<Order> getBuyOrders() {
+        return Extent.getImmutableClassList(BuyOrders);
+    }
+
+    public List<Order> getSellOrders() {
+        return Extent.getImmutableClassList(SellOrders);
+    }
+
+        public void addSellOrder(Order order) {
+                if (BuyOrders.contains(order)) throw new InputMismatchException();
+                SellOrders.add(order);
+        }
+
+        public void addBuyOrder(Order order) {
+                if (SellOrders.contains(order)) throw new InputMismatchException();
+                BuyOrders.add(order);
+        }
+
+        public void removeSellOrder(Order order){
+                SellOrders.remove(order);
+                order.delete();
+        }
+
+        public void removeBuyOrder(Order order){
+                BuyOrders.remove(order);
+                order.delete();
+        }
+
+    public void addCartProduct(CartProduct cartProduct) {
+        cartProducts.add(cartProduct);
+    }
+
+    public void removeCartProduct(CartProduct cartProduct) {
+       cartProducts.remove(cartProduct);
     }
 }
