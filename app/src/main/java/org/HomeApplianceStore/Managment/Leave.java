@@ -22,7 +22,6 @@ public class Leave implements Extent {
     private LocalDate endDate;
 
     // Association
-    private Employee employee;
     private Employee manager;
 
     public Leave(boolean isSick, boolean isPaid, LocalDate startDate, LocalDate endDate, Employee employee, Employee manager) {
@@ -35,25 +34,14 @@ public class Leave implements Extent {
         this.isSick = isSick;
 
         // Reverse Connection
-        this.employee = employee;
-        this.employee.addLeave(this);
+        employee.addLeave(this);
 
-        // Manager is not assigned at creation
-        this.manager = null;
+        this.manager = manager;
 
         addLeave(this);
         saveLeaves();
     }
-
-    public void setEmployee(Employee newEmployee) {
-        Objects.requireNonNull(newEmployee);
-        if (this.employee != newEmployee) {
-            if (this.employee != null) this.employee.removeLeave(this);
-            this.employee = newEmployee;
-            this.employee.addLeave(this);
-            saveLeaves();
-        }
-    }
+        
     public Employee getManager() { return manager; }
 
     public void setApprover(Employee newManager) {
@@ -127,11 +115,9 @@ public class Leave implements Extent {
     }
 
     public void delete() {
-        if(this.employee != null) {
-            this.employee.removeLeave(this);
-            this.employee = null;
+        for(Employee employee : Employee.getEmployees()) {
+                if(employee.getLeaves().contains(this)) employee.removeLeave(this);
         }
-        this.manager = null;
 
         leaves.remove(this);
         saveLeaves();
@@ -146,11 +132,11 @@ public class Leave implements Extent {
                 && Objects.equals(isPaid, other.isPaid)
                 && Objects.equals(startDate, other.startDate)
                 && Objects.equals(endDate, other.endDate)
-                && Objects.equals(employee, other.employee);
+                && Objects.equals(manager, other.manager);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isSick, isPaid, startDate, endDate, employee);
+        return Objects.hash(isSick, isPaid, startDate, endDate, manager);
     }
 }

@@ -15,10 +15,12 @@ public class CustomerPerson extends Customer implements Extent {
         }
 
         private long points;
+        private Person person;
 
-        public CustomerPerson(long points, String name, String email, Address address) {
+        public CustomerPerson(long points, String name, String email, Address address, Person person) {
             super(name, email, address);
             this.setPoints(points);
+                this.person = person;
                 addCustomerPerson(this);
         }
 
@@ -51,5 +53,15 @@ public class CustomerPerson extends Customer implements Extent {
                         throw new IllegalArgumentException("Points cannot be negative");
                 }
                 this.points = points;
+        }
+
+        public Person getPerson() {
+                return person;
+        }
+
+        public void delete(){
+                super.delete();
+                customerPersons.remove(this);
+                saveCustomerPersons();
         }
 }

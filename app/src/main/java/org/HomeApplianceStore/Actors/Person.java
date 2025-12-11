@@ -105,4 +105,14 @@ public class Person implements Extent {
                 this.middleName = middleName;
         }
         
+        public void delete(){
+                persons.remove(this);
+                savePersons();
+                for(CustomerPerson customerPerson : CustomerPerson.getCustomerPersons()) {
+                        if (customerPerson.getPerson() == this) customerPerson.delete();
+                }
+                for(Employee employee : Employee.getEmployees()) {
+                        if (employee.getPerson() == this) employee.delete();
+                }
+        }
 }
