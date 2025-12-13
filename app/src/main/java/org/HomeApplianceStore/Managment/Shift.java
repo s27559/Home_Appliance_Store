@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Managment;
 
+import org.HomeApplianceStore.Actors.Employee;
 import org.HomeApplianceStore.Extent;
 
 import java.math.BigDecimal;
@@ -19,15 +20,60 @@ public class Shift implements Extent {
         private BigDecimal bonusPay;
         private LocalTime openTime;
         private LocalTime closeTime;
-        public Shift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime) {
+    // Association Class Links
+        private Store store;
+        private Employee employee;
+        public Shift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, Store store, Employee employee) {
+                Objects.requireNonNull(store, "Store cannot be null");
+                Objects.requireNonNull(employee, "Employee cannot be null");
                 Validation.validateTime(openTime, closeTime);
                 Validation.validateBigDecimal(bonusPay, "Bonus Pay");
+
                 this.bonusPay = bonusPay;
                 this.openTime = openTime;
                 this.closeTime = closeTime;
+                this.store = store;
+                this.store.addShift(this);
+                this.employee = employee;
+                this.employee.addShift(this);
+
                 addShift(this);
         }
 
+        // Association methods, reverse connections
+        public Store getStore() {
+                return store;
+        }
+
+        public void setStore(Store newStore) {
+            Objects.requireNonNull(newStore, "Store cannot be null");
+            if (this.store != newStore) {
+                if (this.store != null) {
+                    this.store.removeShift(this);
+                }
+                this.store = newStore;
+                this.store.addShift(this);
+                saveShiftEvents();
+            }
+        }
+
+        public Employee getEmployee() {
+            return employee;
+        }
+
+        public void setEmployee(Employee newEmployee) {
+            Objects.requireNonNull(newEmployee, "Employee cannot be null");
+            if (this.employee != newEmployee) {
+                if (this.employee != null) {
+                    this.employee.removeShift(this);
+                }
+                this.employee = newEmployee;
+                this.employee.addShift(this);
+                saveShiftEvents();
+            }
+        }
+
+        // getters and setters
         private static void addShift(Shift shift) {
             if (!shifts.contains(shift))
                 shifts.add(shift);
@@ -77,6 +123,14 @@ public class Shift implements Extent {
         }
 
         public void delete() {
+            if (this.store != null) {
+                this.store.removeShift(this);
+                this.store = null;
+            }
+            if (this.employee != null) {
+                this.employee.removeShift(this);
+                this.employee = null;
+            }
             shifts.remove(this);
             saveShiftEvents();
         }
@@ -88,11 +142,13 @@ public class Shift implements Extent {
             Shift shift = (Shift) o;
             return Objects.equals(bonusPay, shift.bonusPay) &&
                     Objects.equals(openTime, shift.openTime) &&
-                    Objects.equals(closeTime, shift.closeTime);
+                    Objects.equals(closeTime, shift.closeTime) &&
+                    Objects.equals(store, shift.store) &&
+                    Objects.equals(employee, shift.employee);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(bonusPay, openTime, closeTime);
+            return Objects.hash(bonusPay, openTime, closeTime, store, employee);
         }
 }

@@ -1,6 +1,7 @@
 package org.HomeApplianceStore.Ordering;
 
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Ordering.Payment.PaymentMethod;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Order implements Extent {
-        private static ArrayList<Order> orders= new ArrayList<Order>();
+
+        private static ArrayList<Order> orders = new ArrayList<>();
 
         static {
                 loadOrders();
@@ -19,21 +21,31 @@ public class Order implements Extent {
         private boolean paidFor;
         private Boolean readyForPickUp;   // OPTIONAL [0..1]
 
+        // Associations
+        // 0..* deliveries for one order
+        private List<Delivery> deliveries = new ArrayList<>();
+
+        // 0..* product statuses for one order
+        private List<ProductStatus> productStatuses = new ArrayList<>();
+
+        // 1 payment method for the order
+        private PaymentMethod paymentMethod;
+
         public Order(LocalDate date, boolean paidFor, Boolean readyForPickUp) {
                 setDate(date);
                 setPaidFor(paidFor);
-                setReadyForPickUp(readyForPickUp); // may be null
+                setReadyForPickUp(readyForPickUp);
                 addOrder(this);
         }
 
-        public BigDecimal getCost(){return new BigDecimal(0);}
-
-        public static void addOrder(Order order){
+        private static void addOrder(Order order) {
                 if (order == null) {
-                        throw new IllegalArgumentException("Order cannot be null");
+                        throw new IllegalArgumentException("order cannot be null");
                 }
                 orders.add(order);
         }
+
+        // ===== basic attributes =====
 
         public LocalDate getDate() {
                 return date;
@@ -42,9 +54,6 @@ public class Order implements Extent {
         public void setDate(LocalDate date) {
                 if (date == null) {
                         throw new IllegalArgumentException("date cannot be null");
-                }
-                if (date.isAfter(LocalDate.now())) {
-                        throw new IllegalArgumentException("Order date cannot be in the future");
                 }
                 this.date = date;
         }
@@ -61,17 +70,111 @@ public class Order implements Extent {
                 return Optional.of(readyForPickUp);
         }
 
-        // Optional attribute → null allowed
         public void setReadyForPickUp(Boolean readyForPickUp) {
                 this.readyForPickUp = readyForPickUp;
         }
 
-        public static void loadOrders(){
-                orders = Extent.loadClassList("Order.ser");
+        // cost derived from deliveries (you can adjust the formula if needed)
+        public BigDecimal getCost() {
+                BigDecimal result = BigDecimal.ZERO;
+                for (Delivery delivery : deliveries) {
+                        if (delivery.getCost() != null) {
+                                result = result.add(delivery.getCost());
+                        }
+                }
+                return result;
         }
 
-        public static void saveOrders(){
-                Extent.saveClassList("Order.ser", orders);
+        // ================== Associations handling ==================
+
+        // -------- Deliveries --------
+
+        public List<Delivery> getDeliveries() {
+                return new ArrayList<>(deliveries);
+        }
+
+        public void addDelivery(Delivery delivery) {
+                if (delivery == null) {
+                        throw new IllegalArgumentException("delivery cannot be null");
+                }
+                if (delivery.getOrder() != null && delivery.getOrder() != this) {
+                        throw new IllegalArgumentException("Delivery already assigned to a different order");
+                }
+                if (!deliveries.contains(delivery)) {
+                        deliveries.add(delivery);
+                        delivery.setOrder(this);
+                }
+        }
+
+        public void removeDelivery(Delivery delivery) {
+                if (delivery == null) {
+                        return;
+                }
+                if (deliveries.remove(delivery)) {
+                        if (delivery.getOrder() == this) {
+                                delivery.setOrder(null);
+                        }
+                }
+        }
+
+        // -------- ProductStatuses --------
+
+        public List<ProductStatus> getProductStatuses() {
+                return new ArrayList<>(productStatuses);
+        }
+
+        public void addProductStatus(ProductStatus status) {
+                if (status == null) {
+                        throw new IllegalArgumentException("status cannot be null");
+                }
+                if (status.getOrder() != null && status.getOrder() != this) {
+                        throw new IllegalArgumentException("ProductStatus already assigned to a different order");
+                }
+                if (!productStatuses.contains(status)) {
+                        productStatuses.add(status);
+                        status.setOrder(this);
+                }
+        }
+
+        public void removeProductStatus(ProductStatus status) {
+                if (status == null) {
+                        return;
+                }
+                if (productStatuses.remove(status)) {
+                        if (status.getOrder() == this) {
+                                status.setOrder(null);
+                        }
+                }
+        }
+
+        // -------- PaymentMethod --------
+
+        public PaymentMethod getPaymentMethod() {
+                return paymentMethod;
+        }
+
+        public void setPaymentMethod(PaymentMethod paymentMethod) {
+                if (paymentMethod == null) {
+                        throw new IllegalArgumentException("paymentMethod cannot be null");
+                }
+                if (this.paymentMethod == paymentMethod) {
+                        return;
+                }
+                if (this.paymentMethod != null) {
+                        this.paymentMethod.removeOrder(this);
+                }
+                this.paymentMethod = paymentMethod;
+                paymentMethod.addOrder(this);
+        }
+
+        // ===== extent handling =====
+
+        public static void loadOrders() {
+                orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");
+        }
+
+        public static void saveOrders() {
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Order.ser", orders);
         }
 
         public static List<Order> getOrders() {
