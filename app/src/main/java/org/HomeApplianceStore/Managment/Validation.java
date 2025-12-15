@@ -8,7 +8,6 @@ import java.util.Objects;
 public class Validation {
     public Validation() {}
 
-
     public static void validateDates(LocalDate startDate, LocalDate endDate){
         Objects.requireNonNull(startDate, "Start date cannot be null");
         Objects.requireNonNull(endDate, "End date cannot be null");
@@ -23,10 +22,9 @@ public class Validation {
             throw new IllegalArgumentException("End time cannot be before start time");
     }
 
-
     public static void validateString(String value, String fieldName){
         if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("Reason cannot be empty or null.");
+            throw new IllegalArgumentException(fieldName + " cannot be empty or null.");
         }
     }
 

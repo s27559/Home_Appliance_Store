@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Shift implements Extent {
+// Complete: Shift must be either a WeekdayShift or a HolidayShift.
+public abstract class Shift implements Extent {
         private static ArrayList<Shift> shifts = new ArrayList<>();
         private static final String FILE_LOCATION = "Shift.ser";
 
@@ -20,7 +21,8 @@ public class Shift implements Extent {
         private BigDecimal bonusPay;
         private LocalTime openTime;
         private LocalTime closeTime;
-    // Association Class Links
+
+        // Association Class Links
         private Store store;
         private Employee employee;
         public Shift(BigDecimal bonusPay, LocalTime openTime, LocalTime closeTime, Store store) {
