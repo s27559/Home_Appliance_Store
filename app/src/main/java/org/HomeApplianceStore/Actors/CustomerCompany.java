@@ -19,10 +19,13 @@ public class CustomerCompany extends Customer implements Extent {
                 loadCustomerCompanies();
         }
 
-    public CustomerCompany(String name, String email, Address address) {
+
+        private Company company;
+    public CustomerCompany(String name, String email, Address address, Company company) {
         super(name, email, address);
         addCustomerCompany(this);
         saveCustomerCompanies();
+                this.company = company;
     }
 
     public static List<CustomerCompany> getCustomerCompanies() {
@@ -53,6 +56,7 @@ public class CustomerCompany extends Customer implements Extent {
     }
 
     public void delete() {
+        super.delete();
         customerCompanies.remove(this);
         saveCustomerCompanies();
     }
@@ -68,5 +72,9 @@ public class CustomerCompany extends Customer implements Extent {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), bulkOrderDiscount);
+    }
+
+    public Company getCompany() {
+        return company;
     }
 }

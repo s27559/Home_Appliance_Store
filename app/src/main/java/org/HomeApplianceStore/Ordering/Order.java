@@ -174,4 +174,17 @@ public class Order implements Extent {
         public static List<Order> getOrders() {
                 return Extent.getImmutableClassList(orders);
         }
+
+        public void delete() {
+            for(ProductStatus productStatus : getProductStatuses()){
+                        productStatus.delete();
+                }
+
+                for(Delivery delivery : getDeliveries()){
+                        delivery.delete();
+                }
+
+                orders.remove(this);
+                saveOrders();
+        }
 }

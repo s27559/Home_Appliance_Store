@@ -112,4 +112,9 @@ public class ProductStatus implements Extent {
         public static List<ProductStatus> getStatuses() {
                 return Extent.getImmutableClassList(statuses);
         }
+
+        public void delete() {
+            statuses.remove(this);
+                saveStatuses();
+        }
 }

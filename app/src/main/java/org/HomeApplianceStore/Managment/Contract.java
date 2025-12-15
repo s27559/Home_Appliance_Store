@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.HomeApplianceStore.Actors.EmpRole;
 import org.HomeApplianceStore.Actors.Employee;
 import org.HomeApplianceStore.Extent;
 
@@ -19,13 +20,16 @@ public class Contract implements Extent {
 
         private LocalDate startDate;
         private LocalDate endDate;
+        private EmpRole empRole;
+ 
+
         private BigDecimal pay;
 
         // Associations
         private Employee employee;
         private  Store store;
 
-        public Contract(LocalDate startDate, LocalDate endDate, BigDecimal pay, Employee employee, Store store) {
+        public Contract(LocalDate startDate, LocalDate endDate, BigDecimal pay, Employee employee, Store store, EmpRole empRole) {
             Objects.requireNonNull(employee, "Employee cannot be null");
             Objects.requireNonNull(store, "Store cannot be null");
             Validation.validateDates(startDate, endDate);
@@ -34,8 +38,8 @@ public class Contract implements Extent {
             this.endDate = endDate;
             this.pay = pay;
             this.employee = employee;
-            this.employee.addContract(this);
             this.store = store;
+                this.empRole = empRole;
             this.store.addContract(this);
 
             addContract(this);
@@ -60,7 +64,7 @@ public class Contract implements Extent {
             if (this.employee != newEmployee) {
                 if (this.employee != null) this.employee.removeContract(this);
                 this.employee = newEmployee;
-                this.employee.addContract(this);
+
                 saveContracts();
             }
         }
@@ -150,5 +154,14 @@ public class Contract implements Extent {
         @Override
         public int hashCode() {
             return Objects.hash(startDate, endDate, pay, employee, store);
+        }
+
+        public EmpRole getEmpRole() {
+                return empRole;
+        }
+
+        public void setEmpRole(EmpRole empRole) {
+                this.empRole = empRole;
+                saveContracts();
         }
 }
