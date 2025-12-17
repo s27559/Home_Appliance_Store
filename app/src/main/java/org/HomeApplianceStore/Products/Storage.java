@@ -131,4 +131,23 @@ public class Storage implements Extent {
     public int hashCode() {
         return Objects.hash(inRepairAmount, usedStock, newStock, store, product);
     }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        Objects.requireNonNull(store, "Storage must be associated with a Store");
+        this.store = store;
+        saveStorage();
+    }
+
+    public void delete() {
+        store.removeStorage(this);
+        product.removeStorageReverse(this);
+        storages.remove(this);
+        this.store = null;
+        this.product = null;
+        saveStorage();
+    }
 }

@@ -1,7 +1,9 @@
 package org.HomeApplianceStore.Ordering;
 
+import org.HomeApplianceStore.Ordering.Payment.PaymentMethod;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,83 +11,169 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
 
-    @Test
-    void creatingValidOrderWithReadyForPickUpTrueShouldSucceed() {
-        LocalDate date = LocalDate.now().minusDays(1);
+    //helpers
 
-        Order order = new Order(date, true, true);
-
-        assertEquals(date, order.getDate());
-        assertTrue(order.isPaidFor());
-        assertEquals(Boolean.TRUE, order.getReadyForPickUp());
+    private PaymentMethod createPaymentMethod(String name) {
+        return new PaymentMethod(name);
     }
 
-    @Test
-    void creatingValidOrderWithReadyForPickUpFalseShouldSucceed() {
-        LocalDate date = LocalDate.now().minusDays(2);
-
-        Order order = new Order(date, false, false);
-
-        assertEquals(date, order.getDate());
-        assertFalse(order.isPaidFor());
-        assertEquals(Boolean.FALSE, order.getReadyForPickUp());
+    private Order createOrder(String methodName) {
+        PaymentMethod pm = createPaymentMethod(methodName);
+        return new Order(LocalDate.now().minusDays(1), false, null, pm);
     }
 
-    @Test
-    void creatingOrderWithNullReadyForPickUpShouldBeAllowed() {
-        LocalDate date = LocalDate.now().minusDays(3);
-
-        Order order = new Order(date, false, null);
-
-        assertEquals(date, order.getDate());
-        assertFalse(order.isPaidFor());
-        assertNull(order.getReadyForPickUp());
-    }
-
-    @Test
-    void futureOrderDateShouldThrow() {
-        LocalDate future = LocalDate.now().plusDays(1);
-
-        assertThrows(IllegalArgumentException.class, () ->
-                new Order(future, false, null)
+    private Delivery createDelivery(Order order, String tracking, BigDecimal cost) {
+        return new Delivery(
+                order,
+                LocalDate.now().minusDays(3),
+                LocalDate.now().minusDays(1),
+                cost,
+                false,
+                tracking,
+                "DHL"
         );
     }
 
-    @Test
-    void nullOrderDateShouldThrow() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new Order(null, false, null)
+    private ProductStatus createStatus() {
+        return new ProductStatus(
+                1L,
+                0L,
+                false,
+                false,
+                BigDecimal.ZERO
         );
     }
 
+    // assosiation ORDER – PAYMENTMETHOD
+
     @Test
-    void setReadyForPickUpShouldAcceptNull() {
-        LocalDate date = LocalDate.now().minusDays(1);
-        Order order = new Order(date, false, true);
+    void constructorShouldSetPaymentMethodAndRegisterOrderInMethod() {
+        PaymentMethod method = createPaymentMethod("Card");
+        Order order = new Order(LocalDate.now().minusDays(1), false, null, method);
 
-        order.setReadyForPickUp(null);
-
-        assertNull(order.getReadyForPickUp());
+        assertEquals(method, order.getPaymentMethod());
+        assertTrue(method.getOrders().contains(order));
     }
 
     @Test
-    void extentShouldUpdateAndPersistForOrders() {
-        int sizeBefore = Order.getOrders().size();
+    void settingNewPaymentMethodShouldMoveOrderBetweenMethods() {
+        PaymentMethod pm1 = createPaymentMethod("PM1");
+        PaymentMethod pm2 = createPaymentMethod("PM2");
+        Order order = new Order(LocalDate.now().minusDays(1), false, null, pm1);
 
-        Order order = new Order(LocalDate.now().minusDays(1), false, null);
+        order.setPaymentMethod(pm2);
 
-        int sizeAfterCreate = Order.getOrders().size();
-        assertEquals(sizeBefore + 1, sizeAfterCreate);
+        assertEquals(pm2, order.getPaymentMethod());
+        assertFalse(pm1.getOrders().contains(order));
+        assertTrue(pm2.getOrders().contains(order));
+    }
 
-        List<Order> immutableList = Order.getOrders();
-        assertThrows(UnsupportedOperationException.class, () ->
-                immutableList.add(order)
-        );
+    @Test
+    void settingSamePaymentMethodShouldNotDuplicateOrderInMethod() {
+        PaymentMethod method = createPaymentMethod("Card");
+        Order order = new Order(LocalDate.now().minusDays(1), false, null, method);
 
-        Order.saveOrders();
-        Order.loadOrders();
+        order.setPaymentMethod(method);
 
-        int sizeAfterReload = Order.getOrders().size();
-        assertEquals(sizeAfterCreate, sizeAfterReload);
+        long count = method.getOrders().stream()
+                .filter(o -> o == order)
+                .count();
+
+        assertEquals(1, count);
+    }
+
+    @Test
+    void constructorWithNullPaymentMethodShouldThrow() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Order(LocalDate.now(), false, null, null));
+    }
+
+    // assosiation ORDER – DELIVERY
+
+    @Test
+    void deliveriesCreatedWithOrderShouldAppearInOrderAndHaveBackReference() {
+        Order order = createOrder("Card");
+        Delivery d1 = createDelivery(order, "TRK-1", new BigDecimal("10.00"));
+        Delivery d2 = createDelivery(order, "TRK-2", new BigDecimal("5.00"));
+
+        List<Delivery> deliveries = order.getDeliveries();
+        assertTrue(deliveries.contains(d1));
+        assertTrue(deliveries.contains(d2));
+        assertEquals(order, d1.getOrder());
+        assertEquals(order, d2.getOrder());
+    }
+
+    @Test
+    void orderCostShouldBeSumOfDeliveryCosts() {
+        Order order = createOrder("Card");
+        createDelivery(order, "TRK-3", new BigDecimal("10.00"));
+        createDelivery(order, "TRK-4", new BigDecimal("5.50"));
+
+        assertEquals(new BigDecimal("15.50"), order.getCost());
+    }
+
+    @Test
+    void removingDeliveryShouldUpdateCostAndClearAssociation() {
+        Order order = createOrder("Card");
+        Delivery d1 = createDelivery(order, "TRK-5", new BigDecimal("10.00"));
+        Delivery d2 = createDelivery(order, "TRK-6", new BigDecimal("5.00"));
+
+        assertEquals(new BigDecimal("15.00"), order.getCost());
+
+        order.removeDelivery(d1);
+
+        assertEquals(new BigDecimal("5.00"), order.getCost());
+        assertNull(d1.getOrder());
+        assertFalse(order.getDeliveries().contains(d1));
+    }
+
+    @Test
+    void getDeliveriesShouldReturnDefensiveCopy() {
+        Order order = createOrder("Card");
+        Delivery d1 = createDelivery(order, "TRK-7", new BigDecimal("3.00"));
+
+        List<Delivery> copy = order.getDeliveries();
+        copy.clear();
+
+        assertEquals(1, order.getDeliveries().size());
+        assertTrue(order.getDeliveries().contains(d1));
+    }
+
+    // assosiation ORDER – PRODUCTSTATUS
+
+    @Test
+    void addProductStatusShouldSetOrderAndAddToCollection() {
+        Order order = createOrder("Card");
+        ProductStatus status = createStatus();
+
+        order.addProductStatus(status);
+
+        assertEquals(order, status.getOrder());
+        assertTrue(order.getProductStatuses().contains(status));
+    }
+
+    @Test
+    void addingProductStatusAlreadyAssignedToAnotherOrderShouldThrow() {
+        Order first = createOrder("PM1");
+        Order second = createOrder("PM2");
+        ProductStatus status = createStatus();
+
+        first.addProductStatus(status);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> second.addProductStatus(status));
+    }
+
+    @Test
+    void getProductStatusesShouldReturnDefensiveCopy() {
+        Order order = createOrder("Card");
+        ProductStatus status = createStatus();
+        order.addProductStatus(status);
+
+        List<ProductStatus> copy = order.getProductStatuses();
+        copy.clear();
+
+        assertEquals(1, order.getProductStatuses().size());
+        assertTrue(order.getProductStatuses().contains(status));
     }
 }

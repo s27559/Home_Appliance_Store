@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Managment.Contract;
+import org.HomeApplianceStore.Managment.Leave;
 
 public class Employee implements Extent {
 
@@ -18,24 +20,30 @@ public class Employee implements Extent {
         private long sickDays;
         private long paidLeaveDays;
         private long unpaidLeaveDays;
-        private EmpRole role;
+        // private EmpRole role;
+        private ArrayList<Leave> leaves = new ArrayList<>();
+        
+
+        private Person person;
 
         public Employee(BigDecimal bonusPay,
                         long sickDays,
                         long paidLeaveDays,
                         long unpaidLeaveDays,
-                        EmpRole role ) {
+                        // EmpRole role,
+                        Person person) {
                 if (bonusPay == null) {
                     throw new IllegalArgumentException("Bonus pay cannot be null");
                 }
-                if (role == null) {
-                    throw new IllegalArgumentException("Role cannot be null");
-                }
+                // if (role == null) {
+                //     throw new IllegalArgumentException("Role cannot be null");
+                // }
                 this.setBonusPay(bonusPay);
                 this.setSickDays(sickDays);
                 this.setPaidLeaveDays(paidLeaveDays);
                 this.setUnpaidLeaveDays(unpaidLeaveDays);
-                this.role = role;
+                // this.role = role;
+                this.person = person;
                 addEmployee(this);
         }
 
@@ -103,13 +111,13 @@ public class Employee implements Extent {
                 this.unpaidLeaveDays = unpaidLeaveDays;
         }
 
-        public EmpRole getRole() {
-                return role;
-        }
+        // public EmpRole getRole() {
+        //         return role;
+        // }
 
-        public void setRole(EmpRole role) {
-                this.role = role;
-        }
+        // public void setRole(EmpRole role) {
+        //         this.role = role;
+        // }
 
         public BigDecimal getFullPay(){
                 return new BigDecimal(0);
@@ -117,5 +125,34 @@ public class Employee implements Extent {
 
         public long getLeaveDays(){
                 return paidLeaveDays + unpaidLeaveDays;
+        }
+
+    public Person getPerson() {
+        return person;
+    }
+
+        public void delete(){
+                employees.remove(this);
+                for(Leave leave : getLeaves()){
+                        leave.delete();
+                }
+                saveEmployees(); 
+        }
+
+        public void addLeave(Leave leave) {
+            leaves.add(leave);
+        }
+
+        public List<Leave> getLeaves() {
+                return Extent.getImmutableClassList(leaves);
+        }
+
+        
+        public void removeLeave(Leave leave) {
+                leaves.remove(leave);
+        }
+
+        public void removeContract(Contract contract) {
+            contract.delete();
         }
 }

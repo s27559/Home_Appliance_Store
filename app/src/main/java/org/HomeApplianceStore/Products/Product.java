@@ -1,6 +1,8 @@
 package org.HomeApplianceStore.Products;
 
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Actors.CartProduct;
+import org.HomeApplianceStore.Actors.Customer;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -333,4 +335,14 @@ public class Product implements Extent{
     public int hashCode() {
         return Objects.hash(modelNumber);
     }
+
+        public void addCartProduct(long amountNew, long amountUsed, Customer customer){
+                new CartProduct(amountNew, amountUsed, customer, this);
+        }
+
+        public void removeCartProduct(Customer customer){
+                for(CartProduct cartProduct : customer.getCartProducts()){
+                        if(cartProduct.getProduct() == this) customer.removeCartProduct(cartProduct);
+                }
+        }
 }

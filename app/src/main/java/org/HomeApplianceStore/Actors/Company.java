@@ -121,4 +121,20 @@ public class Company implements Extent{
     public int hashCode() {
         return Objects.hash(name, email);
     }
+
+        public void delete(){
+                companies.remove(this);
+                saveCompanies();
+                for (CustomerCompany customerCompany : CustomerCompany.getCustomerCompanies()) {
+                        if (customerCompany.getCompany() == this) customerCompany.delete();
+                }
+        }
+
+        public void addCustomerCompany(String name, String email, Address address){
+                new CustomerCompany(name, email, address, this);
+        }
+
+        public void removeCustomerCompany(CustomerCompany customerCompany){
+                customerCompany.delete();
+        }
 }

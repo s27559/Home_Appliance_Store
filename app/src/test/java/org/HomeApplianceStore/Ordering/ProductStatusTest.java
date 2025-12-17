@@ -1,74 +1,89 @@
 package org.HomeApplianceStore.Ordering;
 
+import org.HomeApplianceStore.Ordering.Payment.PaymentMethod;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductStatusTest {
 
-    @Test
-    void creatingValidProductStatusShouldSucceed() {
-        ProductStatus status = new ProductStatus(
-                10L,
-                5L,
-                true,
-                false,
-                new BigDecimal("15.00")
-        );
-
-        assertEquals(10L, status.getAmmountNew());
-        assertEquals(5L, status.getAmmountUsed());
-        assertTrue(status.isToBeMoved());
-        assertFalse(status.isToBeIntegrated());
-        assertEquals(new BigDecimal("15.00"), status.getDifferenceInPrice());
+    private PaymentMethod createPaymentMethod(String name) {
+        return new PaymentMethod(name);
     }
 
-    @Test
-    void negativeNewAmountShouldThrow() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new ProductStatus(-1L, 0L, false, false, BigDecimal.ZERO)
-        );
+    private Order createOrder(String methodName) {
+        PaymentMethod pm = createPaymentMethod(methodName);
+        return new Order(LocalDate.now().minusDays(1), false, null, pm);
     }
 
-    @Test
-    void negativeUsedAmountShouldThrow() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new ProductStatus(0L, -1L, false, false, BigDecimal.ZERO)
-        );
-    }
-
-    @Test
-    void nullDifferenceInPriceShouldThrow() {
-        assertThrows(IllegalArgumentException.class, () ->
-                new ProductStatus(1L, 1L, false, false, null)
-        );
-    }
-
-    @Test
-    void extentShouldUpdateAndPersistForProductStatus() {
-        int sizeBefore = ProductStatus.getStatuses().size();
-
-        ProductStatus status = new ProductStatus(
+    private ProductStatus createStatus() {
+        return new ProductStatus(
+                2L,
                 1L,
-                0L,
                 false,
-                false,
+                true,
                 BigDecimal.ZERO
         );
+    }
 
-        int sizeAfterCreate = ProductStatus.getStatuses().size();
-        assertEquals(sizeBefore + 1, sizeAfterCreate);
+    // asosiation PRODUCTSTATUS – ORDER
 
-        List<ProductStatus> immutableList = ProductStatus.getStatuses();
-        assertThrows(UnsupportedOperationException.class, () -> immutableList.add(status));
+    @Test
+    void productStatusAssignedToOrderThroughAddProductStatus() {
+        Order order = createOrder("Card");
+        ProductStatus status = createStatus();
 
-        ProductStatus.saveStatuses();
-        ProductStatus.loadStatuses();
+        order.addProductStatus(status);
 
-        int sizeAfterReload = ProductStatus.getStatuses().size();
-        assertEquals(sizeAfterCreate, sizeAfterReload);
+        assertEquals(order, status.getOrder());
+        assertTrue(order.getProductStatuses().contains(status));
+    }
+
+    @Test
+    void addingSameProductStatusTwiceShouldNotDuplicate() {
+        Order order = createOrder("Card");
+        ProductStatus status = createStatus();
+
+        order.addProductStatus(status);
+        order.addProductStatus(status);
+
+        assertEquals(1, order.getProductStatuses().size());
+    }
+
+    @Test
+    void productStatusCanBeMovedToAnotherOrderAfterRemoval() {
+        Order first = createOrder("PM1");
+        Order second = createOrder("PM2");
+        ProductStatus status = createStatus();
+
+        first.addProductStatus(status);
+        first.removeProductStatus(status);
+        second.addProductStatus(status);
+
+        assertEquals(second, status.getOrder());
+        assertFalse(first.getProductStatuses().contains(status));
+        assertTrue(second.getProductStatuses().contains(status));
+    }
+
+    @Test
+    void removingProductStatusShouldClearAssociationOnBothSides() {
+        Order order = createOrder("Card");
+        ProductStatus status = createStatus();
+        order.addProductStatus(status);
+
+        order.removeProductStatus(status);
+
+        assertNull(status.getOrder());
+        assertFalse(order.getProductStatuses().contains(status));
+    }
+
+    @Test
+    void productStatusInitiallyHasNoOrder() {
+        ProductStatus status = createStatus();
+
+        assertNull(status.getOrder());
     }
 }

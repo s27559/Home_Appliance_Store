@@ -22,8 +22,6 @@ public class Store implements Extent {
                 loadStores();
         }
 
-        private Set<Storage> storageRecords = new HashSet<Storage>();
-
         public Store(Address locationAddress){
                 Objects.requireNonNull(locationAddress, "Missing Address object.");
                 this.locationAddress = locationAddress;
@@ -44,9 +42,7 @@ public class Store implements Extent {
         }
         // Adds a ClosedFor event to the Store
         public void  addClosedForEvent(ClosedFor event){
-            if (event == null) {
-                throw new IllegalArgumentException("ClosedFor event cannot be null.");
-            }
+            if (event == null) throw new IllegalArgumentException("ClosedFor event cannot be null.");
             if (!_closedForEvents.contains(event)) {
                 _closedForEvents.add(event);
                 // reverse connection automatic update
@@ -168,22 +164,6 @@ public class Store implements Extent {
                 saveStore();
         }
 
-        public Set<Storage> getStorageRecords() {
-            return Collections.unmodifiableSet(storageRecords);
-        }
-
-        public void addStorage(Storage storage) {
-            Objects.requireNonNull(storage, "Storage record cannot be null.");
-            this.storageRecords.add(storage);
-            saveStore();
-        }
-
-        public void removeStorageReverse(Storage storage) {
-            Objects.requireNonNull(storage, "Storage record cannot be null.");
-            this.storageRecords.remove(storage);
-            saveStore();
-        }
-
         public static void loadStores(){
             stores = Extent.loadClassList(FILE_LOCATION);
         }
@@ -198,17 +178,19 @@ public class Store implements Extent {
 
         // updated for deleting all associations
         public void delete() {
-            // Cascade delete for Composition
             for (ClosedFor event : new ArrayList<>(_closedForEvents)) {
                 removeClosedFor(event);
             }
-            // Remove associations
             for (Shift shift : new ArrayList<>(_shifts)) {
                 removeShift(shift);
+            }
+            for (Storage storage : new ArrayList<>(_storages)) {
+                removeStorage(storage);
             }
             for (Contract contract : new ArrayList<>(_contracts)) {
                 removeContract(contract);
             }
+
             stores.remove(this);
             saveStore();
         }

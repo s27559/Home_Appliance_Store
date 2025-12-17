@@ -7,15 +7,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Order implements Extent {
 
         private static ArrayList<Order> orders = new ArrayList<>();
-
-        static {
-                loadOrders();
-        }
 
         private LocalDate date;
         private boolean paidFor;
@@ -27,15 +22,15 @@ public class Order implements Extent {
 
         // 0..* product statuses for one order
         private List<ProductStatus> productStatuses = new ArrayList<>();
-
-        // 1 payment method for the order
         private PaymentMethod paymentMethod;
 
-        public Order(LocalDate date, boolean paidFor, Boolean readyForPickUp) {
+        // 1 payment method for the order
+        public Order(LocalDate date, boolean paidFor, Boolean readyForPickUp, PaymentMethod paymentMethod) {
                 setDate(date);
                 setPaidFor(paidFor);
                 setReadyForPickUp(readyForPickUp);
-                addOrder(this);
+                setPaymentMethod(paymentMethod);
+                addOrder(this);                      // extent
         }
 
         private static void addOrder(Order order) {
@@ -45,7 +40,7 @@ public class Order implements Extent {
                 orders.add(order);
         }
 
-        // ===== basic attributes =====
+        //basic attributes
 
         public LocalDate getDate() {
                 return date;
@@ -66,15 +61,15 @@ public class Order implements Extent {
                 this.paidFor = paidFor;
         }
 
-        public Optional<Boolean> getReadyForPickUp() {
-                return Optional.of(readyForPickUp);
+        public Boolean getReadyForPickUp() {
+                return readyForPickUp;
         }
 
         public void setReadyForPickUp(Boolean readyForPickUp) {
                 this.readyForPickUp = readyForPickUp;
         }
 
-        // cost derived from deliveries (you can adjust the formula if needed)
+        // cost derived from deliveries
         public BigDecimal getCost() {
                 BigDecimal result = BigDecimal.ZERO;
                 for (Delivery delivery : deliveries) {
@@ -85,10 +80,7 @@ public class Order implements Extent {
                 return result;
         }
 
-        // ================== Associations handling ==================
-
-        // -------- Deliveries --------
-
+        // Associations handling
         public List<Delivery> getDeliveries() {
                 return new ArrayList<>(deliveries);
         }
@@ -116,8 +108,6 @@ public class Order implements Extent {
                         }
                 }
         }
-
-        // -------- ProductStatuses --------
 
         public List<ProductStatus> getProductStatuses() {
                 return new ArrayList<>(productStatuses);
@@ -147,27 +137,31 @@ public class Order implements Extent {
                 }
         }
 
-        // -------- PaymentMethod --------
-
-        public PaymentMethod getPaymentMethod() {
-                return paymentMethod;
-        }
-
         public void setPaymentMethod(PaymentMethod paymentMethod) {
                 if (paymentMethod == null) {
                         throw new IllegalArgumentException("paymentMethod cannot be null");
                 }
+
+                // nothing to do
                 if (this.paymentMethod == paymentMethod) {
                         return;
                 }
+
+                // detach from old method
                 if (this.paymentMethod != null) {
                         this.paymentMethod.removeOrder(this);
                 }
+
+                // set new method
                 this.paymentMethod = paymentMethod;
-                paymentMethod.addOrder(this);
+
+                // ensure reverse link – add only if not already present
+                paymentMethod.addOrder(this);   // no recursion because of check inside addOrder
         }
 
-        // ===== extent handling =====
+        public PaymentMethod getPaymentMethod() {
+                return paymentMethod;
+        }
 
         public static void loadOrders() {
                 orders = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Order.ser");
@@ -179,5 +173,18 @@ public class Order implements Extent {
 
         public static List<Order> getOrders() {
                 return Extent.getImmutableClassList(orders);
+        }
+
+        public void delete() {
+            for(ProductStatus productStatus : getProductStatuses()){
+                        productStatus.delete();
+                }
+
+                for(Delivery delivery : getDeliveries()){
+                        delivery.delete();
+                }
+
+                orders.remove(this);
+                saveOrders();
         }
 }
