@@ -11,9 +11,9 @@ public class IntegratedProduct implements Extent{
 
     private static ArrayList<IntegratedProduct> integratedProducts = new ArrayList<IntegratedProduct>();
 
-        static {
-                LoadIntegratedProducts();
-        }
+    static {
+        LoadIntegratedProducts();
+    }
 
     private Product product;
     private BigDecimal integrationCost;
@@ -25,15 +25,40 @@ public class IntegratedProduct implements Extent{
         if(integrationCost.compareTo(BigDecimal.ZERO) < 0){
             throw new IllegalArgumentException("IntegratedProduct cost cannot be negative");
         }
-        this.product = product;
         this.integrationCost = integrationCost.setScale(2, BigDecimal.ROUND_HALF_UP);
         this.mustBeDone = mustBeDone;
 
-        this.product.addIntegratedProduct(this);
+        setProduct(product);
 
         addIntegratedProduct(this);
         saveIntegratedProducts();
     }
+
+    public void setProduct(Product newProduct) {
+        Objects.requireNonNull(newProduct, "IntegratedProduct requires a Product.");
+
+        if (Objects.equals(this.product, newProduct)) {
+            return;
+        }
+
+        if (this.product != null) {
+            this.product.removeIntegratedPart(this);
+        }
+
+        this.product = newProduct;
+
+        this.product.addIntegratedProduct(this);
+    }
+
+    public void removeProduct(Product productToRemove) {
+        if (!Objects.equals(this.product, productToRemove)) {
+            return;
+        }
+
+        this.product.removeIntegratedPart(this);
+        this.product = null;
+    }
+
     private void validateProduct(Product product) {
         Objects.requireNonNull(product, "IntegratedProduct must be associated with a Product (1).");
     }
@@ -81,11 +106,11 @@ public class IntegratedProduct implements Extent{
         if (this == o) return true;
         if (!(o instanceof IntegratedProduct)) return false;
         IntegratedProduct that = (IntegratedProduct) o;
-        return mustBeDone  == that.mustBeDone && Objects.equals(integrationCost, that.integrationCost);
+        return mustBeDone  == that.mustBeDone && Objects.equals(integrationCost, that.integrationCost) && Objects.equals(product, that.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(integrationCost, mustBeDone);
+        return Objects.hash(integrationCost, mustBeDone, product);
     }
 }

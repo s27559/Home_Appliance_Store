@@ -12,7 +12,6 @@ public class Property<T extends Serializable> implements Serializable{
         if (value!=null) {
             validateValue(value);
         }
-        validateValue(value);
 
         this.typeName = typeName;
         this.value = value;
@@ -25,7 +24,7 @@ public class Property<T extends Serializable> implements Serializable{
     }
     private void validateValue(T value) {
         if (value.equals("")) {
-            throw new IllegalArgumentException("Property value cannot be empty.");
+            throw new IllegalArgumentException("Property value cannot be empty string.");
         }
     }
     public String getTypeName() {
@@ -38,8 +37,11 @@ public class Property<T extends Serializable> implements Serializable{
     public T getValue() {
         return value;
     }
+
     public void setValue(T value) {
-        validateValue(value);
+        if (value != null) {
+            validateValue(value);
+        }
         this.value = value;
     }
 

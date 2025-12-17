@@ -11,9 +11,9 @@ public class Storage implements Extent {
 
     private static ArrayList<Storage> storages = new ArrayList<Storage>();
 
-        static {
-                loadStorage();
-        }
+    static {
+        loadStorage();
+    }
 
     private Store store;
     private Product product;
@@ -42,17 +42,25 @@ public class Storage implements Extent {
         addStorage(this);
         saveStorage();
     }
+
     public void deleteStorage() {
-        store.removeStorage(this);
-        product.removeStorageReverse(this);
+        if (this.store != null) {
+            this.store.removeStorage(this);
+        }
+
+        if (this.product != null) {
+            this.product.removeStorage(this);
+        }
+
         storages.remove(this);
         this.store = null;
         this.product = null;
         saveStorage();
     }
+
     private void validateStockLevel(long value) {
         if (value < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Stock levels cannot be negative.");
         }
     }
 
@@ -61,6 +69,14 @@ public class Storage implements Extent {
         if (!storages.contains(storage)) {
             storages.add(storage);
         }
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 
     public long getInRepairAmount() {
@@ -113,7 +129,7 @@ public class Storage implements Extent {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(inRepairAmount, usedStock, newStock);
+        return Objects.hash(inRepairAmount, usedStock, newStock, store, product);
     }
 
     public Store getStore() {
