@@ -1,25 +1,27 @@
 package org.HomeApplianceStore.Ordering.Payment;
 
 import org.HomeApplianceStore.Extent;
+
 import java.util.ArrayList;
 import java.util.List;
+
+//SUBCLASS
 
 public class Paypal extends PaymentMethod implements Extent {
 
         private static ArrayList<Paypal> paypals = new ArrayList<>();
 
-        static {
-                loadPaypals();
-        }
         private String paypalAccountId;
 
-        public Paypal(String name, String paypalAccountId) {
-                super(name);
-                this.setPaypalAccountId(paypalAccountId);
+        public Paypal(String paypalAccountId) {
+                //calls PaymentMethod constructor
+                //chis is inheritance, not association
+                super("Paypal");
+                setPaypalAccountId(paypalAccountId);
                 addPaypal(this);
         }
 
-        public static void addPaypal(Paypal paypal){
+        private static void addPaypal(Paypal paypal) {
                 if (paypal == null) {
                         throw new IllegalArgumentException("Paypal cannot be null");
                 }
@@ -32,23 +34,22 @@ public class Paypal extends PaymentMethod implements Extent {
 
         public void setPaypalAccountId(String paypalAccountId) {
                 if (paypalAccountId == null || paypalAccountId.trim().isEmpty()) {
-                        throw new IllegalArgumentException("PayPal account ID cannot be empty");
-                }
-                if (!paypalAccountId.contains("@")) {
-                        throw new IllegalArgumentException("PayPal account ID should look like an email address");
+                        throw new IllegalArgumentException("Paypal Account Id cannot be empty");
                 }
                 this.paypalAccountId = paypalAccountId.trim();
         }
-        public static void loadPaypals(){
-                paypals = Extent.loadClassList("Paypal.ser");
+
+        //extent handling
+
+        public static void loadPaypals() {
+                paypals = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Paypal.ser");
         }
 
-        public static void savePaypals(){
-                Extent.saveClassList("Paypal.ser", paypals);
+        public static void savePaypals() {
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Payment/Paypal.ser", paypals);
         }
 
         public static List<Paypal> getPaypals() {
                 return Extent.getImmutableClassList(paypals);
         }
-
 }

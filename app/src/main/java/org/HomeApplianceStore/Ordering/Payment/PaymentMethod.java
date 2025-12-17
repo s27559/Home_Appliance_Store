@@ -7,15 +7,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//SUPERCLASS
+
 public class PaymentMethod implements Extent {
 
-        // extent
         private static ArrayList<PaymentMethod> methods = new ArrayList<>();
 
         private String name;
 
+        //PaymentMethod (1) -> Order (0..*)
         private ArrayList<Order> orders = new ArrayList<>();
 
+        //not abstract because {Disjoint, Incomplete}
         public PaymentMethod(String name) {
                 setName(name);
                 addMethod(this);
@@ -23,41 +26,40 @@ public class PaymentMethod implements Extent {
 
         private static void addMethod(PaymentMethod method) {
                 if (method == null) {
-                        throw new IllegalArgumentException("method cannot be null");
+                        throw new IllegalArgumentException("Method cannot be null");
                 }
                 methods.add(method);
         }
 
-        //basic attribute
-
+        //attribute
         public String getName() {
                 return name;
         }
 
         public void setName(String name) {
                 if (name == null || name.trim().isEmpty()) {
-                        throw new IllegalArgumentException("Payment method name cannot be empty");
+                        throw new IllegalArgumentException("Name cannot be empty");
                 }
                 this.name = name.trim();
         }
 
+        //association with Order
         public List<Order> getOrders() {
                 return Collections.unmodifiableList(orders);
         }
 
         public void addOrder(Order order) {
                 if (order == null) {
-                        throw new IllegalArgumentException("order cannot be null");
+                        throw new IllegalArgumentException("Order cannot be null");
                 }
-
-                // already registered – nothing to do
                 if (orders.contains(order)) {
                         return;
                 }
-
                 orders.add(order);
 
-                // ensure reverse link – but now order already points to this
+                //reverse connection
+                //polymorphic call — Order works with PaymentMethod,
+                //regardless of whether it is Card, Blik, Paypal or plain PaymentMethod
                 if (order.getPaymentMethod() != this) {
                         order.setPaymentMethod(this);
                 }
@@ -66,20 +68,8 @@ public class PaymentMethod implements Extent {
         public void removeOrder(Order order) {
                 orders.remove(order);
         }
-        // helper for Order.setPaymentMethod to avoid recursion
-        public boolean hasOrderInternal(Order order) {
-                return orders.contains(order);
-        }
 
-
-        public void delete() {
-                for (Order order : new ArrayList<>(orders)) {
-                        order.setPaymentMethod(null);
-                }
-                orders.clear();
-                methods.remove(this);
-        }
-
+        //extent handling
         public static void loadMethods() {
                 methods = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/PaymentMethod.ser");
         }

@@ -5,65 +5,77 @@ import org.HomeApplianceStore.Extent;
 import java.util.ArrayList;
 import java.util.List;
 
+//SUBCLASS
+
 public class Card extends PaymentMethod implements Extent {
-        private static ArrayList<Card> cards = new ArrayList<Card>();
+
+        private static ArrayList<Card> cards = new ArrayList<>();
 
         static {
                 loadCards();
         }
 
-        private String cardNum;
+        private String cardnum;
         private String cvv;
         private String ownerName;
 
-        public Card(String name, String cardNum, String cvv, String ownerName) {
-                super(name);
-                this.setCardNum(cardNum);
-                this.setCvv(cvv);
-                this.setOwnerName(ownerName);
+        public Card(String cardnum, String cvv, String ownerName) {
+                //calls constructor of PaymentMethod (the superclass)
+                super("Card");
+                setCardnum(cardnum);
+                setCvv(cvv);
+                setOwnerName(ownerName);
                 addCard(this);
         }
 
-        private static void addCard(Card card){
+        private static void addCard(Card card) {
                 if (card == null) {
                         throw new IllegalArgumentException("Card cannot be null");
                 }
                 cards.add(card);
         }
-        public String getCardNum() {
-                return cardNum;
+
+        public String getCardnum() {
+                return cardnum;
         }
 
-        public void setCardNum(String cardNum) {
-                if (cardNum == null || cardNum.trim().isEmpty()) {
-                        throw new IllegalArgumentException("Card number cannot be empty");
+        public void setCardnum(String cardnum) {
+                if (cardnum == null || cardnum.trim().isEmpty()) {
+                        throw new IllegalArgumentException("Card Number cannot be empty");
                 }
-                this.cardNum = cardNum;
+                this.cardnum = cardnum.trim();
         }
+
         public String getCvv() {
                 return cvv;
         }
+
         public void setCvv(String cvv) {
-                if (cvv == null || cvv.trim().isEmpty()) {
-                        throw new IllegalArgumentException("CVV cannot be empty");
+                if (cvv == null || !cvv.matches("\\d{3}")) {
+                        throw new IllegalArgumentException("cvv must be exactly 3 digits");
                 }
                 this.cvv = cvv;
         }
+
         public String getOwnerName() {
                 return ownerName;
         }
+
         public void setOwnerName(String ownerName) {
                 if (ownerName == null || ownerName.trim().isEmpty()) {
-                        throw new IllegalArgumentException("Owner name cannot be empty");
+                        throw new IllegalArgumentException("Owner Name cannot be empty");
                 }
-                this.ownerName = ownerName;
-        }
-        public static void loadCards(){
-                cards = Extent.loadClassList("Payment/Card.ser");
+                this.ownerName = ownerName.trim();
         }
 
-        public static void saveCards(){
-                Extent.saveClassList("Payment/Card.ser", cards);
+        //extent handling
+
+        public static void loadCards() {
+                cards = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Card.ser");
+        }
+
+        public static void saveCards() {
+                Extent.saveClassList("./org/HomeApplianceStore/Ordering/Payment/Card.ser", cards);
         }
 
         public static List<Card> getCards() {
