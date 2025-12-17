@@ -4,6 +4,7 @@ import org.HomeApplianceStore.Ordering.Order;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -95,5 +96,40 @@ class PaymentMethodTest {
         assertEquals(pm2, order.getPaymentMethod());
         assertFalse(pm1.getOrders().contains(order));
         assertTrue(pm2.getOrders().contains(order));
+    }
+        //inheritance tests
+    @Test
+    void paymentMethodCanBeInstantiatedBecauseGeneralizationIsIncomplete() {
+        PaymentMethod method = new PaymentMethod("Cash");
+        assertNotNull(method);
+        assertEquals("Cash", method.getName());
+    }
+
+    @Test
+    void plainPaymentMethodIsNotInstanceOfAnySubclass() {
+        PaymentMethod method = new PaymentMethod("Cash");
+
+        assertFalse(method instanceof Card);
+        assertFalse(method instanceof Blik);
+        assertFalse(method instanceof Paypal);
+    }
+
+    @Test
+    void listOfPaymentMethodCanHoldDifferentSubtypes() {
+        PaymentMethod pm1 = new PaymentMethod("Cash");
+        PaymentMethod pm2 = new Card("1234567890123456", "123", "John Doe");
+        PaymentMethod pm3 = new Blik("123456", "TX-1");
+        PaymentMethod pm4 = new Paypal("user@example.com");
+
+        List<PaymentMethod> list = new ArrayList<>();
+        list.add(pm1);
+        list.add(pm2);
+        list.add(pm3);
+        list.add(pm4);
+
+        assertEquals(4, list.size());
+        assertTrue(list.get(1) instanceof Card);
+        assertTrue(list.get(2) instanceof Blik);
+        assertTrue(list.get(3) instanceof Paypal);
     }
 }

@@ -62,4 +62,17 @@ class BlikTest {
         int sizeAfterReload = Blik.getBliks().size();
         assertEquals(sizeAfterCreate, sizeAfterReload);
     }
+
+    //inheritance tests
+    @Test
+    void blikIsInstanceOfPaymentMethod() {
+        Blik blik = new Blik("123456", "TX-123");
+        assertTrue(blik instanceof PaymentMethod);
+    }
+
+    @Test
+    void blikConstructorSetsSuperclassNameToBlik() {
+        Blik blik = new Blik("123456", "TX-123");
+        assertEquals("Blik", blik.getName());
+    }
 }
