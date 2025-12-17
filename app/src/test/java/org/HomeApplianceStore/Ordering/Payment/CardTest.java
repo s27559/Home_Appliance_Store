@@ -83,4 +83,16 @@ class CardTest {
         int sizeAfterReload = Card.getCards().size();
         assertEquals(sizeAfterCreate, sizeAfterReload);
     }
+    //inheritance tests
+    @Test
+    void cardIsInstanceOfPaymentMethod() {
+        Card card = new Card("1234567890123456", "123", "John Doe");
+        assertTrue(card instanceof PaymentMethod);
+    }
+
+    @Test
+    void cardConstructorSetsSuperclassNameToCard() {
+        Card card = new Card("1234567890123456", "123", "John Doe");
+        assertEquals("Card", card.getName());
+    }
 }

@@ -55,4 +55,17 @@ class PaypalTest {
         int sizeAfterReload = Paypal.getPaypals().size();
         assertEquals(sizeAfterCreate, sizeAfterReload);
     }
+
+    //inheritance tests
+    @Test
+    void paypalIsInstanceOfPaymentMethod() {
+        Paypal paypal = new Paypal("user@example.com");
+        assertTrue(paypal instanceof PaymentMethod);
+    }
+
+    @Test
+    void paypalConstructorSetsSuperclassNameToPaypal() {
+        Paypal paypal = new Paypal("user@example.com");
+        assertEquals("Paypal", paypal.getName());
+    }
 }
