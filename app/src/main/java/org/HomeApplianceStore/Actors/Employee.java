@@ -7,6 +7,7 @@ import java.util.List;
 import org.HomeApplianceStore.Extent;
 import org.HomeApplianceStore.Managment.Contract;
 import org.HomeApplianceStore.Managment.Leave;
+import org.HomeApplianceStore.Managment.Shift;
 
 public class Employee implements Extent {
 

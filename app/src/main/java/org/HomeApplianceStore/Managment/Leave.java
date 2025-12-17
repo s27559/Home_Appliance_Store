@@ -22,11 +22,15 @@ public class Leave implements Extent {
     private LocalDate endDate;
 
     // Association
-    private Employee manager;
+    private Employee employee; // the employee taking the leave
+    private Employee manager; // the manager approving the leave
 
     public Leave(boolean isSick, boolean isPaid, LocalDate startDate, LocalDate endDate, Employee employee, Employee manager) {
         Validation.validateDates(startDate, endDate);
         Objects.requireNonNull(employee, "Employee cannot be null");
+        if (manager != null && manager.equals(employee)) {
+            throw new IllegalArgumentException("The manager approving the leave cannot be the same as the employee taking the leave.");
+        }
 
         this.startDate = startDate;
         this.endDate = endDate;

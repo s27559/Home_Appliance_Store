@@ -16,7 +16,7 @@ public class ClosedFor implements Extent {
         private LocalDate endDate;
         private String reason;
         private Store store;
-        // periodDays;
+
     public ClosedFor(LocalDate startDate, LocalDate endDate, String reason, Store store) {
             Objects.requireNonNull(store, "Store cannot be null");
             Validation.validateDates(startDate, endDate);

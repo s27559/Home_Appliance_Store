@@ -24,7 +24,6 @@ public class Contract implements Extent {
  
 
         private BigDecimal pay;
-        // periodDays
 
         // Associations
         private Employee employee;
@@ -126,6 +125,16 @@ public class Contract implements Extent {
         }
 
         public void delete() {
+            if(this.store != null) {
+                Store s = this.store;
+                this.store = null;
+                s.removeContract(this);
+            }
+            if(this.employee != null) {
+                Employee e = this.employee;
+                this.employee = null;
+                e.removeContract(this);
+            }
             contracts.remove(this);
             saveContracts();
         }

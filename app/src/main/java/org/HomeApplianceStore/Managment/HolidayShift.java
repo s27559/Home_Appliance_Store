@@ -41,7 +41,6 @@ public class HolidayShift extends Shift implements Extent {
                 holidayShifts.add(shift);
         }
 
-        // preiodDays
         public LocalDate getStartDate() {
                 return startDate;
         }
@@ -83,17 +82,17 @@ public class HolidayShift extends Shift implements Extent {
                 saveHolidayShifts();
         }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof HolidayShift)) return false;
-        if (!super.equals(o)) return false;
-        HolidayShift other = (HolidayShift) o;
-        return Objects.equals(startDate, other.startDate) && Objects.equals(endDate, other.endDate);
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof HolidayShift)) return false;
+            if (!super.equals(o)) return false;
+            HolidayShift other = (HolidayShift) o;
+            return Objects.equals(startDate, other.startDate) && Objects.equals(endDate, other.endDate);
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), startDate, endDate);
-    }
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), startDate, endDate);
+        }
 }
