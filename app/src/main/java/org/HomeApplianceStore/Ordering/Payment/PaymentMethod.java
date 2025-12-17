@@ -65,6 +65,14 @@ public class PaymentMethod implements Extent {
                 }
         }
 
+        public void delete() {
+                for (Order order : new ArrayList<>(orders)) {
+                        order.setPaymentMethod(null);
+                }
+                orders.clear();
+                methods.remove(this);
+        }
+
         public void removeOrder(Order order) {
                 orders.remove(order);
         }

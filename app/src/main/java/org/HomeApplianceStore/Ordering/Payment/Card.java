@@ -67,9 +67,13 @@ public class Card extends PaymentMethod implements Extent {
                 }
                 this.ownerName = ownerName.trim();
         }
+        @Override
+        public void delete() {
+                super.delete();
+                cards.remove(this);
+        }
 
         //extent handling
-
         public static void loadCards() {
                 cards = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Card.ser");
         }

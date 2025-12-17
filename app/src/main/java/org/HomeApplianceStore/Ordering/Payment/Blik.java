@@ -53,6 +53,12 @@ public class Blik extends PaymentMethod implements Extent {
                 this.transactionId = transactionId.trim();
         }
 
+        @Override
+        public void delete() {
+                super.delete();
+                bliks.remove(this);
+        }
+
         //extent handling
         public static void loadBliks() {
                 bliks = Extent.loadClassList("./org/HomeApplianceStore/Ordering/Payment/Blik.ser");
