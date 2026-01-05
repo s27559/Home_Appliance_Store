@@ -33,7 +33,7 @@ public class Product implements Extent{
     private FreestandingProduct freestandingProduct;
     private Set<IntegratedProduct>  integratedProducts = new HashSet<>();
 
-    Product(String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
+    Product(FreestandingProduct freestandingProduct, String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
         Objects.requireNonNull(name, "Product name cannot null");
         if(name.trim().isEmpty()) {
             throw new IllegalArgumentException("Product name cannot empty");
@@ -62,8 +62,81 @@ public class Product implements Extent{
         this.brand = brand;
 
         this.sales = new  HashSet<>();
-        this.integratedProducts = new HashSet<>();
-        this.freestandingProduct = null;
+
+        this.freestandingProduct = freestandingProduct;
+
+        addProduct(this);
+        saveProducts();
+    }
+
+    Product(Set<IntegratedProduct> integratedProducts, String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
+        Objects.requireNonNull(name, "Product name cannot null");
+        if(name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot empty");
+        }
+        Objects.requireNonNull(modelNumber, "Product model number cannot null");
+        validatePrice(newPrice);
+        validatePrice(usedPrice);
+        validateWeight(weight);
+        validateWarranty(warrantyDays);
+        Objects.requireNonNull(category, "Product category cannot null");
+        this.category = category;
+
+        if (initialProperties == null) {
+            initialProperties = new HashSet<>();
+        }
+        validatePropertiesAgainstCategory(initialProperties, category);
+        this.properties.addAll(initialProperties);
+
+        this.name = name;
+        this.desc = desc;
+        this.modelNumber = modelNumber;
+        this.newPrice = newPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.usedPrice = usedPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.weight = weight.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.warrantyDays = warrantyDays;
+        this.brand = brand;
+
+        this.sales = new  HashSet<>();
+
+        this.integratedProducts.addAll(integratedProducts);
+
+        addProduct(this);
+        saveProducts();
+    }
+
+    Product(FreestandingProduct freestandingProduct, Set<IntegratedProduct> integratedProducts, String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
+        Objects.requireNonNull(name, "Product name cannot null");
+        if(name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot empty");
+        }
+        Objects.requireNonNull(modelNumber, "Product model number cannot null");
+        validatePrice(newPrice);
+        validatePrice(usedPrice);
+        validateWeight(weight);
+        validateWarranty(warrantyDays);
+        Objects.requireNonNull(category, "Product category cannot null");
+        this.category = category;
+
+        if (initialProperties == null) {
+            initialProperties = new HashSet<>();
+        }
+        validatePropertiesAgainstCategory(initialProperties, category);
+        this.properties.addAll(initialProperties);
+
+        this.name = name;
+        this.desc = desc;
+        this.modelNumber = modelNumber;
+        this.newPrice = newPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.usedPrice = usedPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.weight = weight.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.warrantyDays = warrantyDays;
+        this.brand = brand;
+
+        this.sales = new  HashSet<>();
+
+        this.freestandingProduct = freestandingProduct;
+        this.integratedProducts.addAll(integratedProducts);
 
         addProduct(this);
         saveProducts();
