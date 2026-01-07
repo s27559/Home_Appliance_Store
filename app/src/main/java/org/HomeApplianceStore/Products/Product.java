@@ -18,6 +18,7 @@ public class Product implements Extent{
     private Category category;
     private Set<Property<?>> properties = new HashSet<>();
     private Set<Storage> storageRecords = new HashSet<>();
+    private Set<Sale> sales = new HashSet<>();
 
     private static BigDecimal minPrice;
     private String name;
@@ -29,10 +30,128 @@ public class Product implements Extent{
     private long warrantyDays;
     private String brand;
 
-    private Set<Sale> sales = new HashSet<Sale>();
-    private FreestandingProduct freestandingProduct;
-    private Set<IntegratedProduct>  integratedProducts = new HashSet<>();
+    private FreestandingImpl freestandingProduct;
+    private Set<IntegratedImpl>  integratedProducts = new HashSet<>();
 
+    //constructor for a product that is freestanding 0...1
+    //move cost is a parameter of class freestanding product
+    Product(BigDecimal moveCost, String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
+        Objects.requireNonNull(name, "Product name cannot null");
+        if(name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot empty");
+        }
+        Objects.requireNonNull(modelNumber, "Product model number cannot null");
+        validatePrice(newPrice);
+        validatePrice(usedPrice);
+        validateWeight(weight);
+        validateWarranty(warrantyDays);
+        Objects.requireNonNull(category, "Product category cannot null");
+        this.category = category;
+
+        if (initialProperties == null) {
+            initialProperties = new HashSet<>();
+        }
+        validatePropertiesAgainstCategory(initialProperties, category);
+        this.properties.addAll(initialProperties);
+
+        this.name = name;
+        this.desc = desc;
+        this.modelNumber = modelNumber;
+        this.newPrice = newPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.usedPrice = usedPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.weight = weight.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.warrantyDays = warrantyDays;
+        this.brand = brand;
+
+        this.sales = new  HashSet<>();
+
+        this.freestandingProduct = new FreestandingImpl(moveCost);
+
+        addProduct(this);
+        saveProducts();
+    }
+
+    //constructor for an integrated product 0...*
+    //IntegratedConfig is a configuration for an integrated product
+    Product(Set<IntegratedConfig> integrationOptions, String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
+        Objects.requireNonNull(name, "Product name cannot null");
+        if(name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot empty");
+        }
+        Objects.requireNonNull(modelNumber, "Product model number cannot null");
+        validatePrice(newPrice);
+        validatePrice(usedPrice);
+        validateWeight(weight);
+        validateWarranty(warrantyDays);
+        Objects.requireNonNull(category, "Product category cannot null");
+        this.category = category;
+
+        if (initialProperties == null) {
+            initialProperties = new HashSet<>();
+        }
+        validatePropertiesAgainstCategory(initialProperties, category);
+        this.properties.addAll(initialProperties);
+
+        this.name = name;
+        this.desc = desc;
+        this.modelNumber = modelNumber;
+        this.newPrice = newPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.usedPrice = usedPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.weight = weight.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.warrantyDays = warrantyDays;
+        this.brand = brand;
+
+        this.sales = new  HashSet<>();
+
+        for (IntegratedConfig config : integrationOptions) {
+            this.integratedProducts.add(new IntegratedImpl(config.name, config.cost, config.mustBeDone));
+        }
+
+        addProduct(this);
+        saveProducts();
+    }
+
+    //for a both freestanding and integrated product
+    Product(BigDecimal moveCost, List<IntegratedConfig> integrationOptions, String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
+        Objects.requireNonNull(name, "Product name cannot null");
+        if(name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot empty");
+        }
+        Objects.requireNonNull(modelNumber, "Product model number cannot null");
+        validatePrice(newPrice);
+        validatePrice(usedPrice);
+        validateWeight(weight);
+        validateWarranty(warrantyDays);
+        Objects.requireNonNull(category, "Product category cannot null");
+        this.category = category;
+
+        if (initialProperties == null) {
+            initialProperties = new HashSet<>();
+        }
+        validatePropertiesAgainstCategory(initialProperties, category);
+        this.properties.addAll(initialProperties);
+
+        this.name = name;
+        this.desc = desc;
+        this.modelNumber = modelNumber;
+        this.newPrice = newPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.usedPrice = usedPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.weight = weight.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.warrantyDays = warrantyDays;
+        this.brand = brand;
+
+        this.sales = new  HashSet<>();
+
+        this.freestandingProduct = new FreestandingImpl(moveCost);
+        for (IntegratedConfig config : integrationOptions) {
+            this.integratedProducts.add(new IntegratedImpl(config.name, config.cost, config.mustBeDone));
+        }
+
+        addProduct(this);
+        saveProducts();
+    }
+
+    //constructor for a product that is not freestanding or integrated
     Product(String name, String desc, String modelNumber, BigDecimal newPrice, BigDecimal usedPrice,  BigDecimal weight, String brand, Set<Property<?>> initialProperties, long warrantyDays, Category category) {
         Objects.requireNonNull(name, "Product name cannot null");
         if(name.trim().isEmpty()) {
@@ -62,11 +181,88 @@ public class Product implements Extent{
         this.brand = brand;
 
         this.sales = new  HashSet<>();
-        this.integratedProducts = new HashSet<>();
-        this.freestandingProduct = null;
 
         addProduct(this);
         saveProducts();
+    }
+
+    //inner classes have no Extent since they saved automatically when Product is saved
+
+    private class FreestandingImpl {
+        private BigDecimal moveCost;
+
+        public FreestandingImpl(BigDecimal moveCost) {
+            setMoveCost(moveCost);
+        }
+
+        public BigDecimal getMoveCost() {
+            return moveCost;
+        }
+
+        public void setMoveCost(BigDecimal moveCost) {
+            if (moveCost == null || moveCost.compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalArgumentException("Move cost cannot be negative");
+            }
+            this.moveCost = moveCost.setScale(2, BigDecimal.ROUND_HALF_UP);
+            Product.saveProducts();
+        }
+    }
+
+    private class IntegratedImpl {
+        private String integrationName;
+        private BigDecimal integrationCost;
+        private boolean mustBeDone;
+
+        public IntegratedImpl(String name, BigDecimal integrationCost, boolean mustBeDone) {
+            this.integrationName = name;
+            this.mustBeDone = mustBeDone;
+            setIntegrationCost(integrationCost);
+        }
+
+        public BigDecimal getIntegrationCost() {
+            return integrationCost;
+        }
+
+        public void setIntegrationCost(BigDecimal integrationCost) {
+            if (integrationCost == null || integrationCost.compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalArgumentException("Integration cost cannot be negative");
+            }
+            this.integrationCost = integrationCost.setScale(2, BigDecimal.ROUND_HALF_UP);
+            Product.saveProducts();
+        }
+
+        public boolean isMustBeDone() { return mustBeDone; }
+        public void setMustBeDone(boolean val) {
+            this.mustBeDone = val;
+            Product.saveProducts();
+        }
+    }
+    //helper class to pass to the constructor
+    public static class IntegratedConfig {
+        String name;
+        BigDecimal cost;
+        boolean mustBeDone;
+        public IntegratedConfig(String name, BigDecimal cost, boolean mustBeDone) {
+            this.name = name;
+            this.cost = cost;
+            this.mustBeDone = mustBeDone;
+        }
+    }
+    public boolean isFreestanding() {
+        return freestandingProduct != null;
+    }
+
+    public BigDecimal getMoveCost() {
+        if (!isFreestanding()) throw new IllegalStateException("Product is not freestanding");
+        return freestandingProduct.getMoveCost();
+    }
+
+    public void setMoveCost(BigDecimal cost) {
+        if (!isFreestanding()) {
+            this.freestandingProduct = new FreestandingImpl(cost);
+        } else {
+            this.freestandingProduct.setMoveCost(cost);
+        }
     }
 
     private void validatePropertiesAgainstCategory(Set<Property<?>> productProperties, Category category) {
@@ -140,28 +336,21 @@ public class Product implements Extent{
     public Set<Property<?>> getProperties() {
         return Collections.unmodifiableSet(properties);
     }
-    public FreestandingProduct getFreestandingProduct() {
+    public FreestandingImpl getFreestandingProduct() {
         return freestandingProduct;
     }
 
-    public void setFreestandingProduct(FreestandingProduct freestandingProduct) {
+    public void setFreestandingProduct(FreestandingImpl freestandingProduct) {
         if (Objects.equals(this.freestandingProduct, freestandingProduct)) {
             return;
         }
 
-        if (this.freestandingProduct != null) {
-            this.freestandingProduct.removeProduct(this);
-        }
-
         this.freestandingProduct = freestandingProduct;
 
-        if (freestandingProduct != null) {
-            freestandingProduct.setProduct(this);
-        }
         saveProducts();
     }
 
-    public Set<IntegratedProduct> getIntegratedProducts() {
+    public Set<IntegratedImpl> getIntegratedProducts() {
         return Collections.unmodifiableSet(integratedProducts);
     }
     public void addProperty(Property<?> property) {
@@ -188,7 +377,7 @@ public class Product implements Extent{
         saveProducts();
     }
 
-    public void addIntegratedProduct(IntegratedProduct integratedProduct) {
+    public void addIntegratedProduct(IntegratedImpl integratedProduct) {
         Objects.requireNonNull(integratedProduct, "Integrated product cannot be null.");
 
         if (integratedProducts.contains(integratedProduct)) {
@@ -197,17 +386,7 @@ public class Product implements Extent{
 
         integratedProducts.add(integratedProduct);
 
-        integratedProduct.setProduct(this);
         saveProducts();
-    }
-
-    public void removeIntegratedPart(IntegratedProduct integratedProduct) {
-        Objects.requireNonNull(integratedProduct, "Integrated product cannot be null.");
-
-        if (integratedProducts.remove(integratedProduct)) {
-            integratedProduct.removeProduct(this);
-            saveProducts();
-        }
     }
 
     public Set<Sale> getSales() {
