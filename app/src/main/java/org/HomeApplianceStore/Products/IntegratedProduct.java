@@ -1,3 +1,4 @@
+/*
 package org.HomeApplianceStore.Products;
 
 import org.HomeApplianceStore.Extent;
@@ -113,4 +114,4 @@ public class IntegratedProduct implements Extent{
     public int hashCode() {
         return Objects.hash(integrationCost, mustBeDone, product);
     }
-}
+}*/

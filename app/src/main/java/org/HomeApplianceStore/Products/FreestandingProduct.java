@@ -1,3 +1,4 @@
+/*
 package org.HomeApplianceStore.Products;
 
 import org.HomeApplianceStore.Extent;
@@ -110,4 +111,4 @@ public class FreestandingProduct implements Extent{
     public int hashCode() {
         return Objects.hash(moveCost, product);
     }
-}
+}*/
