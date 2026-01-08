@@ -1,5 +1,6 @@
 package org.HomeApplianceStore.Actors;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Optional;
 
 import org.HomeApplianceStore.Address;
 import org.HomeApplianceStore.Extent;
+import org.HomeApplianceStore.Managment.Contract;
+import org.HomeApplianceStore.Managment.Leave;
 
 public class Person implements Extent {
 
@@ -113,6 +116,216 @@ public class Person implements Extent {
                 }
                 for(Employee employee : Employee.getEmployees()) {
                         if (employee.getPerson() == this) employee.delete();
+                }
+        }
+
+        private class CustomerPerson extends Customer {
+
+                private static ArrayList<CustomerPerson> customerPersons = new ArrayList<>();
+
+                static {
+                        loadCustomerPersons();
+                }
+
+                private long points;
+                // private Person person;
+                
+                public CustomerPerson(long points, String name, String email, Address address/*, Person person*/) {
+                        super(name, email, address);
+                        this.setPoints(points);
+                        //this.person = person;
+                        addCustomerPerson(this);
+                }
+
+                public static void addCustomerPerson(CustomerPerson customerPerson) {
+                        if (customerPerson == null) {
+                                throw new IllegalArgumentException("CustomerPerson cannot be null");
+                        }
+                        customerPersons.add(customerPerson);
+                        saveCustomerPersons();
+                }
+
+                public static void loadCustomerPersons() {
+                        customerPersons = Extent.loadClassList("./org/HomeApplianceStore/Actors/CustomerPerson.ser");
+                }
+
+                public static void saveCustomerPersons() {
+                        Extent.saveClassList("./org/HomeApplianceStore/Actors/CustomerPerson.ser", customerPersons);
+                }
+
+                public static List<CustomerPerson> getCustomerPersons() {
+                        return Extent.getImmutableClassList(customerPersons);
+                }
+
+                public long getPoints() {
+                        return points;
+                }
+
+                public void setPoints(long points) {
+                        if (points < 0) {
+                                throw new IllegalArgumentException("Points cannot be negative");
+                        }
+                        this.points = points;
+                }
+
+                public Person getPerson() {
+                        return Person.this;
+                }
+
+                public void delete(){
+                        super.delete();
+                        customerPersons.remove(this);
+                        saveCustomerPersons();
+                }
+        }
+
+        private class Employee implements Extent {
+
+                private static ArrayList<Employee> employees = new ArrayList<Employee>();
+
+                static {
+                        loadEmployees();
+                }
+
+                private BigDecimal bonusPay;
+                private long sickDays;
+                private long paidLeaveDays;
+                private long unpaidLeaveDays;
+                // private EmpRole role;
+                private ArrayList<Leave> leaves = new ArrayList<>();
+        
+
+                // private Person person;
+
+                public Employee(BigDecimal bonusPay,
+                                long sickDays,
+                                long paidLeaveDays,
+                                long unpaidLeaveDays
+                                // EmpRole role,
+                                // Person person
+                                ) {
+                        if (bonusPay == null) {
+                            throw new IllegalArgumentException("Bonus pay cannot be null");
+                        }
+                        // if (role == null) {
+                        //     throw new IllegalArgumentException("Role cannot be null");
+                        // }
+                        this.setBonusPay(bonusPay);
+                        this.setSickDays(sickDays);
+                        this.setPaidLeaveDays(paidLeaveDays);
+                        this.setUnpaidLeaveDays(unpaidLeaveDays);
+                        // this.role = role;
+                        // this.person = person;
+                        addEmployee(this);
+                }
+
+                public static void addEmployee(Employee employee) {
+                        if (employee == null) {
+                                throw new IllegalArgumentException("Employee cannot be null");
+                        }
+                        employees.add(employee);
+                        saveEmployees();
+                }
+
+                public static void loadEmployees() {
+                        employees = Extent.loadClassList("./org/HomeApplianceStore/Actors/Employee.ser");
+                }
+
+                public static void saveEmployees() {
+                        Extent.saveClassList("./org/HomeApplianceStore/Actors/Employee.ser", employees);
+                }
+
+                public static List<Employee> getEmployees() {
+                        return Extent.getImmutableClassList(employees);
+                }
+
+                public BigDecimal getBonusPay() {
+                        return bonusPay;
+                }
+
+                public void setBonusPay(BigDecimal bonusPay) {
+                        if (bonusPay != null && bonusPay.signum() < 0) {
+                                throw new IllegalArgumentException("Bonus pay cannot be negative");
+                        }
+                        this.bonusPay = bonusPay;
+                }
+
+                public long getSickDays() {
+                        return sickDays;
+                }
+
+                public void setSickDays(long sickDays) {
+                        if (sickDays < 0) {
+                                throw new IllegalArgumentException("Sick days cannot be negative");
+                        }
+                        this.sickDays = sickDays;
+                }
+
+                public long getPaidLeaveDays() {
+                        return paidLeaveDays;
+                }
+
+                public void setPaidLeaveDays(long paidLeaveDays) {
+                        if (paidLeaveDays < 0) {
+                                throw new IllegalArgumentException("Paid leave days cannot be negative");
+                        }
+                        this.paidLeaveDays = paidLeaveDays;
+                }
+
+                public long getUnpaidLeaveDays() {
+                        return unpaidLeaveDays;
+                }
+
+                public void setUnpaidLeaveDays(long unpaidLeaveDays) {
+                        if (unpaidLeaveDays < 0) {
+                                throw new IllegalArgumentException("Unpaid leave days cannot be negative");
+                        }
+                        this.unpaidLeaveDays = unpaidLeaveDays;
+                }
+
+                // public EmpRole getRole() {
+                //         return role;
+                // }
+
+                // public void setRole(EmpRole role) {
+                //         this.role = role;
+                // }
+
+                public BigDecimal getFullPay(){
+                        return new BigDecimal(0);
+                }
+
+                public long getLeaveDays(){
+                        return paidLeaveDays + unpaidLeaveDays;
+                }
+
+                public Person getPerson() {
+                        return Person.this;
+                }
+
+                public void delete(){
+                        employees.remove(this);
+                        for(Leave leave : getLeaves()){
+                                leave.delete();
+                        }
+                        saveEmployees(); 
+                }
+
+                public void addLeave(Leave leave) {
+                    leaves.add(leave);
+                }
+
+                public List<Leave> getLeaves() {
+                        return Extent.getImmutableClassList(leaves);
+                }
+
+        
+                public void removeLeave(Leave leave) {
+                        leaves.remove(leave);
+                }
+
+                public void removeContract(Contract contract) {
+                    contract.delete();
                 }
         }
 }

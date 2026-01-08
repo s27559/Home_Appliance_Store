@@ -1,3 +1,4 @@
+/*
 package org.HomeApplianceStore.Actors;
 
 import java.math.BigDecimal;
@@ -157,3 +158,4 @@ public class Employee implements Extent {
             contract.delete();
         }
 }
+*/
