@@ -1,3 +1,4 @@
+/*
 package org.HomeApplianceStore.Actors;
 
 import java.math.BigDecimal;
@@ -78,3 +79,4 @@ public class CustomerCompany extends Customer implements Extent {
         return company;
     }
 }
+*/
